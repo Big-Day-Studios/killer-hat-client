@@ -1,0 +1,47 @@
+{
+    "translation":{
+        "common": {
+            "nextButton": "Next",
+            "sendButton": "Send",
+            "sendCodeButton": "Send Code",
+            "SignUpButton": "Sign up",
+            "LoginButton": "Login",
+            "TOFandPP": {
+                "begin": "Accept the ",
+                "tof": "Terms of Use ",
+                "and": "and ",
+                "pp": "Privacy Policy",
+                "tofUrl": "https://fervent-golick-51068a.netlify.app",
+                "ppUrl": "https://inspiring-agnesi-993825.netlify.app"
+            }
+        },
+        "login": {
+            "title": "Enter your account",
+            "placeHolderUser": "email",
+            "placeHolderPass": "password"
+        },
+        "namePage": {
+            "title": "Tell Us About You",
+            "placeHolderName": "name",
+            "placeHolderUser": "username"
+        },
+        "emailPage": {
+            "title": "Now Put Your Email Below",
+            "placeHolderEmail": "Email",
+            "placeHolderEmailVerify": "Verify email"
+        },
+        "passPage": {
+            "title": "Here You'll Set Your Password",
+            "placeHolderPass": "Password",
+            "placeHolderPassVerify": "Verify Password"
+        },
+        "birthPage": {
+            "title": "And Lastly Tell Us Your Birthday"
+        },
+        "VerifyPage": {
+            "title": "Email Verification",
+            "label": "Email send! Check your inbox or the spam."
+        }
+        
+    }
+}

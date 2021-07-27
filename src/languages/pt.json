@@ -1,0 +1,43 @@
+{
+    "translation":{
+        "common": {
+            "nextButton": "Próximo",
+            "sendButton": "Enviar",
+            "sendCodeButton": "Enviar CÓdigo",
+            "SignUpButton": "Criar Conta",
+            "LoginButton": "Entrar",
+            "TOFandPP": {
+                "begin": "Aceitar os ",
+                "tof": "Termos de Uso ",
+                "and": "e ",
+                "pp": "Políticas de Privacidade",
+                "tofUrl": "https://fervent-golick-51068a.netlify.app",
+                "ppUrl": "https://inspiring-agnesi-993825.netlify.app"
+            }
+        },
+        "login": {
+            "title": "Insira Seus Dados",
+            "placeHolderUser": "email",
+            "placeHolderPass": "password"
+        },
+        "namePage": {
+            "title": "Nos Conte Sobre Você",
+            "placeHolderName": "name",
+            "placeHolderUser": "username"
+        },
+        "emailPage": {
+            "title": "Agora Ponha seu Email Abaixo",
+            "placeHolderEmail": "Email",
+            "placeHolderEmailVerify": "Verify email"
+        },
+        "passPage": {
+            "title": "Você tem que por sua senha aqui",
+            "placeHolderPass": "Password",
+            "placeHolderPassVerify": "Verify Password"
+        },
+        "birthPage": {
+            "title": "E Por Último, Quando Você Nasceu?"
+        }
+        
+    }
+}
