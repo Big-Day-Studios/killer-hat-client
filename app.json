@@ -1,4 +1,37 @@
 {
-  "name": "killerHat",
-  "displayName": "killerHat"
+  "expo": {
+    "scheme": "killer.hat",
+    "name": "Killer Hat",
+    "slug": "Killer Hat",
+    "displayName": "Killer Hat",
+    "version": "0.0.1",
+    "orientation": "landscape",
+    "icon": "./assets/icon.png",    
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ff0000"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "requireFullScreen": true
+    },
+    "android": {
+    "package": "killer.hat",
+
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    }
+  }
 }

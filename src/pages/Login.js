@@ -1,20 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, SafeAreaView, TextInput, TouchableOpacity ,KeyboardAvoidingView, Platform, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import ApiRequest from '../services/Api'
-import  AsyncStorage  from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/dist/Octicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { StatusBar } from 'expo-status-bar';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TextMuseo300, TextMuseo500 } from '../components/fonts/TextFonts';
+import { TextInputMuseo300 } from '../components/fonts/TextInputFonts';
+import { Icon } from 'react-native-elements';
 
-function Login() {
+import { theme } from '../global/theme';
+import ApiRequest from '../services/Api';
 
-  const navigation = useNavigation ();
+
+import { Root, Popup } from 'popup-ui';
+
+const Login = ({navigation}) => {
+
+  const {t, i18n} = useTranslation();
+
+  const insets = useSafeAreaInsets();
 
   function handleNext() {
-      navigation.navigate('Patrocinador');
+      navigation.push('');
   }
 
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
+  const [isPasswordHide, setIsPasswordHide] = useState(true)
+  const [iconPasswordHide, setIconPasswordHide] = useState("lock")
+  const [isLoading, setIsLoading] = useState(false)
+
   const [userData, setUserData] = useState(
     {
       username: "",
@@ -25,22 +40,61 @@ function Login() {
 
   const oldState = userData;
 
+  const togglePassword = () => {
+    if(isPasswordHide){
+      setIsPasswordHide(false);
+      setIconPasswordHide("unlock")
+    }else{
+      setIsPasswordHide(true);
+      setIconPasswordHide("lock")
+    }
+  }
+  
+  const errorPopup = () => {
+      Popup.show({
+        type: 'Danger',
+        title: 'Erro',
+        button: true,
+        textBody: msg,
+        buttonText: 'Ok',
+        callback: () => Popup.hide()
+      })
+  }
+
   useEffect(() => {
+    if(!!msg){
+      errorPopup()
+    }
+    setMsg(undefined)
+  }, [msg])
+
+  const responseVerifier = async () => {
     if(!!response){
-      
-      if(response.TokenValidadeToken === "" || response.TokenValidadeToken === undefined){
-        setMsg(response.SdtCodRet.CodRetDsd)
+      if(typeof response === 'object'){
+        //response.token is just an example of the token
+        if(response.token === "" || response.token === undefined ){
+          //token isn't Ok
+        }else{
+          //token is Ok
+        }
+        setIsLoading(false);
       }else{
-        setMsg(response.TokenValidadeToken)
-        storeData('@lica:user', userData.username)
-        storeData('@lica:pass', userData.password)
-        storeData('@lica:token', response.TokenValidadeToken)
-        handleNext();
+        setMsg('Não foi possível acessar o servidor. :(')
+        setIsLoading(false);
+
       }
     }
+  }
+
+  useEffect(() => {
+    responseVerifier();
   }, [response])
+
   async function  sendApiRequest(){
-    await ApiRequest.login(userData, setResponse);
+    if(!isLoading){
+      setIsLoading(true)
+      //await ApiRequest.login(userData, setResponse);
+    }
   }
 
   const storeData = async (name, value) => {
@@ -48,120 +102,135 @@ function Login() {
       await AsyncStorage.setItem(
         name,
         value
-      );
-    } catch (error) {
-      console.log(error);
-
-    }
-  };
-
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    
   return (
-    <SafeAreaView style={styles.container}>
-      <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-        <TouchableWithoutFeedback onPress={Platform.OS !== 'web' &&  Keyboard.dismiss }>
-          <>
-        <Icon
-          name={'chevron-left'}
-          size={87}
-        />
+    <Root>   
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1,
+      }}>
+        <SafeAreaProvider initialMetrics={initialWindowMetrics} style={
+          styles.container, 
+          {paddingTop: insets.top,
+          paddingLeft: insets.left,
+          paddingBottom: insets.bottom,
+          paddingRight: insets.right,}
+        }
+        >
 
-          <View style={styles.container}>
+            <StatusBar style="auto" />
+            <View style={styles.container}>
+              <View style={{
+                flex: 1,
+                alignItems: 'center',
+              }}>
+                <TextMuseo300 style={styles.text}>{t("loginPage.placeHolderUser")}</TextMuseo300>
+                <TextInputMuseo300  
+                  onSubmitEditing={() => { this.passwordInput.focus(); }}
+                  returnKeyType="next"
+                  blurOnSubmit={false}
+                  placeholderTextColor="#fc5000" 
+                  onChangeText={( username) => {
+                    setUserData({ username, password: oldState.password });
+                  }} 
+                  style={styles.input}
+                />
+                
+                <TextMuseo300 style={styles.text}>{t("loginPage.placeHolderPass")}</TextMuseo300>
+                <View style={{
+                    flexDirection: 'row'
+                }}>
+                <TextInputMuseo300
+                  style={styles.input}
+                  /* inputRef={(ref) => this.passwordInput = ref} */
+                  placeholderTextColor="#fc5000" 
+                  onChangeText={(password) => {
+                    setUserData({username: oldState.username,password})
+                  }}  
+                  onSubmitEditing={sendApiRequest}
+                  secureTextEntry={isPasswordHide}
+                /> 
+                  <View style={{
+                    position: 'absolute',
+                    right: '2%',
+                    bottom: '15%',
+                  }}>
+                    <TouchableOpacity onPress={togglePassword}>
+                      <Icon
+                        name={iconPasswordHide}
+                        type="font-awesome"
+                        color="#ffffff"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+              <View style={{
+                flex: 1,
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                paddingBottom: 10
+              }}>
+                <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
+                  {!isLoading
+                    ?
+                    <TextMuseo500 style={styles.txtAvancar}>{t("common.nextButton")}</TextMuseo500>
 
-          <Text style={styles.headerText}>Enter your account</Text>
-
-          <Text style={styles.warningText}>{
-
-            !!response  && response.TokenValidadeToken === "" &&
-            <>{msg}</>
-          }</Text>
-          <TextInput id="username"  
-            placeholder="email"
-            placeholderTextColor="#9A9A9A" 
-            onChangeText={( username) => {
-              setUserData({ username, password: oldState.password });
-            }} 
-            style={styles.input}/>
-          <TextInput id="password" 
-            placeholder="password"
-            placeholderTextColor="#9A9A9A"
-            onChangeText={(password) => {
-              setUserData({username: oldState.username,password})
-            }}  
-            style={styles.input}/>
-          <TouchableOpacity style={styles.button} onPress={sendApiRequest}>
-            <Text style={styles.buttonText}>Next</Text>
-          </TouchableOpacity>
-          </View>
-          </>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+                    :             
+                      <View style={[styles.container, styles.center, styles.full]}>
+                        <ActivityIndicator color={"#999999"} size="large" />
+                      </View>
+                  }
+                </TouchableOpacity>
+              </View>
+            </View>
+        </SafeAreaProvider>
+      </ScrollView>
+    </Root>
   );
 }
 
 const styles = StyleSheet.create({
-  headerText:{
-    textAlign: 'center',
-    marginBottom: 5,
-    fontSize: 35,
-    color: 'black',
-    fontWeight:  '600'
-  },
   container: {
     flex: 1,
-    backgroundColor: '#F0F0F0',
+  },
+  center: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%'
   },
-  warningText:{
-    color: 'red',
-    textAlign: 'center',
-    width: '65%',
-    fontSize: 14
+  text:{
+    fontSize: 20, 
+    color: "#fc5000",
+    width: '70%',
+    marginTop: 10
   },
   input: {
-    width: '35%',
-    borderColor: '#28282888',
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-    elevation: 15,
-    borderWidth: 2,
-    paddingVertical: 8,
-    paddingLeft: 30,
-    borderRadius: 28,
-    margin: 10,
-    backgroundColor: '#FFFFFF',
-    color: '#9A9A9A',
-    fontSize: 24
+    width: '70%',
+    height: 40,
+    padding: 12,
+    borderRadius: 20,
+    borderBottomRightRadius: 6,
+    backgroundColor: theme.colors.principalOne,
+    color: '#fff',
+    marginTop: 10
   },
-  button: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 7,
-    },
-    shadowOpacity: 0.43,
-    shadowRadius: 9.51,
-    elevation: 15,
-    paddingTop: 8,
-    paddingBottom: 12,
-    paddingLeft: 34,
-    paddingRight: 36,
-    borderRadius: 28,
-    margin: 10,
-    backgroundColor: '#27AE60',
-    color: '#FFFFFF'
+  txtAvancar: {
+    fontSize: 22,
+    color: '#fff' 
   },
-  buttonText: {
-    fontSize: 28,
-    fontWeight: '600',
-  }
+  btnAvancar: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fc5000',
+    borderRadius: 50,
+    height: 100,
+    width: 100,
+  },
 });
 
 export { Login };

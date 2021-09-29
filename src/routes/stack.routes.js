@@ -1,26 +1,19 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import { Login } from "../pages/Login";
-import { Patrocinador } from "../pages/Patrocinador";
 
+const stackRoutes = createNativeStackNavigator();
 
-
-const stackRoutes = createStackNavigator();
-
-const AppRoutes = () => (
-    <stackRoutes.Navigator headerMode="none" 
-    screenOptions={{
-        cardStyle: {
-            backgroundColor: 'white',
-        },
-    }}>
-
+const BeforeLogin = () => (
+    <stackRoutes.Navigator  screenOptions={{ headerShown: false }} headerMode="none">
         <stackRoutes.Screen name="Login" component={Login}/>
-        <stackRoutes.Screen name="Patrocinador" component={Patrocinador}/>
-
-
     </stackRoutes.Navigator>
 )
 
-export default AppRoutes;
+const LoggedIn = () => (
+    <stackRoutes.Navigator screenOptions={{ headerShown: false }} headerMode="none">
+    </stackRoutes.Navigator>
+)
+
+export default { LoggedIn, BeforeLogin }
