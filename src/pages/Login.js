@@ -4,12 +4,16 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextMuseo300, TextMuseo500 } from '../components/fonts/TextFonts';
-import { TextInputMuseo300 } from '../components/fonts/TextInputFonts';
+import { TextNotoSansTC700, TextNotoSansTC500 } from '../components/fonts/TextFonts';
+import { Dimensions } from 'react-native';
+import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { Icon } from 'react-native-elements';
 
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 
 import { Root, Popup } from 'popup-ui';
@@ -123,71 +127,75 @@ const Login = ({navigation}) => {
         >
 
             <StatusBar style="auto" />
-            <View style={styles.container}>
-              <View style={{
-                flex: 1,
-                alignItems: 'center',
-              }}>
-                <TextMuseo300 style={styles.text}>{t("loginPage.placeHolderUser")}</TextMuseo300>
-                <TextInputMuseo300  
-                  onSubmitEditing={() => { this.passwordInput.focus(); }}
-                  returnKeyType="next"
-                  blurOnSubmit={false}
-                  placeholderTextColor="#fc5000" 
-                  onChangeText={( username) => {
-                    setUserData({ username, password: oldState.password });
-                  }} 
-                  style={styles.input}
-                />
-                
-                <TextMuseo300 style={styles.text}>{t("loginPage.placeHolderPass")}</TextMuseo300>
+            <View style={[styles.container, styles.center, styles.full]} >
+              <TextNotoSansTC700 style={[styles.header]}>
+              Enter your account
+              </TextNotoSansTC700>
+              <View style={[styles.container]}>
                 <View style={{
-                    flexDirection: 'row'
+                  flex: 1,
+                  alignItems: 'center',
                 }}>
-                <TextInputMuseo300
-                  style={styles.input}
-                  /* inputRef={(ref) => this.passwordInput = ref} */
-                  placeholderTextColor="#fc5000" 
-                  onChangeText={(password) => {
-                    setUserData({username: oldState.username,password})
-                  }}  
-                  onSubmitEditing={sendApiRequest}
-                  secureTextEntry={isPasswordHide}
-                /> 
+                  <TextInputNotoSansTC300  
+                    onSubmitEditing={() => { this.passwordInput.focus(); }}
+                    returnKeyType="next"
+                    blurOnSubmit={false}
+                    placeholderTextColor="#9A9A9A" 
+                    placeholder={t("loginPage.placeHolderUser")}
+                    // onChangeText={( username) => {
+                    //   setUserData({ username, password: oldState.password });
+                    // }} 
+                    style={styles.input}
+                  />
+                  
                   <View style={{
-                    position: 'absolute',
-                    right: '2%',
-                    bottom: '15%',
+                      flexDirection: 'row'
                   }}>
-                    <TouchableOpacity onPress={togglePassword}>
-                      <Icon
-                        name={iconPasswordHide}
-                        type="font-awesome"
-                        color="#ffffff"
-                      />
-                    </TouchableOpacity>
+                  <TextInputNotoSansTC300
+                    style={styles.input}
+                    /* inputRef={(ref) => this.passwordInput = ref} */
+                    placeholderTextColor="#9A9A9A" 
+                    placeholder={t("loginPage.placeHolderPass")}
+                    onChangeText={(password) => {
+                      setUserData({username: oldState.username,password})
+                    }}  
+                    onSubmitEditing={sendApiRequest}
+                    secureTextEntry={isPasswordHide}
+                  /> 
+                    <View style={{
+                      position: 'absolute',
+                      right: '2%',
+                      bottom: '15%',
+                    }}>
+                      <TouchableOpacity onPress={togglePassword}>
+                        <Icon
+                          name={iconPasswordHide}
+                          type="font-awesome"
+                          color="#9A9A9A"
+                        />
+                      </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
+                <View style={{
+                  flex: 1,
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  paddingBottom: 10
+                }}>
+                  <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
+                    {!isLoading
+                      ?
+                      <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC500>
+                      :             
+                        <View style={[styles.container, styles.center, styles.full]}>
+                          <ActivityIndicator color={"#999999"} size="large" />
+                        </View>
+                    }
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                paddingBottom: 10
-              }}>
-                <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
-                  {!isLoading
-                    ?
-                    <TextMuseo500 style={styles.txtAvancar}>{t("common.nextButton")}</TextMuseo500>
-
-                    :             
-                      <View style={[styles.container, styles.center, styles.full]}>
-                        <ActivityIndicator color={"#999999"} size="large" />
-                      </View>
-                  }
-                </TouchableOpacity>
               </View>
-            </View>
         </SafeAreaProvider>
       </ScrollView>
     </Root>
@@ -203,21 +211,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  header:{
+    fontSize: 40,
+  },
+  full: {
+    height: '100%',
+    width: windowWidth,
+  },
   text:{
     fontSize: 20, 
     color: "#fc5000",
-    width: '70%',
+    width: '40%',
     marginTop: 10
   },
   input: {
-    width: '70%',
-    height: 40,
-    padding: 12,
+    width: windowWidth * 0.35,
+    height: windowWidth * 0.055,
+    paddingLeft: 15,
+    alignItems: 'center',
     borderRadius: 20,
-    borderBottomRightRadius: 6,
-    backgroundColor: theme.colors.principalOne,
-    color: '#fff',
-    marginTop: 10
+    fontSize: 15,
+    borderColor: '#000',
+    borderWidth: 2,
+    backgroundColor: theme.colors.branco,
+    color: '#9A9A9A',
+    marginTop: 10, 
+    shadowColor: "#000",
+shadowOpacity: 0.27,
+shadowRadius: 0.25,
+  
+shadowOffset: {
+	width: 0,
+  	height: -3,
+},
+elevation: 6,
   },
   txtAvancar: {
     fontSize: 22,
@@ -226,10 +253,10 @@ const styles = StyleSheet.create({
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fc5000',
-    borderRadius: 50,
-    height: 100,
-    width: 100,
+    backgroundColor: '#27AE60',
+    borderRadius: 42,
+    height: 57,
+    width: 144,
   },
 });
 

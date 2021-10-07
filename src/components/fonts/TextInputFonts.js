@@ -3,7 +3,7 @@ import { TextInput, StyleSheet, View, ActivityIndicator } from 'react-native'
 import * as Font from 'expo-font'
 
 
-class TextInputFoolsErrand extends React.Component {
+class TextInputNotoSansTC900 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -14,39 +14,7 @@ class TextInputFoolsErrand extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'FoolsErrand': require('../../../assets/fonts/FoolsErrand.otf'),
-        })
-        this.setState({ loading: false })
-    }
-
-    render() {
-        const allProps = Object.assign({}, this.props);
-        if (this.state.loading) {
-            return <ActivityIndicator/>
-        }
-        const styleProps = allProps.style;
-        delete allProps.style
-        
-            return (
-                <TextInput style={[styles.FoolsErrand, styleProps]} {...allProps}>
-                    {this.props.children}
-                </TextInput>
-            )
-    }
-}
-
-class TextInputMuseo900 extends React.Component {
-    constructor(props) {
-        super(props)
-
-        this.state = {
-            loading: true,
-        }
-    }
-
-    async componentWillMount() {
-        await Font.loadAsync({
-            'Museo900': require('../../../assets/fonts/Museo900-Bold.otf'),
+            'NotoSansTC900': require('../../../assets/fonts/NotoSansTC-900-Bold.otf'),
         })
         this.setState({ loading: false })
     }
@@ -59,14 +27,14 @@ class TextInputMuseo900 extends React.Component {
         const styleProps = allProps.style;
         delete allProps.style
             return (
-                <TextInput style={[styles.Museo900, styleProps]} {...allProps}>
+                <TextInput style={[styles.NotoSansTC900, styleProps]} {...allProps}>
                     {this.props.children}
                 </TextInput>
             )
     }
 }
 
-class TextInputMuseo700 extends React.Component {
+class TextInputNotoSansTC700 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -77,7 +45,7 @@ class TextInputMuseo700 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo700': require('../../../assets/fonts/Museo700-Bold.otf'),
+            'NotoSansTC700': require('../../../assets/fonts/NotoSansTC-700-Bold.otf'),
         })
         this.setState({ loading: false })
     }
@@ -91,7 +59,7 @@ class TextInputMuseo700 extends React.Component {
         delete allProps.style
             return (
                 
-                    <TextInput style={[styles.Museo700, styleProps]} {...allProps}>
+                    <TextInput style={[styles.NotoSansTC700, styleProps]} {...allProps}>
                         {this.props.children}
                     </TextInput>
                 
@@ -99,7 +67,7 @@ class TextInputMuseo700 extends React.Component {
     }
 }
 
-class TextInputMuseo500 extends React.Component {
+class TextInputNotoSansTC500 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -110,7 +78,7 @@ class TextInputMuseo500 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo500': require('../../../assets/fonts/Museo500-Regular.otf'),
+            'NotoSansTC500': require('../../../assets/fonts/NotoSansTC-500-Regular.otf'),
         })
         this.setState({ loading: false })
     }
@@ -124,7 +92,7 @@ class TextInputMuseo500 extends React.Component {
         delete allProps.style
             return (
                 
-                    <TextInput style={[styles.Museo500, styleProps]} {...allProps}>
+                    <TextInput style={[styles.NotoSansTC500, styleProps]} {...allProps}>
                         {this.props.children}
                     </TextInput>
                 
@@ -132,7 +100,7 @@ class TextInputMuseo500 extends React.Component {
     }
 }
 
-class TextInputMuseo300 extends React.Component {
+class TextInputNotoSansTC300 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -143,7 +111,7 @@ class TextInputMuseo300 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo300': require('../../../assets/fonts/Museo300-Regular.otf'),
+            'NotoSansTC300': require('../../../assets/fonts/NotoSansTC-300-Regular.otf'),
         })
         this.setState({ loading: false })
     }
@@ -157,7 +125,7 @@ class TextInputMuseo300 extends React.Component {
         delete allProps.style
             return (
                 
-                    <TextInput style={[styles.Museo300, styleProps]} {...allProps}
+                    <TextInput style={[styles.NotoSansTC300, styleProps]} {...allProps}
                     ref={input => allProps.inputRef && allProps.inputRef(input)}
                     blurOnSubmit= {allProps.blurOnSubmit}
                     onSubmitEditing = {allProps.onSubmitEditing}
@@ -175,7 +143,7 @@ class TextInputMuseo300 extends React.Component {
     }
 }
 
-class TextInputMuseo100 extends React.Component {
+class TextInputNotoSansTC100 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -186,7 +154,7 @@ class TextInputMuseo100 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo100': require('../../../assets/fonts/Museo100-Regular.otf'),
+            'NotoSansTC100': require('../../../assets/fonts/NotoSansTC-100-Regular.otf'),
         })
         this.setState({ loading: false })
     }
@@ -200,7 +168,40 @@ class TextInputMuseo100 extends React.Component {
         delete allProps.style
             return (
                 
-                    <TextInput style={[styles.Museo100, styleProps]} {...allProps}>
+                    <TextInput style={[styles.NotoSansTC100, styleProps]} {...allProps}>
+                        {this.props.children}
+                    </TextInput>
+                
+            )
+    }
+}
+
+class TextInputNotoSansTCThin extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    async componentWillMount() {
+        await Font.loadAsync({
+            'NotoSansTCThin': require('../../../assets/fonts/NotoSansTC-Thin.otf'),
+        })
+        this.setState({ loading: false })
+    }
+
+    render() {
+        const allProps = Object.assign({}, this.props);
+        if (this.state.loading) {
+            return <ActivityIndicator/>
+        }
+        const styleProps = allProps.style;
+        delete allProps.style
+            return (
+                
+                    <TextInput style={[styles.NotoSansTCThin, styleProps]} {...allProps}>
                         {this.props.children}
                     </TextInput>
                 
@@ -210,24 +211,24 @@ class TextInputMuseo100 extends React.Component {
 
 
 const styles = StyleSheet.create({
-    FoolsErrand: {
-        fontFamily: 'FoolsErrand'
+    NotoSansTC900: {
+        fontFamily: 'NotoSansTC900'
     },
-    Museo900: {
-        fontFamily: 'Museo900'
+    NotoSansTC700: {
+        fontFamily: 'NotoSansTC700'
     },
-    Museo700: {
-        fontFamily: 'Museo700'
+    NotoSansTC500: {
+        fontFamily: 'NotoSansTC500'
     },
-    Museo500: {
-        fontFamily: 'Museo500'
+    NotoSansTC300: {
+        fontFamily: 'NotoSansTC300'
     },
-    Museo300: {
-        fontFamily: 'Museo300'
+    NotoSansTC100: {
+        fontFamily: 'NotoSansTC100'
     },
-    Museo100: {
-        fontFamily: 'Museo100'
+    NotoSansTCThin: {
+        fontFamily: 'NotoSansTCThin'
     },
 })
 
-export { TextInputMuseo100, TextInputMuseo300, TextInputMuseo500, TextInputMuseo700, TextInputMuseo900, TextInputFoolsErrand }
+export { TextInputNotoSansTCThin, TextInputNotoSansTC100, TextInputNotoSansTC300, TextInputNotoSansTC500, TextInputNotoSansTC700, TextInputNotoSansTC900 }

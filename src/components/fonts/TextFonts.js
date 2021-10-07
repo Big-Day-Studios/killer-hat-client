@@ -6,7 +6,8 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: componentWillMount']); // Ignore log notification by message
 //LogBox.ignoreAllLogs();//Ignore all log notifications
 
-class TextFoolsErrand extends React.Component {
+
+class TextNotoSansTC900 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -17,7 +18,7 @@ class TextFoolsErrand extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'FoolsErrand': require('../../../assets/fonts/FoolsErrand.otf'),
+            'NotoSansTC900': require('../../../assets/fonts/NotoSansTC-900-Bold.otf'),
         })
         this.setState({ loading: false })
     }
@@ -31,7 +32,7 @@ class TextFoolsErrand extends React.Component {
         delete allProps.style
             return (
                
-                    <Text style={[styles.FoolsErrand, styleProps]} {...allProps}>
+                    <Text style={[styles.NotoSansTC900, styleProps]} {...allProps}>
                         {this.props.children}
                     </Text>
                 
@@ -39,7 +40,7 @@ class TextFoolsErrand extends React.Component {
     }
 }
 
-class TextMuseo900 extends React.Component {
+class TextNotoSansTC700 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -50,7 +51,7 @@ class TextMuseo900 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo900': require('../../../assets/fonts/Museo900-Bold.otf'),
+            'NotoSansTC700': require('../../../assets/fonts/NotoSansTC-700-Bold.otf'),
         })
         this.setState({ loading: false })
     }
@@ -64,7 +65,7 @@ class TextMuseo900 extends React.Component {
         delete allProps.style
             return (
                
-                    <Text style={[styles.Museo900, styleProps]} {...allProps}>
+                    <Text style={[styles.NotoSansTC700, styleProps]} {...allProps}>
                         {this.props.children}
                     </Text>
                 
@@ -72,7 +73,7 @@ class TextMuseo900 extends React.Component {
     }
 }
 
-class TextMuseo700 extends React.Component {
+class TextNotoSansTC500 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -83,7 +84,7 @@ class TextMuseo700 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo700': require('../../../assets/fonts/Museo700-Bold.otf'),
+            'NotoSansTC500': require('../../../assets/fonts/NotoSansTC-500-Regular.otf'),
         })
         this.setState({ loading: false })
     }
@@ -97,7 +98,7 @@ class TextMuseo700 extends React.Component {
         delete allProps.style
             return (
                
-                    <Text style={[styles.Museo700, styleProps]} {...allProps}>
+                    <Text style={[styles.NotoSansTC500, styleProps]} {...allProps} >
                         {this.props.children}
                     </Text>
                 
@@ -105,7 +106,7 @@ class TextMuseo700 extends React.Component {
     }
 }
 
-class TextMuseo500 extends React.Component {
+class TextNotoSansTC300 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -116,7 +117,7 @@ class TextMuseo500 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo500': require('../../../assets/fonts/Museo500-Regular.otf'),
+            'NotoSansTC300': require('../../../assets/fonts/NotoSansTC-300-Regular.otf'),
         })
         this.setState({ loading: false })
     }
@@ -130,7 +131,7 @@ class TextMuseo500 extends React.Component {
         delete allProps.style
             return (
                
-                    <Text style={[styles.Museo500, styleProps]} {...allProps} >
+                    <Text style={[styles.NotoSansTC300, styleProps]} {...allProps}>
                         {this.props.children}
                     </Text>
                 
@@ -138,7 +139,7 @@ class TextMuseo500 extends React.Component {
     }
 }
 
-class TextMuseo300 extends React.Component {
+class TextNotoSansTC100 extends React.Component {
     constructor(props) {
         super(props)
 
@@ -149,7 +150,7 @@ class TextMuseo300 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo300': require('../../../assets/fonts/Museo300-Regular.otf'),
+            'NotoSansTC100': require('../../../assets/fonts/NotoSansTC-100-Regular.otf'),
         })
         this.setState({ loading: false })
     }
@@ -163,7 +164,7 @@ class TextMuseo300 extends React.Component {
         delete allProps.style
             return (
                
-                    <Text style={[styles.Museo300, styleProps]} {...allProps}>
+                    <Text style={[styles.NotoSansTC100, styleProps]} {...allProps}>
                         {this.props.children}
                     </Text>
                 
@@ -171,7 +172,7 @@ class TextMuseo300 extends React.Component {
     }
 }
 
-class TextMuseo100 extends React.Component {
+class TextNotoSansTCThin extends React.Component {
     constructor(props) {
         super(props)
 
@@ -182,7 +183,7 @@ class TextMuseo100 extends React.Component {
 
     async componentWillMount() {
         await Font.loadAsync({
-            'Museo100': require('../../../assets/fonts/Museo100-Regular.otf'),
+            'NotoSansTCThin': require('../../../assets/fonts/NotoSansTC-Thin.otf'),
         })
         this.setState({ loading: false })
     }
@@ -196,34 +197,36 @@ class TextMuseo100 extends React.Component {
         delete allProps.style
             return (
                
-                    <Text style={[styles.Museo100, styleProps]} {...allProps}>
+                    <Text style={[styles.NotoSansTCThin, styleProps]} {...allProps}>
                         {this.props.children}
                     </Text>
                 
             )
     }
 }
-
 
 const styles = StyleSheet.create({
     FoolsErrand: {
         fontFamily: 'FoolsErrand'
     },
-    Museo900: {
-        fontFamily: 'Museo900'
+    NotoSansTC900: {
+        fontFamily: 'NotoSansTC900'
     },
-    Museo700: {
-        fontFamily: 'Museo700'
+    NotoSansTC700: {
+        fontFamily: 'NotoSansTC700'
     },
-    Museo500: {
-        fontFamily: 'Museo500'
+    NotoSansTC500: {
+        fontFamily: 'NotoSansTC500'
     },
-    Museo300: {
-        fontFamily: 'Museo300'
+    NotoSansTC300: {
+        fontFamily: 'NotoSansTC300'
     },
-    Museo100: {
-        fontFamily: 'Museo100'
+    NotoSansTC100: {
+        fontFamily: 'NotoSansTC100'
+    },
+    NotoSansTCThin: {
+        fontFamily: 'NotoSansTCThin'
     },
 })
 
-export { TextMuseo100, TextMuseo300, TextMuseo500, TextMuseo700, TextMuseo900, TextFoolsErrand }
+export { TextNotoSansTCThin, TextNotoSansTC100, TextNotoSansTC300, TextNotoSansTC500, TextNotoSansTC700, TextNotoSansTC900 }

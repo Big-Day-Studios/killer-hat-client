@@ -6,7 +6,7 @@
     "displayName": "Killer Hat",
     "version": "0.0.1",
     "orientation": "landscape",
-    "icon": "./assets/icon.png",    
+    "icon": "./assets/icon-killer-hat.png",    
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

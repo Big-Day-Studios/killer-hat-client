@@ -2,8 +2,8 @@
     "translation":{
         "loginPage": {
             "label": "Insira seu Login",
-            "placeHolderUser": "Login",
-            "placeHolderPass": "Senha",
+            "placeHolderUser": "email",
+            "placeHolderPass": "password",
             "placeHolderVerifyPass": "Rescrever",
             "labelCadastrar": "Quero me cadastrar",
             "labelEsqueciMinhaSenha": "Esqueci minha senha"
