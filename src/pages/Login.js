@@ -2,18 +2,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Dimensions , Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TextNotoSansTC700, TextNotoSansTC500 } from '../components/fonts/TextFonts';
-import { Dimensions } from 'react-native';
+import ExtraDimensions  from 'react-native-extra-dimensions-android';
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { Icon } from 'react-native-elements';
 
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
 
-const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+
 
 
 import { Root, Popup } from 'popup-ui';
@@ -201,7 +200,26 @@ const Login = ({navigation}) => {
     </Root>
   );
 }
+const  getScreenValues = () => {
+  const androidWindowWidth =  ExtraDimensions.getRealWindowWidth();
+  const androidWindowHeight = ExtraDimensions.getRealWindowHeight();
+  
+  const iosWindowWidth = Dimensions.get('window').width
+  const iosWindowHeight = Dimensions.get('window').height
 
+  console.log(androidWindowWidth, androidWindowHeight, iosWindowWidth, iosWindowHeight)
+  if(androidWindowWidth === 0 || androidWindowHeight === 0 ){
+    return {
+      width: iosWindowWidth,
+      height: iosWindowHeight
+    }
+  }
+
+  return {
+    width: androidWindowWidth,
+    height: androidWindowHeight
+  }
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -216,7 +234,7 @@ const styles = StyleSheet.create({
   },
   full: {
     height: '100%',
-    width: windowWidth,
+    width:getScreenValues().width,
   },
   text:{
     fontSize: 20, 
@@ -225,8 +243,8 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   input: {
-    width: windowWidth * 0.35,
-    height: windowWidth * 0.055,
+    width: getScreenValues().width * 0.35,
+    height: getScreenValues().height * 0.055,
     paddingLeft: 15,
     alignItems: 'center',
     borderRadius: 20,
