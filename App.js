@@ -1,3 +1,4 @@
+// console.disableYellowBox = true
 import React, { Component, useEffect, useState }from 'react';
 import  Routes  from './src/routes';
 import AppLoading from 'expo-app-loading';

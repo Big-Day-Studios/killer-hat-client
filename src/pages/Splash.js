@@ -46,7 +46,7 @@ const Splash = ({navigation}) => {
         console.log("next");
         //next();
       }, 1000)
-    }, 4500)
+    }, 5500)
   }
 
   const loadThirdSplash = () =>{
