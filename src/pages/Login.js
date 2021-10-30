@@ -1,21 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
+import { Popup, Root } from 'popup-ui';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Dimensions , Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextNotoSansTC700, TextNotoSansTC500 } from '../components/fonts/TextFonts';
-import ExtraDimensions  from 'react-native-extra-dimensions-android';
-import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
+import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-
+import ExtraDimensions from 'react-native-extra-dimensions-android';
+import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
+import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
-import ApiRequest from '../services/Api';
 
 
 
 
-import { Root, Popup } from 'popup-ui';
+
 
 const Login = ({navigation}) => {
 
@@ -279,3 +278,4 @@ elevation: 6,
 });
 
 export { Login };
+
