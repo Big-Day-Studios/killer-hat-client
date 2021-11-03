@@ -8726,6 +8726,11 @@ react-native-extra-dimensions-android@^1.2.5:
   resolved "https://registry.yarnpkg.com/react-native-extra-dimensions-android/-/react-native-extra-dimensions-android-1.2.5.tgz#8ade91029aaac7519bf305116d39019e618a60f0"
   integrity sha512-eorFo9X1vEqAWUkgcZ300yKBG1wtgNeE7tdWAH2CE+P50FGTniJg5Sr6l1iPWG8ZskQOuF+KeiSTFlDa4vLfMw==
 
+react-native-fullscreen-chz@^1.1.7:
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/react-native-fullscreen-chz/-/react-native-fullscreen-chz-1.1.7.tgz#f4cc7f200a0fe8405ee88927606510a2d75f8274"
+  integrity sha512-iFs9e6XBttPgdM12Bi/gK/Io7iM9vN+Mv0E2svV45p3F/Yz0SDT7bTTblGsSgIkmeQDptaEB2/0q7sQEhrNkYg==
+
 react-native-gesture-handler@~1.10.2:
   version "1.10.3"
   resolved "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz"

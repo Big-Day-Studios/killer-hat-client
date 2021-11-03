@@ -1,20 +1,33 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, Text, Animated, StyleSheet, View } from 'react-native';
+import { Dimensions, Text, Animated, StyleSheet, View } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import BdsLogoAnimatios from '../components/BdsLogoAnimation';
 import KillerHatAnimation from '../components/KillerHatAnimation';
 
-
-import { theme } from '../global/theme';
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const Splash = ({navigation}) => {
 
+console.log("pixels " + deviceWidth + " x " + deviceHeight)
   const [turn, setTurn] = useState(0)
+  const [scale, setScale] = useState(undefined)
+
+
+
 
   const opacity = useState(new Animated.Value(0))[0]
 
   useEffect(() => {
     loadSplashes()
+    if(deviceWidth > deviceHeight) {
+      setScale(Math.round(( Math.round(deviceWidth) *9 ) / Math.round(deviceHeight) * 10) / 10)
+    }else{
+      setScale(Math.round(( Math.round(deviceHeight) *9 ) / Math.round(deviceWidth) * 10) / 10)
+      
+    }
+    
+    console.log("proportion " + scale + " x " + 9)
   }, []);
 
   const loadSplashes = () =>{
@@ -41,7 +54,7 @@ const Splash = ({navigation}) => {
   const final = () => {
     setTimeout(() => {
       console.log("end");
-      fadeOut();
+      // fadeOut();
       setTimeout(() => {
         console.log("next");
         //next();
@@ -82,17 +95,17 @@ const Splash = ({navigation}) => {
   }
 
   return (
-        <View initialMetrics={initialWindowMetrics} style={{height: "100%",width: "100%"}}>
-          <Animated.View style={[{
-            width: "100%",
-            height: "100%",
-            opacity
-          }]}>
+        <View initialMetrics={initialWindowMetrics} style={[{ flex:1}]}>
+          <Animated.View style={[
+            styles.container,{
+              opacity
+            }
+          ]}>
             {turn === 0 
               ?
-              <BdsLogoAnimatios style={{height: "100%",width: "100%" }}/>
+              <BdsLogoAnimatios style={styles.main}/>
               :
-              <KillerHatAnimation style={{height: "105%",width: "105%" }}/>
+              <KillerHatAnimation scale={scale} style={styles.main}/>
             }
           </Animated.View>
         </View>
@@ -101,58 +114,14 @@ const Splash = ({navigation}) => {
 
 
 const styles = StyleSheet.create({
+  main:{
+    height: deviceHeight,
+    width: deviceWidth + deviceWidth, 
+  },
   container: {
     flex: 1,
-  },
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  header:{
-    fontSize: 40,
-  },
-  full: {
-    height: '100%',
-    width: "100%"
-  },
-  text:{
-    fontSize: 20, 
-    color: "#fc5000",
-    width: '40%',
-    marginTop: 10
-  },
-  input: {
-    paddingLeft: 15,
-    alignItems: 'center',
-    borderRadius: 20,
-    fontSize: 15,
-    borderColor: '#000',
-    borderWidth: 2,
-    backgroundColor: theme.colors.branco,
-    color: '#9A9A9A',
-    marginTop: 10, 
-    shadowColor: "#000",
-    shadowOpacity: 0.27,
-    shadowRadius: 0.25,
-      
-    shadowOffset: {
-      width: 0,
-        height: -3,
-    },
-    elevation: 6,
-  },
-  txtAvancar: {
-    fontSize: 22,
-    color: '#fff' 
-  },
-  btnAvancar: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#27AE60',
-    borderRadius: 42,
-    height: 57,
-    width: 144,
+    flexDirection: 'row',
+    flexWrap: 'wrap'
   },
 });
 

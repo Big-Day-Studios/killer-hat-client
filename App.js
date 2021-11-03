@@ -12,16 +12,16 @@ import * as ScreenOrientation from 'expo-screen-orientation';
 const prefix = Linking.makeUrl("/");
 
 export default function App () {
-
-
+    
   const [data, setData] = useState(null)
-
+  
   useEffect(() => {
+    // StatusBar.setHidden(true);
     lockOrientation()
   }, [])
-
+  
   const lockOrientation = async () => {
-    await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.LANDSCAPE)
+    await ScreenOrientation.lockAsync(5)
   }
   
   const linking = {
