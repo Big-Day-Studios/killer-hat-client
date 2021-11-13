@@ -24,7 +24,6 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
       setScale(Math.round(( Math.round(deviceWidth) *9 ) / Math.round(deviceHeight) * 10) / 10)
     }else{
       setScale(Math.round(( Math.round(deviceHeight) *9 ) / Math.round(deviceWidth) * 10) / 10)
-      
     }
     
     console.log("proportion " + scale + " x " + 9)
@@ -57,7 +56,7 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
       // fadeOut();
       setTimeout(() => {
         console.log("next");
-        //next();
+        next();
       }, 1000)
     }, 5500)
   }
@@ -116,7 +115,7 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
 const styles = StyleSheet.create({
   main:{
     height: deviceHeight,
-    width: deviceWidth + deviceWidth, 
+    width: deviceWidth, 
   },
   container: {
     flex: 1,

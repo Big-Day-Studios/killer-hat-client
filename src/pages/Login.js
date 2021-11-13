@@ -5,16 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ExtraDimensions from 'react-native-extra-dimensions-android';
+import  * as ExtraDimensions from 'react-native-extra-dimensions-android';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
-
-
-
-
-
 
 const Login = ({navigation}) => {
 
@@ -200,23 +195,20 @@ const Login = ({navigation}) => {
   );
 }
 const  getScreenValues = () => {
-  const androidWindowWidth =  ExtraDimensions.getRealWindowWidth();
-  const androidWindowHeight = ExtraDimensions.getRealWindowHeight();
-  
+
   const iosWindowWidth = Dimensions.get('window').width
   const iosWindowHeight = Dimensions.get('window').height
 
-  console.log(androidWindowWidth, androidWindowHeight, iosWindowWidth, iosWindowHeight)
-  if(androidWindowWidth === 0 || androidWindowHeight === 0 ){
+  if(iosWindowHeight < iosWindowWidth){
     return {
       width: iosWindowWidth,
       height: iosWindowHeight
     }
-  }
-
-  return {
-    width: androidWindowWidth,
-    height: androidWindowHeight
+  }else{
+    return {
+      width: iosWindowHeight,
+      height: iosWindowWidth
+    }
   }
 }
 const styles = StyleSheet.create({
@@ -233,7 +225,7 @@ const styles = StyleSheet.create({
   },
   full: {
     height: '100%',
-    width:getScreenValues().width,
+    width: getScreenValues().width,
   },
   text:{
     fontSize: 20, 
@@ -243,7 +235,7 @@ const styles = StyleSheet.create({
   },
   input: {
     width: getScreenValues().width * 0.35,
-    height: getScreenValues().height * 0.055,
+    height: getScreenValues().height * 0.11,
     paddingLeft: 15,
     alignItems: 'center',
     borderRadius: 20,
@@ -254,8 +246,8 @@ const styles = StyleSheet.create({
     color: '#9A9A9A',
     marginTop: 10, 
     shadowColor: "#000",
-shadowOpacity: 0.27,
-shadowRadius: 0.25,
+    shadowOpacity: 0.27,
+    shadowRadius: 0.25,
   
 shadowOffset: {
 	width: 0,

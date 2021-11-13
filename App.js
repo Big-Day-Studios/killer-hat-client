@@ -16,7 +16,7 @@ export default function App () {
   const [data, setData] = useState(null)
   
   useEffect(() => {
-    // StatusBar.setHidden(true);
+    StatusBar.setHidden(true);
     lockOrientation()
   }, [])
   
