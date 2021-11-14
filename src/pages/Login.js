@@ -10,6 +10,8 @@ import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react
 import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
+import ApiRequest from '../services/Api';
+
 
 const Login = ({navigation}) => {
 
@@ -90,7 +92,7 @@ const Login = ({navigation}) => {
   async function  sendApiRequest(){
     if(!isLoading){
       setIsLoading(true)
-      //await ApiRequest.login(userData, setResponse);
+      await ApiRequest.login(userData, setResponse);
     }
   }
 

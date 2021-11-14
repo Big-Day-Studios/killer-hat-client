@@ -1,6 +1,6 @@
 {
-    "host":"",
+    "host":"18.230.177.115",
     "protocol": "https",
-    "login_path": ""
+    "login_path": "/auth/login"
 }
   
