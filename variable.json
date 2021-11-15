@@ -1,5 +1,5 @@
 {
-    "host":"18.230.177.115",
+    "host":"killer-hat-server.marcoulakis.com",
     "protocol": "https",
     "login_path": "/auth/login"
 }
