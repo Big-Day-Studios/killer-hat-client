@@ -4,8 +4,8 @@ import { initialWindowMetrics } from 'react-native-safe-area-context';
 import BdsLogoAnimatios from '../components/BdsLogoAnimation';
 import KillerHatAnimation from '../components/KillerHatAnimation';
 
-
-import { theme } from '../global/theme';
+const deviceWidth = Dimensions.get("window").width;
+const deviceHeight = Dimensions.get("window").height;
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -14,11 +14,22 @@ const Splash = ({navigation}) => {
 
 console.log("pixels " + deviceWidth + " x " + deviceHeight)
   const [turn, setTurn] = useState(0)
+  const [scale, setScale] = useState(undefined)
+
+
+
 
   const opacity = useState(new Animated.Value(0))[0]
 
   useEffect(() => {
     loadSplashes()
+    if(deviceWidth > deviceHeight) {
+      setScale(Math.round(( Math.round(deviceWidth) *9 ) / Math.round(deviceHeight) * 10) / 10)
+    }else{
+      setScale(Math.round(( Math.round(deviceHeight) *9 ) / Math.round(deviceWidth) * 10) / 10)
+    }
+    
+    console.log("proportion " + scale + " x " + 9)
   }, []);
 
   const loadSplashes = () =>{
@@ -48,7 +59,7 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
       // fadeOut();
       setTimeout(() => {
         console.log("next");
-        //next();
+        next();
       }, 1000)
     }, 5500)
   }
@@ -96,7 +107,7 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
               ?
               <BdsLogoAnimatios style={styles.main}/>
               :
-              <KillerHatAnimation style={styles.main}/>
+              <KillerHatAnimation scale={scale} style={styles.main}/>
             }
           </Animated.View>
         </View>
@@ -107,11 +118,10 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
 const styles = StyleSheet.create({
   main:{
     height: deviceHeight,
-    width: deviceWidth + deviceWidth, 
+    width: deviceWidth, 
   },
   container: {
     flex: 1,
-    backgroundColor: 'blue',
     flexDirection: 'row',
     flexWrap: 'wrap'
   },

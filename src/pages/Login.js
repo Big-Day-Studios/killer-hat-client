@@ -5,15 +5,12 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import ExtraDimensions from 'react-native-extra-dimensions-android';
+import  * as ExtraDimensions from 'react-native-extra-dimensions-android';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
-
-
-
-
+import ApiRequest from '../services/Api';
 
 
 const Login = ({navigation}) => {
@@ -34,9 +31,8 @@ const Login = ({navigation}) => {
 
   const [userData, setUserData] = useState(
     {
-      username: "",
+      email: "",
       password: "",
-      
     }
   )
 
@@ -79,15 +75,13 @@ const Login = ({navigation}) => {
         }else{
           //token is Ok
         }
-        setIsLoading(false);
       }else{
         setMsg('Não foi possível acessar o servidor. :(')
-        setIsLoading(false);
-
+        
       }
     }
   }
-
+  
   useEffect(() => {
     responseVerifier();
   }, [response])
@@ -95,7 +89,8 @@ const Login = ({navigation}) => {
   async function  sendApiRequest(){
     if(!isLoading){
       setIsLoading(true)
-      //await ApiRequest.login(userData, setResponse);
+      setResponse(await ApiRequest.login(userData));
+      setIsLoading(false);
     }
   }
 
@@ -140,10 +135,10 @@ const Login = ({navigation}) => {
                     blurOnSubmit={false}
                     placeholderTextColor="#9A9A9A" 
                     placeholder={t("loginPage.placeHolderUser")}
-                    // onChangeText={( username) => {
-                    //   setUserData({ username, password: oldState.password });
-                    // }} 
-                    style={styles.input}
+                    onChangeText={( email) => {
+                      setUserData({ email, password: oldState.password });
+                    }} 
+                    style={[styles.input, styles.marginTop]}
                   />
                   
                   <View style={{
@@ -155,14 +150,14 @@ const Login = ({navigation}) => {
                     placeholderTextColor="#9A9A9A" 
                     placeholder={t("loginPage.placeHolderPass")}
                     onChangeText={(password) => {
-                      setUserData({username: oldState.username,password})
+                      setUserData({email: oldState.email,password})
                     }}  
                     onSubmitEditing={sendApiRequest}
                     secureTextEntry={isPasswordHide}
                   /> 
                     <View style={{
                       position: 'absolute',
-                      right: '2%',
+                      right: '5%',
                       bottom: '15%',
                     }}>
                       <TouchableOpacity onPress={togglePassword}>
@@ -200,26 +195,26 @@ const Login = ({navigation}) => {
   );
 }
 const  getScreenValues = () => {
-  const androidWindowWidth =  ExtraDimensions.getRealWindowWidth();
-  const androidWindowHeight = ExtraDimensions.getRealWindowHeight();
-  
+
   const iosWindowWidth = Dimensions.get('window').width
   const iosWindowHeight = Dimensions.get('window').height
 
-  console.log(androidWindowWidth, androidWindowHeight, iosWindowWidth, iosWindowHeight)
-  if(androidWindowWidth === 0 || androidWindowHeight === 0 ){
+  if(iosWindowHeight < iosWindowWidth){
     return {
       width: iosWindowWidth,
       height: iosWindowHeight
     }
-  }
-
-  return {
-    width: androidWindowWidth,
-    height: androidWindowHeight
+  }else{
+    return {
+      width: iosWindowHeight,
+      height: iosWindowWidth
+    }
   }
 }
 const styles = StyleSheet.create({
+  marginTop:{
+    marginTop: 35
+  },
   container: {
     flex: 1,
   },
@@ -233,7 +228,7 @@ const styles = StyleSheet.create({
   },
   full: {
     height: '100%',
-    width:getScreenValues().width,
+    width: getScreenValues().width,
   },
   text:{
     fontSize: 20, 
@@ -242,20 +237,21 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   input: {
-    width: getScreenValues().width * 0.35,
-    height: getScreenValues().height * 0.055,
-    paddingLeft: 15,
+    width: getScreenValues().width * 0.45,
+    height: getScreenValues().height * 0.11,
+    paddingLeft: 18,
+
     alignItems: 'center',
     borderRadius: 20,
     fontSize: 15,
     borderColor: '#000',
     borderWidth: 2,
     backgroundColor: theme.colors.branco,
-    color: '#9A9A9A',
+    color: '#222222',
     marginTop: 10, 
     shadowColor: "#000",
-shadowOpacity: 0.27,
-shadowRadius: 0.25,
+    shadowOpacity: 0.27,
+    shadowRadius: 0.25,
   
 shadowOffset: {
 	width: 0,

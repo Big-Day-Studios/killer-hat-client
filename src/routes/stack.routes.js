@@ -8,8 +8,8 @@ const stackRoutes = createNativeStackNavigator();
 
 const BeforeLogin = () => (
     <stackRoutes.Navigator  screenOptions={{ headerShown: false }} headerMode="none">
-        <stackRoutes.Screen name="Splash" component={Splash} />
         <stackRoutes.Screen name="Login" component={Login}/>
+        <stackRoutes.Screen name="Splash" component={Splash} />
     </stackRoutes.Navigator>
 )
 
