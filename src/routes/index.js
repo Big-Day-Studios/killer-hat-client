@@ -12,7 +12,7 @@ const Routes = () => {
 
     return(
         <NavigationContainer >
-            { false ? <StackRoutes.LoggedIn/> :  <StackRoutes.BeforeLogin/> }
+            { <StackRoutes.BeforeLogin/> }
         </NavigationContainer>
     );
 }
