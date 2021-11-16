@@ -1,4 +1,9 @@
-import React, { useEffect, useState }from 'react';
+// console.disableYellowBox = true
+import React, { Component, useEffect, useState }from 'react';
+import  Routes  from './src/routes';
+import AppLoading from 'expo-app-loading';
+import * as Font from 'expo-font';
+import i18next from './src/languages';
 import * as Linking from 'expo-linking'
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 
@@ -67,4 +72,3 @@ export default function App () {
     </InternetConnectionAlert>
   );
 }
-
