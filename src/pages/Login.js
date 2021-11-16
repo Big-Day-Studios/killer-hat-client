@@ -5,13 +5,15 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import  * as ExtraDimensions from 'react-native-extra-dimensions-android';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
 
+
+/* Redux and AsyncStorage */
+import { connect } from 'react-redux';
 
 const Login = ({navigation}) => {
 
@@ -283,7 +285,6 @@ const mapStateToProps = (state) => {
     username: state.authReducer.username,
     password: state.authReducer.password,
     response: state.authReducer.response,
-    user: state.userReducer.user,
   }
 }
 

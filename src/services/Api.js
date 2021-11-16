@@ -1,4 +1,4 @@
-import axios  from 'react-native-axios';
+import axios  from 'axios';
 import UrlGenerator from './UrlGenerator';
 const publicIp = require('public-ip');
 

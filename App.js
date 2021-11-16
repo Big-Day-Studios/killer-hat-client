@@ -3,12 +3,11 @@ import React, { Component, useEffect, useState }from 'react';
 import  Routes  from './src/routes';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
-import i18next from './src/languages';
 import * as Linking from 'expo-linking'
 import InternetConnectionAlert from "react-native-internet-connection-alert";
-
+import * as ScreenOrientation from 'expo-screen-orientation';
 import { NavigationContainer } from '@react-navigation/native';
-import Routes from './src/routes';
+import { View, Text,StatusBar } from 'react-native';4
 
 /* Redux and Redux Persist */
 import { Provider } from 'react-redux';
@@ -31,6 +30,15 @@ export default function App () {
         Nome: "nome",
       },
     }
+  }
+
+  useEffect(() => {
+    StatusBar.setHidden(true);
+    lockOrientation()
+  }, [])
+  
+  const lockOrientation = async () => {
+    await ScreenOrientation.lockAsync(5)
   }
 
   useEffect(() => {

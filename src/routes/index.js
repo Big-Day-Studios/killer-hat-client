@@ -2,8 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text } from 'react-native';
 
 import AppRoutesCliente from './app.routes.cliente';
-import AppRoutesConsultor from './app.routes.consultor';
-import AuthRoutes from './auth.routes';
+import BeforeLogin from './auth.routes';
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
