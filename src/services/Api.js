@@ -4,7 +4,7 @@ const publicIp = require('public-ip');
 
 const ApiRequest =  {
 
-    async login(userData){ 
+    async login(userData, setResponse){ 
 
         const {email, password} = userData;
 
@@ -17,12 +17,14 @@ const ApiRequest =  {
                 ip_address: IPv4
             }).then((response) => {
                 console.log(response.data);  
-                return response;
+                setResponse(response.data)
             }).catch(error =>{
                 if(error.response.status === 400){
-                    console.log(error.response);  
-
-                    return error.response.data;
+                    console.log(error.response.data);  
+                    setResponse(error.response.data) 
+                }else{
+                    console.log({error:true, msg: "Something went wrong. Please try again later."})
+                    setResponse({error:true, msg: "Something went wrong. Please try again later."});
                 }
             });
     }

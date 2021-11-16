@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
-import { Popup, Root } from 'popup-ui';
+import { Toast, Root } from 'popup-ui';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -49,13 +49,27 @@ const Login = ({navigation}) => {
   }
   
   const errorPopup = () => {
-      Popup.show({
+      Toast.show({
         type: 'Danger',
-        title: 'Erro',
-        button: true,
-        textBody: msg,
-        buttonText: 'Ok',
-        callback: () => Popup.hide()
+        title: 'Error',
+        text: msg,
+        timing: 2500,
+        color: '#e74c3c',
+        icon: (
+          <View style={{
+            position: 'absolute',
+            right: '0%',
+            bottom: '0%',
+          }}>
+            <Icon 
+            name="times"
+            type="font-awesome"
+            color="#FFFFFF"
+            size={45}
+            />
+          </View>
+        ),
+
       })
   }
 
@@ -67,19 +81,14 @@ const Login = ({navigation}) => {
   }, [msg])
 
   const responseVerifier = async () => {
-    if(!!response){
       if(typeof response === 'object'){
-        //response.token is just an example of the token
-        if(response.token === "" || response.token === undefined ){
-          //token isn't Ok
+        if(response.error){
+          setMsg(response.msg)
         }else{
-          //token is Ok
+          setMsg(response.user.username)
         }
-      }else{
-        setMsg('Não foi possível acessar o servidor. :(')
-        
       }
-    }
+      setIsLoading(false)
   }
   
   useEffect(() => {
@@ -89,8 +98,7 @@ const Login = ({navigation}) => {
   async function  sendApiRequest(){
     if(!isLoading){
       setIsLoading(true)
-      setResponse(await ApiRequest.login(userData));
-      setIsLoading(false);
+      await ApiRequest.login(userData, setResponse)
     }
   }
 
@@ -118,7 +126,6 @@ const Login = ({navigation}) => {
           paddingRight: insets.right,}
         }
         >
-
             <StatusBar style="auto" />
             <View style={[styles.container, styles.center, styles.full]} >
               <TextNotoSansTC700 style={[styles.header]}>
@@ -140,13 +147,11 @@ const Login = ({navigation}) => {
                     }} 
                     style={[styles.input, styles.marginTop]}
                   />
-                  
                   <View style={{
-                      flexDirection: 'row'
+                    flexDirection: 'row'
                   }}>
                   <TextInputNotoSansTC300
                     style={styles.input}
-                    /* inputRef={(ref) => this.passwordInput = ref} */
                     placeholderTextColor="#9A9A9A" 
                     placeholder={t("loginPage.placeHolderPass")}
                     onChangeText={(password) => {
@@ -155,19 +160,19 @@ const Login = ({navigation}) => {
                     onSubmitEditing={sendApiRequest}
                     secureTextEntry={isPasswordHide}
                   /> 
-                    <View style={{
+                    <TouchableOpacity onPress={togglePassword} style={{
                       position: 'absolute',
                       right: '5%',
                       bottom: '15%',
                     }}>
-                      <TouchableOpacity onPress={togglePassword}>
+                      <View >
                         <Icon
                           name={iconPasswordHide}
                           type="font-awesome"
                           color="#9A9A9A"
                         />
-                      </TouchableOpacity>
-                    </View>
+                      </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
                 <View style={{
@@ -179,7 +184,7 @@ const Login = ({navigation}) => {
                   <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
                     {!isLoading
                       ?
-                      <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC500>
+                        <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC500>
                       :             
                         <View style={[styles.container, styles.center, styles.full]}>
                           <ActivityIndicator color={"#999999"} size="large" />
@@ -188,7 +193,7 @@ const Login = ({navigation}) => {
                   </TouchableOpacity>
                 </View>
               </View>
-              </View>
+            </View>
         </SafeAreaProvider>
       </ScrollView>
     </Root>
@@ -273,5 +278,27 @@ elevation: 6,
   },
 });
 
-export { Login };
+const mapStateToProps = (state) => {
+  return {
+    username: state.authReducer.username,
+    password: state.authReducer.password,
+    response: state.authReducer.response,
+    user: state.userReducer.user,
+  }
+}
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
+    setPassword: (password) => dispatch({ type: 'SET_PASSWORD', payload: { password } }),
+    setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
+    setNome: (nome) => dispatch({ type: 'SET_NOME', payload: { nome } }),
+    setFoto: (foto) => dispatch({ type: 'SET_FOTO', payload: { foto } }),
+    setUserType: (userType) => dispatch({ type: 'SET_USERTYPE', payload: { userType } }),
+    setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
+    setResponse: (response) => dispatch({ type: 'SET_RESPONSE', payload: { response } }),
+    setUser: (user) => dispatch({ type: 'SET_USER', payload: { user } }),
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
