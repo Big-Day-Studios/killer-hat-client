@@ -15,10 +15,11 @@ import ApiRequest from '../services/Api';
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Login = ({navigation}) => {
+const Login = (props) => {
 
   const {t, i18n} = useTranslation();
 
+  const { navigation, setPassword, setEmail } = props;
   const insets = useSafeAreaInsets();
 
   function handleNext() {
@@ -70,13 +71,14 @@ const Login = ({navigation}) => {
             size={45}
             />
           </View>
-        ),
-
+        )
       })
+      console.log(4444)
   }
 
   useEffect(() => {
     if(!!msg){
+      console.log("mggg:  ", msg)
       errorPopup()
     }
     setMsg(undefined)
@@ -84,7 +86,7 @@ const Login = ({navigation}) => {
 
   const responseVerifier = async () => {
       if(typeof response === 'object'){
-        if(response.error){
+        if(response.error === true){
           setMsg(response.msg)
         }else{
           setMsg(response.user.username)
@@ -99,6 +101,8 @@ const Login = ({navigation}) => {
 
   async function  sendApiRequest(){
     if(!isLoading){
+      setPassword(userData.password)
+      setEmail(userData.email)
       setIsLoading(true)
       await ApiRequest.login(userData, setResponse)
     }
@@ -282,7 +286,7 @@ elevation: 6,
 
 const mapStateToProps = (state) => {
   return {
-    username: state.authReducer.username,
+    email: state.authReducer.email,
     password: state.authReducer.password,
     response: state.authReducer.response,
   }
@@ -292,6 +296,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
     setPassword: (password) => dispatch({ type: 'SET_PASSWORD', payload: { password } }),
+    setEmail: (email) => dispatch({ type: 'SET_EMAIL', payload: { email } }),
     setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
     setNome: (nome) => dispatch({ type: 'SET_NOME', payload: { nome } }),
     setFoto: (foto) => dispatch({ type: 'SET_FOTO', payload: { foto } }),

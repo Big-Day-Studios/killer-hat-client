@@ -1,4 +1,5 @@
 const initialState = {
+  email: '',
   username: '',
   password: '',
   id: '',
@@ -12,6 +13,9 @@ const initialState = {
 export default (state = initialState, action) => {
   
   switch(action.type) {
+    case 'SET_EMAIL':
+      return { ...state, email: action.payload.email }
+      break;
     case 'SET_USERNAME':
       return { ...state, username: action.payload.username }
       break;
