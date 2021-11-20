@@ -1,6 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
-import { Toast, Root } from 'popup-ui';
+const { Toast, Root } = require('popup-ui');
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -19,7 +18,7 @@ const Login = (props) => {
 
   const {t, i18n} = useTranslation();
 
-  const { navigation, setPassword, setEmail } = props;
+  const { navigation, setId, setToken, setName, setUsername, setPassword, setEmail, setFirstTime, setFriends, setItems, setBirthday, setUser} = props;
   const insets = useSafeAreaInsets();
 
   function handleNext() {
@@ -34,8 +33,8 @@ const Login = (props) => {
 
   const [userData, setUserData] = useState(
     {
-      email: "",
-      password: "",
+      email: "contato.marcoulakis@gmail.com",
+      password: "12345678",
     }
   )
 
@@ -50,7 +49,7 @@ const Login = (props) => {
       setIconPasswordHide("lock")
     }
   }
-  
+
   const errorPopup = () => {
       Toast.show({
         type: 'Danger',
@@ -74,6 +73,7 @@ const Login = (props) => {
         )
       })
       console.log(4444)
+      setMsg()
   }
 
   useEffect(() => {
@@ -81,7 +81,6 @@ const Login = (props) => {
       console.log("mggg:  ", msg)
       errorPopup()
     }
-    setMsg(undefined)
   }, [msg])
 
   const responseVerifier = async () => {
@@ -89,7 +88,17 @@ const Login = (props) => {
         if(response.error === true){
           setMsg(response.msg)
         }else{
-          setMsg(response.user.username)
+          setToken(response.token)
+          setId(response.user._id)
+          setEmail(response.user.email)
+          setFirstTime(response.user.first_time)
+          setFriends(response.user.friends)
+          setItems(response.user.items)
+          setBirthday(response.user.birthday)
+          setPassword(response.user.password)
+          setName(response.user.name)
+          setUsername(response.user.username)
+          setUser(response.user)
         }
       }
       setIsLoading(false)
@@ -108,17 +117,6 @@ const Login = (props) => {
     }
   }
 
-  const storeData = async (name, value) => {
-    try {
-      await AsyncStorage.setItem(
-        name,
-        value
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    
   return (
     <Root>   
       <ScrollView contentContainerStyle={{
@@ -294,16 +292,19 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
+    setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
+    setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
     setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
     setPassword: (password) => dispatch({ type: 'SET_PASSWORD', payload: { password } }),
     setEmail: (email) => dispatch({ type: 'SET_EMAIL', payload: { email } }),
-    setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
-    setNome: (nome) => dispatch({ type: 'SET_NOME', payload: { nome } }),
-    setFoto: (foto) => dispatch({ type: 'SET_FOTO', payload: { foto } }),
-    setUserType: (userType) => dispatch({ type: 'SET_USERTYPE', payload: { userType } }),
-    setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
-    setResponse: (response) => dispatch({ type: 'SET_RESPONSE', payload: { response } }),
+    setFirstTime: (firstTime) => dispatch({ type: 'SET_FIRST_TIME', payload: { firstTime }}),
+    setFriends: (friends) => dispatch({ type: 'SET_FRIENDS', payload: { friends }}),
+    setItems: (items) => dispatch({ type: 'SET_ITEMS', payload: { items }}),
+    setBirthday: (birthday) => dispatch({ type: 'SET_BIRTHDAY', payload: { birthday } }),
     setUser: (user) => dispatch({ type: 'SET_USER', payload: { user } }),
+    // setFoto: (foto) => dispatch({ type: 'SET_FOTO', payload: { foto } }),
+    setResponse: (response) => dispatch({ type: 'SET_RESPONSE', payload: { response } }),
   };
 }
 

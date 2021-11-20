@@ -1,12 +1,13 @@
 import React from 'react';
+import Main from '../pages/Main';
+import { createNativeStackNavigator, CardStyleInterpolators } from '@react-navigation/native-stack';
 
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-const AppStackCliente = createNativeStackNavigator();
+const stackRoutes = createNativeStackNavigator();
 
 const LoggedIn = (linking) => (
-  <AppStackCliente.Navigator linking={linking}>
-  </AppStackCliente.Navigator>
+  <stackRoutes.Navigator linking={linking}>
+    <stackRoutes.Screen name="Main" component={Main}/>
+  </stackRoutes.Navigator>
 )
 
 export default LoggedIn;
