@@ -91,11 +91,11 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
   }
     
   const next = () => {
-    navigation.push('Login');
+    navigation.push('Choose');
   }
 
   return (
-        <View initialMetrics={initialWindowMetrics} style={[{ flex:1}]}>
+        <View initialMetrics={initialWindowMetrics} style={[{ flex:1, backgroundColor: "#fff"}]}>
           <Animated.View style={[
             styles.container,{
               opacity
@@ -116,7 +116,7 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
 const styles = StyleSheet.create({
   main:{
     height: deviceHeight,
-    width: deviceWidth, 
+    width: deviceWidth ,
   },
   container: {
     flex: 1,

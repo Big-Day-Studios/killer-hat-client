@@ -1,12 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 const { Toast, Root } = require('popup-ui');
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
-import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
+import { TextZillaSlabHighlight400, TextNotoSansTC700 } from '../components/fonts/TextFonts';
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
 
@@ -14,15 +12,15 @@ import ApiRequest from '../services/Api';
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Login = (props) => {
+const Choose = (props) => {
 
   const {t, i18n} = useTranslation();
 
   const { navigation, setId, setToken, setName, setUsername, setPassword, setEmail, setFirstTime, setFriends, setItems, setBirthday, setUser} = props;
   const insets = useSafeAreaInsets();
 
-  function handleBack() {
-      navigation.push('Choose');
+  function handleLogin() {
+      navigation.push('Login');
   }
 
 
@@ -137,92 +135,35 @@ const Login = (props) => {
                   flex: 1,
                   alignItems: 'center',
                 }, styles.inputContainer]}>
-                <TextNotoSansTC700 style={[styles.header]}>
-                Enter your account
-                </TextNotoSansTC700>
-                  <TextInputNotoSansTC300  
-                    onSubmitEditing={() => { this.passwordInput.focus(); }}
-                    returnKeyType="next"
-                    blurOnSubmit={false}
-                    placeholderTextColor="#9A9A9A" 
-                    placeholder={t("loginPage.placeHolderUser")}
-                    onChangeText={( email) => {
-                      setUserData({ email, password: oldState.password });
-                    }} 
-                    style={[styles.input, styles.marginTop]}
-                  />
-                  <View style={{
-                    flexDirection: 'row',
-                    marginTop: 18,
-                    marginBottom: 0
-                  }}>
-                    <TextInputNotoSansTC300
-                      style={styles.input}
-                      placeholderTextColor="#9A9A9A" 
-                      placeholder={t("loginPage.placeHolderPass")}
-                      onChangeText={(password) => {
-                        setUserData({email: oldState.email,password})
-                      }}  
-                      onSubmitEditing={sendApiRequest}
-                      secureTextEntry={isPasswordHide}
-                    /> 
-                    <TouchableOpacity onPress={togglePassword} style={{
-                      position: 'absolute',
-                      right: '5%',
-                      bottom: '25%',
-                      elevation: 100,
-                      width: '10%',
-                      marginBottom: 0
-
-                    }}>
-                        <Icon
-                          name={iconPasswordHide}
-                          type="font-awesome"
-                          color="#9A9A9A"
-                        />
+                  <TextZillaSlabHighlight400 style={[styles.header]}>
+                    Killer Hat
+                  </TextZillaSlabHighlight400>
+                  <View style={[styles.container, styles.row]}>
+                    <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
+                        {!isLoading
+                          ?
+                            <TextNotoSansTC700 style={styles.txtAvancar}>{t("common.signup")}</TextNotoSansTC700>
+                          :             
+                            <View style={[styles.container, styles.center, styles.full]}>
+                              <ActivityIndicator color={"#999999"} size="large" />
+                            </View>
+                        }
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.btnAvancar} onPress={handleLogin}>
+                      {!isLoading
+                        ?
+                          <TextNotoSansTC700 style={styles.txtAvancar}>{t("common.login")}</TextNotoSansTC700>
+                        :             
+                          <View style={[styles.container, styles.center, styles.full]}>
+                            <ActivityIndicator color={"#999999"} size="large" />
+                          </View>
+                      }
                     </TouchableOpacity>
                   </View>
                 </View>
-                <View style={{
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  paddingBottom:10
-                }}>
-                  <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
-                    {!isLoading
-                      ?
-                        <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC500>
-                      :             
-                        <View style={[styles.container, styles.center, styles.full]}>
-                          <ActivityIndicator color={"#999999"} size="large" />
-                        </View>
-                    }
-                  </TouchableOpacity>
-                </View>
               </View>
             </View>
-        </SafeAreaProvider>
-        <TouchableOpacity onPress={handleBack} style={{
-          elevation: 101,
-          position: 'absolute',
-          left: '2%',
-          top: '0%',
-          width: '12%'
-        }}>
-          <View >
-            <Icon
-              name={"angle-left"}
-              type="font-awesome"
-              color="#282828"
-              size={100}
-              style={{ borderRadius:50,   
-              shadowColor: "#000",
-              shadowOpacity: 0.27,
-              shadowRadius: 0,}}
-            />
-          </View>
-        </TouchableOpacity> 
+        </SafeAreaProvider> 
       </ScrollView>
     </Root>
   );
@@ -250,14 +191,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  row: {
+    flexDirection: 'row',
+  },
   center: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
   header:{
-    fontSize: getScreenValues().width * 0.04,
+    fontSize: getScreenValues().width * 0.09,
     marginTop: getScreenValues().height * 0.05,
+    color: "#282828"
   },
   full: {
     height: '100%',
@@ -270,14 +215,13 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   inputContainer:{
-    marginTop: getScreenValues().height * 0.08, 
+    marginTop: getScreenValues().height * 0.12, 
     backgroundColor: '#ff000000',
   },
   input: {
     width: getScreenValues().width * 0.46,
     height: getScreenValues().height * 0.13,
     paddingLeft: getScreenValues().width * 0.03,
-
     alignItems: 'center',
     borderRadius: 1000,
     fontSize: getScreenValues().width * 0.027,
@@ -297,21 +241,23 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   txtAvancar: {
-    fontSize: 22,
+    fontSize:  getScreenValues().width * 0.034,
     color: '#fff' 
   },
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#27AE60',
-    borderRadius: 42,
-    height: 57,
-    width: 144,
-    marginBottom: getScreenValues().height * 0.08
+    borderRadius: 100,
+    height: getScreenValues().height * 0.13,
+    width: getScreenValues().width * 0.17,
+    marginHorizontal: getScreenValues().width * 0.038,
+    marginTop: getScreenValues().height * 0.14
+
   },
 });
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state) => {getScreenValues().height * 0.18
   return {
     email: state.authReducer.email,
     password: state.authReducer.password,
@@ -337,4 +283,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Choose);

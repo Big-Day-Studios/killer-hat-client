@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text } from 'react-native';
+import { Button, StyleSheet, Text, View } from 'react-native';
 import LottieView from 'lottie-react-native';
 
 export default class KillerHatAnimation extends React.Component {
@@ -17,13 +17,14 @@ export default class KillerHatAnimation extends React.Component {
       const scale = Math.round(this.props.scale * 10) / 10;
       if(scale < 18 ){
         return (
-          <LottieView
-            ref={animation => {
-              this.animation = animation;
-            }}
-            loop={false}
-            source={require('../../assets/animations/killer-hat-splash/killer-hat-splash.json')}
-          />
+            <LottieView
+              ref={animation => {
+                this.animation = animation;
+              }}
+              style={this.props.style}
+              loop={false}
+              source={require('../../assets/animations/killer-hat-splash/killer-hat-splash.json')}
+            />
         );
       }else if( scale < 19.5 ){
         return (
@@ -31,6 +32,7 @@ export default class KillerHatAnimation extends React.Component {
             ref={animation => {
               this.animation = animation;
             }}
+              style={this.props.style}
             loop={false}
             source={require('../../assets/animations/killer-hat-splash/killer-hat-splash-18-9.json')}
           />
@@ -41,6 +43,7 @@ export default class KillerHatAnimation extends React.Component {
             ref={animation => {
               this.animation = animation;
             }}
+              style={this.props.style}
             loop={false}
             source={require('../../assets/animations/killer-hat-splash/killer-hat-splash-19_5-9.json')}
           />
@@ -51,6 +54,7 @@ export default class KillerHatAnimation extends React.Component {
             ref={animation => {
               this.animation = animation;
             }}
+              style={this.props.style}
             loop={false}
             source={require('../../assets/animations/killer-hat-splash/killer-hat-splash-21-9.json')}
           />
@@ -61,6 +65,7 @@ export default class KillerHatAnimation extends React.Component {
             ref={animation => {
               this.animation = animation;
             }}
+              style={this.props.style}
             loop={false}
             source={require('../../assets/animations/killer-hat-splash/killer-hat-splash-22-9.json')}
           />
@@ -77,9 +82,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flex: 1,
-  },
-  buttonContainer: {
-    paddingTop: 20,
   },
   error: {
     alignItems: 'center',

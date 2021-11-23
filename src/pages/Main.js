@@ -9,7 +9,7 @@ import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFo
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
-
+import Logout from '../services/Logout';
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
@@ -22,7 +22,7 @@ const Main = (props) => {
   const insets = useSafeAreaInsets();
 
   function handleNext() {
-      navigation.push('');
+      navigation.push('Logout');
   }
 
   const [msg, setMsg] = useState()
@@ -109,10 +109,7 @@ const Main = (props) => {
   }, [response])
 
   async function  sendApiRequest(){
-    if(!isLoading){
-      setIsLoading(true)
-      setResponse({email: "ff"})
-    }
+    handleNext()
   }
 
   return (
@@ -130,9 +127,6 @@ const Main = (props) => {
         >
             <StatusBar style="auto" />
             <View style={[styles.container, styles.center, styles.full]} >
-              <TextNotoSansTC700 style={[styles.header]}>
-              Enter your account
-              </TextNotoSansTC700>
               <View style={[styles.container]}>
                 <View style={{
                   flex: 1,
@@ -162,7 +156,7 @@ const Main = (props) => {
                   <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
                     {!isLoading
                       ?
-                        <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC500>
+                        <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.logoutButton")}</TextNotoSansTC500>
                       :             
                         <View style={[styles.container, styles.center, styles.full]}>
                           <ActivityIndicator color={"#999999"} size="large" />

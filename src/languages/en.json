@@ -13,7 +13,10 @@
             "getButton": "Consult",
             "okButton": "OK",
             "goBack": "Back",
-            "confirm": "Confirm"        
+            "confirm": "Confirm",
+            "tittle": "Killer Hat",
+            "signup": "Sign up",
+            "login": "Login" 
         }
     }
 }

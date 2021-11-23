@@ -172,6 +172,73 @@ class TextNotoSansTC100 extends React.Component {
     }
 }
 
+class TextZillaSlabHighlight400 extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    async componentWillMount() {
+        await Font.loadAsync({
+            'ZillaSlabHighlight400': require('../../../assets/fonts/ZillaSlabHighlight-400-Regular.otf'),
+        })
+        this.setState({ loading: false })
+    }
+
+    render() {
+        const allProps = Object.assign({}, this.props);
+        if (this.state.loading) {
+            return <ActivityIndicator/>
+        }
+        const styleProps = allProps.style;
+        delete allProps.style
+            return (
+               
+                    <Text style={[styles.ZillaSlabHighlight400, styleProps]} {...allProps}>
+                        {this.props.children}
+                    </Text>
+                
+            )
+    }
+}
+
+class TextZillaSlabHighlight700 extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    async componentWillMount() {
+        await Font.loadAsync({
+            'ZillaSlabHighlight700': require('../../../assets/fonts/ZillaSlabHighlight-700-Bold.otf'),
+        })
+        this.setState({ loading: false })
+    }
+
+    render() {
+        const allProps = Object.assign({}, this.props);
+        if (this.state.loading) {
+            return <ActivityIndicator/>
+        }
+        const styleProps = allProps.style;
+        delete allProps.style
+            return (
+               
+                    <Text style={[styles.ZillaSlabHighlight700, styleProps]} {...allProps}>
+                        {this.props.children}
+                    </Text>
+                
+            )
+    }
+}
+
+
 class TextNotoSansTCThin extends React.Component {
     constructor(props) {
         super(props)
@@ -206,6 +273,12 @@ class TextNotoSansTCThin extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    ZillaSlabHighlight700:{
+        fontFamily: 'ZillaSlabHighlight700'
+    },
+    ZillaSlabHighlight400:{
+        fontFamily: 'ZillaSlabHighlight400'
+    },
     FoolsErrand: {
         fontFamily: 'FoolsErrand'
     },
@@ -229,4 +302,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export { TextNotoSansTCThin, TextNotoSansTC100, TextNotoSansTC300, TextNotoSansTC500, TextNotoSansTC700, TextNotoSansTC900 }
+export { TextNotoSansTCThin, TextNotoSansTC100, TextNotoSansTC300, TextNotoSansTC500, TextNotoSansTC700, TextNotoSansTC900, TextZillaSlabHighlight700, TextZillaSlabHighlight400 }

@@ -12,9 +12,13 @@
             "nextButton": "Avançar",
             "startButton": "Começar",
             "getButton": "Consultar",
+            "logoutButton": "Logout",
             "okButton": "OK",
             "goBack": "VOLTAR",
-            "confirm": "CONFIRMADO"
+            "confirm": "CONFIRMADO",
+            "tittle": "Killer Hat",
+            "signup": "Sign up",
+            "login": "Login" 
         }
     }
 }
