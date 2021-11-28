@@ -1,6 +1,9 @@
 {
     "host":"killer-hat-server.marcoulakis.com",
     "protocol": "https",
-    "login_path": "/auth/login"
+    "login_path": "/auth/login",
+    "username_path": "/auth/username",
+    "email_path": "/auth/email"
+
 }
   

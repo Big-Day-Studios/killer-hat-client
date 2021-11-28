@@ -1,22 +1,46 @@
 {
     "translation":{
-        "loginPage": {
-            "label": "Login your account",
-            "placeHolderUser": "Username",
-            "placeHolderPass": "Password",
-            "placeHolderVerifyPass": "Rewrite Password",
-            "labelEsqueciMinhaSenha": "Forgot My Password"
-        },
         "common": {
             "nextButton": "Next",
             "startButton": "Start",
             "getButton": "Consult",
+            "logoutButton": "Logout",
             "okButton": "OK",
             "goBack": "Back",
             "confirm": "Confirm",
-            "tittle": "Killer Hat",
+            "title": "Killer Hat",
             "signup": "Sign up",
             "login": "Login" 
+        },
+        "warnings": {
+            "email":{
+                "notValid": "Email is not valid!"
+            },
+            "username": {
+
+            },
+            "name": {
+                "fullName": "Insert your full name"
+            },
+            "login": {
+
+            },
+            "missing": "Fill all missing fields"
+        },
+        "headers":{
+            "name": "Tell me about you",
+            "login": "Enter your login"
+        },
+        "loginPage": {
+            "placeHolderUser": "email",
+            "placeHolderPass": "password",
+            "placeHolderVerifyPass": "Rewrite Password",
+            "labelEsqueciMinhaSenha": "Forgot My Password"
+        },
+        "signupPages": {
+            "placeHolderName": "name",
+            "placeHolderUser": "username"
         }
+
     }
 }

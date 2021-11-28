@@ -1,19 +1,20 @@
 const { Toast, Root } = require('popup-ui');
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, SafeAreaView, Dimensions, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
+import { ActivityIndicator, Dimensions, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFonts';
-import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
-import { theme } from '../global/theme';
-import ApiRequest from '../services/Api';
-
+import { TextNotoSansTC700 } from '../../components/fonts/TextFonts';
+import { TextInputNotoSansTC300 } from '../../components/fonts/TextInputFonts';
+import { theme } from '../../global/theme';
+import ApiRequest from '../../services/Api';
+import { CapitalizeFirst } from '../../services/CapitalizeFirst'
+import { validadorEmail } from '../../services/validadorEmail';
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Login = (props) => {
+const Name = (props) => {
 
   const {t, i18n} = useTranslation();
 
@@ -24,31 +25,14 @@ const Login = (props) => {
       navigation.push('Choose');
   }
 
-
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
   const [isPasswordHide, setIsPasswordHide] = useState(true)
-  const [iconPasswordHide, setIconPasswordHide] = useState("lock")
+  const [localUsername, setLocalUsername] = useState("")
+  const [isNameOK, setIsNameOK] = useState(false)
+  const [isEmailOK, setIsEmailOK] = useState(false)
+  const [localName, setLocalName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-
-  const [userData, setUserData] = useState(
-    {
-      email: "contato.marcoulakis@gmail.com",
-      password: "12345678",
-    }
-  )
-
-  const oldState = userData;
-
-  const togglePassword = () => {
-    if(isPasswordHide){
-      setIsPasswordHide(false);
-      setIconPasswordHide("unlock")
-    }else{
-      setIsPasswordHide(true);
-      setIconPasswordHide("lock")
-    }
-  }
 
   const errorPopup = () => {
       Toast.show({
@@ -83,120 +67,145 @@ const Login = (props) => {
     }
   }, [msg])
 
+  
+  async function  saveName(){
+    if(isNameOK !== false){
+      setMsg(undefined)
+      setName(name);
+      next();
+    }else{
+      errorPopup();
+    }
+  }
+
+  function handleNext() {
+    navigation.push('Choose');
+  }
+
   const responseVerifier = async () => {
       if(typeof response === 'object'){
         if(response.error === true){
           setMsg(response.msg)
         }else{
-          setToken(response.token)
-          setId(response.user._id)
-          setEmail(response.user.email)
-          setFirstTime(response.user.first_time)
-          setFriends(response.user.friends)
-          setItems(response.user.items)
-          setBirthday(response.user.birthday)
-          setPassword(response.user.password)
-          setName(response.user.name)
-          setUsername(response.user.username)
-          setUser(response.user)
+          setUsername(response.username)
+          saveName(localName)
+          // handleNext()
         }
       }
-      setIsLoading(false)
+    setIsLoading(false)
   }
-  
+
+  const validador = ( value ) => {
+    if(value){
+      const fullName = value.toLowerCase().trim().split(' ')
+      let fullNameString = ""
+      if(fullName.length > 1){
+          setMsg("")
+          for(let i = 0; i < fullName.length; i++) {
+            fullNameString = fullNameString + CapitalizeFirst(fullName[i].trim()) + " "
+          }
+          setLocalName(fullNameString.trim())
+          setIsNameOK(true)
+      }else{
+        setIsNameOK(false)
+        setMsg(t("warnings.name.fullName"))
+      }
+    }else{
+      setIsNameOK(false)
+      setMsg(t("warnings.missing"))
+    }
+  }
+
   useEffect(() => {
     responseVerifier();
   }, [response])
 
   async function  sendApiRequest(){
     if(!isLoading){
-      setPassword(userData.password)
-      setEmail(userData.email)
+      validador(localName)
       setIsLoading(true)
-      await ApiRequest.login(userData, setResponse)
+      if(isNameOK){
+        if(isEmailOK){
+          await ApiRequest.email(localUsername, setResponse)
+        }else{
+          setMsg(t("warnings.email.notValid"))
+          setIsLoading(false)
+        }
+      }else{
+        setIsLoading(false)
+      }
     }
   }
 
+  // const secondTextInput = useRef(null);
+
+  // function handleNextInput() {
+  //   secondTextInput.current.focus();
+  // }
+
   return (
-    <Root>  
+    <Root>   
         <SafeAreaProvider initialMetrics={initialWindowMetrics} style={
           styles.container, 
           {paddingTop: insets.top,
           paddingLeft: insets.left,
           paddingBottom: insets.bottom,
-          paddingRight: insets.right,}
+          paddingRight: insets.right}
         }
-        >          
+        > 
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>         
             <View style={[styles.container, styles.center, styles.full]} >
               <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-                <View style={[styles.container]}>
-                  <View style={[{
-                    flex: 1,
-                    alignItems: 'center',
-                  }, styles.allContainer]}>
-                    <View style={[styles.header]}>
-                      <TextNotoSansTC700 style={{
-                        fontSize: getScreenValues().width * 0.04,
-                      }}>
-                      {t("headers.login")}
-                      </TextNotoSansTC700>
-                    </View>
-                    <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
-                      <TextInputNotoSansTC300  
-                        onSubmitEditing={() => { this.passwordInput.focus(); }}
-                        
-                        returnKeyType="next"
-                        blurOnSubmit={false}
-                        placeholderTextColor="#9A9A9A" 
-                        placeholder={t("loginPage.placeHolderUser")}
-                        onChangeText={( email) => {
-                          setUserData({ email, password: oldState.password });
-                        }} 
-                        style={[styles.input]}
-                      />
-                      <View style={styles.marginTop}>
-                        <TextInputNotoSansTC300
-                          style={styles.input}
-                          placeholderTextColor="#9A9A9A" 
-                          placeholder={t("loginPage.placeHolderPass")}
-                          onChangeText={(password) => {
-                            setUserData({email: oldState.email,password})
-                          }}  
-                          onSubmitEditing={sendApiRequest}
-                          secureTextEntry={isPasswordHide}
-                        /> 
-                        <TouchableOpacity onPress={togglePassword} style={{
-                          position: 'absolute',
-                          right: '5%',
-                          bottom: '25%',
-                          elevation: 100,
-                          width: '10%',
-                          marginBottom: 0
-
-                        }}>
-                            <Icon
-                              name={iconPasswordHide}
-                              type="font-awesome"
-                              color="#9A9A9A"
-                            />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    <View style={{
-                      backgroundColor: '#00ffff008',
+                <View style={[{
+                  flex: 1,
+                  alignItems: 'center',
+                }, styles.allContainer]}>
+                  <View style={[styles.header]}>
+                    <TextNotoSansTC700 style={{
+                      fontSize: getScreenValues().width * 0.04,
                     }}>
-                      <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
-                        {!isLoading
-                          ?
-                            <TextNotoSansTC500 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC500>
-                          :             
-                            <View style={[styles.container, styles.center, styles.full]}>
-                              <ActivityIndicator color={"#999999"} size="large" />
-                            </View>
-                        }
-                      </TouchableOpacity>
-                    </View>
+                      {t("headers.name")}
+                    
+                    </TextNotoSansTC700>
+                  </View>
+                  <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
+                    <TextInputNotoSansTC300
+                      returnKeyType={"next"}
+                      // onSubmitEditing={handleNextInput}
+                      blurOnSubmit={false}
+                      placeholderTextColor="#9A9A9A" 
+                      placeholder={t("signupPages.placeHolderName")}
+                      onChangeText={( name) => {
+                        setLocalName(name);
+                      }} 
+                      style={[styles.input]}
+                      value={localName}
+                    />
+                    <TextInputNotoSansTC300
+                      // ref={secondTextInput}
+                      style={[styles.input, styles.marginTop]}
+                      placeholderTextColor="#9A9A9A" 
+                      placeholder={t("loginPage.placeHolderUser")}
+                      onChangeText={(username) => {
+                        setLocalUsername(username)
+                        setIsEmailOK(validadorEmail(username))
+                      }}  
+                      onSubmitEditing={sendApiRequest}
+                    /> 
+                  </View>
+                  <View style={{
+                    backgroundColor: '#00ffff00',
+                  }}>
+                    <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
+                      {!isLoading
+                        ?
+                          <TextNotoSansTC700 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC700>
+                        :             
+                          <View style={[styles.container, styles.center, styles.full]}>
+                            <ActivityIndicator color={"#999999"} size="large" />
+                          </View>
+                      }
+                    </TouchableOpacity>
                   </View>
                 </View>
               </KeyboardAvoidingView>
@@ -206,7 +215,7 @@ const Login = (props) => {
         <TouchableOpacity onPress={handleBack} style={{
           elevation: 101,
           position: 'absolute',
-          left: '2%',
+          left: '0%',
           top: '0%',
           width: '12%'
         }}>
@@ -334,4 +343,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Name);

@@ -1,24 +1,46 @@
 {
     "translation":{
-        "loginPage": {
-            "label": "Insira seu Login",
-            "placeHolderUser": "email",
-            "placeHolderPass": "password",
-            "placeHolderVerifyPass": "Rescrever",
-            "labelCadastrar": "Quero me cadastrar",
-            "labelEsqueciMinhaSenha": "Esqueci minha senha"
-        },
         "common": {
             "nextButton": "Avançar",
             "startButton": "Começar",
             "getButton": "Consultar",
             "logoutButton": "Logout",
             "okButton": "OK",
-            "goBack": "VOLTAR",
-            "confirm": "CONFIRMADO",
-            "tittle": "Killer Hat",
+            "goBack": "Voltar",
+            "confirm": "Confirmado",
+            "title": "Killer Hat",
             "signup": "Sign up",
             "login": "Login" 
+        },
+        "warnings": {
+            "email":{
+                "notValid": "Email não é valido!"
+            },
+            "username": {
+
+            },
+            "name": {
+                "fullName": "Insira seu nome completo"
+            },
+            "login": {
+
+            },
+            "missing": "Prencha todos os campos"
+        },
+        "headers":{
+            "name": "Me conte sobre você",
+            "login": "Insira seu Login"
+        },
+        "loginPage": {
+            "placeHolderUser": "email",
+            "placeHolderPass": "senha",
+            "placeHolderVerifyPass": "Rescrever",
+            "labelEsqueciMinhaSenha": "Esqueci minha senha"
+        },
+        "signupPages": {
+            "placeHolderName": "nome",
+            "placeHolderUser": "usuário"
         }
+        
     }
 }

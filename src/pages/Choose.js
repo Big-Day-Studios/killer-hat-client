@@ -19,6 +19,12 @@ const Choose = (props) => {
   const { navigation, setId, setToken, setName, setUsername, setPassword, setEmail, setFirstTime, setFriends, setItems, setBirthday, setUser} = props;
   const insets = useSafeAreaInsets();
 
+  
+  function handleSignup(){
+    navigation.push('Name');
+    
+  }
+
   function handleLogin() {
       navigation.push('Login');
   }
@@ -26,95 +32,7 @@ const Choose = (props) => {
 
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
-  const [isPasswordHide, setIsPasswordHide] = useState(true)
-  const [iconPasswordHide, setIconPasswordHide] = useState("lock")
   const [isLoading, setIsLoading] = useState(false)
-
-  const [userData, setUserData] = useState(
-    {
-      email: "contato.marcoulakis@gmail.com",
-      password: "12345678",
-    }
-  )
-
-  const oldState = userData;
-
-  const togglePassword = () => {
-    if(isPasswordHide){
-      setIsPasswordHide(false);
-      setIconPasswordHide("unlock")
-    }else{
-      setIsPasswordHide(true);
-      setIconPasswordHide("lock")
-    }
-  }
-
-  const errorPopup = () => {
-      Toast.show({
-        type: 'Danger',
-        title: 'Error',
-        text: msg,
-        timing: 2500,
-        color: '#e74c3c',
-        icon: (
-          <View style={{
-            position: 'absolute',
-            right: '0%',
-            bottom: '0%',
-          }}>
-            <Icon 
-            name="times"
-            type="font-awesome"
-            color="#FFFFFF"
-            size={45}
-            />
-          </View>
-        )
-      })
-      console.log(4444)
-      setMsg()
-  }
-
-  useEffect(() => {
-    if(!!msg){
-      console.log("mggg:  ", msg)
-      errorPopup()
-    }
-  }, [msg])
-
-  const responseVerifier = async () => {
-      if(typeof response === 'object'){
-        if(response.error === true){
-          setMsg(response.msg)
-        }else{
-          setToken(response.token)
-          setId(response.user._id)
-          setEmail(response.user.email)
-          setFirstTime(response.user.first_time)
-          setFriends(response.user.friends)
-          setItems(response.user.items)
-          setBirthday(response.user.birthday)
-          setPassword(response.user.password)
-          setName(response.user.name)
-          setUsername(response.user.username)
-          setUser(response.user)
-        }
-      }
-      setIsLoading(false)
-  }
-  
-  useEffect(() => {
-    responseVerifier();
-  }, [response])
-
-  async function  sendApiRequest(){
-    if(!isLoading){
-      setPassword(userData.password)
-      setEmail(userData.email)
-      setIsLoading(true)
-      await ApiRequest.login(userData, setResponse)
-    }
-  }
 
   return (
     <Root>   
@@ -136,10 +54,10 @@ const Choose = (props) => {
                   alignItems: 'center',
                 }, styles.inputContainer]}>
                   <TextZillaSlabHighlight400 style={[styles.header]}>
-                    Killer Hat
+                    {t("common.title")}
                   </TextZillaSlabHighlight400>
                   <View style={[styles.container, styles.row]}>
-                    <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
+                    <TouchableOpacity style={styles.btnAvancar} onPress={handleSignup}>
                         {!isLoading
                           ?
                             <TextNotoSansTC700 style={styles.txtAvancar}>{t("common.signup")}</TextNotoSansTC700>
