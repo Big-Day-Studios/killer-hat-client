@@ -9,30 +9,29 @@ import { TextInputNotoSansTC300 } from '../../components/fonts/TextInputFonts';
 import { theme } from '../../global/theme';
 import ApiRequest from '../../services/Api';
 import { CapitalizeFirst } from '../../services/CapitalizeFirst'
+import { validadorEmail } from '../../services/validadorEmail';
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Name = (props) => {
+const Email = (props) => {
 
   const {t, i18n} = useTranslation();
 
-  const { navigation, setName, setUsername} = props;
+  const { navigation, setEmail } = props;
   const insets = useSafeAreaInsets();
 
   function handleBack() {
-      navigation.push('Choose');
+      navigation.push('Name');
   }
 
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
-  const [localUsername, setLocalUsername] = useState("")
-  const [isNameOK, setIsNameOK] = useState(false)
-  const [localName, setLocalName] = useState("")
+  const [localVerifyEmail, setLocalVerifyEmail] = useState("")
+  const [isEmailEqual, setIsEmailEqual] = useState(false)
+  const [isEmailOK, setIsEmailOK] = useState(false)
+  const [localEmail, setLocalEmail] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [playCounter, setPlayCounter] = useState(0)
-
-
 
   const errorPopup = () => {
       Toast.show({
@@ -57,7 +56,7 @@ const Name = (props) => {
         )
       })
       console.log(4444)
-      setMsg("")
+      setMsg()
   }
 
   useEffect(() => {
@@ -67,47 +66,29 @@ const Name = (props) => {
     }
   }, [msg])
 
-  
-  async function  saveName(){
-    if(isNameOK !== false){
-      setMsg(undefined)
-      setName(localName);
-    }else{
-      errorPopup();
-    }
-  }
-
   function handleNext() {
-    navigation.push('Email');
+    navigation.push('Password');
   }
 
   const responseVerifier = async () => {
       if(typeof response === 'object'){
         if(response.error === true){
-          setMsg(response.msg)
+          setMsg(response.msg);
         }else{
-          setUsername(response.username)
-          saveName();
+          setEmail(localEmail);
           handleNext();
-
         }
       }
     setIsLoading(false)
   }
 
-  const validador = ( value ) => {
-    console.log(value)
-    if(value){
-      const fullName = value.toLowerCase().trim().split(' ')
-      let fullNameString = ""
-      if(fullName.length > 1){
-          setMsg("")
-          for(let i = 0; i < fullName.length; i++) {
-            fullNameString = fullNameString + CapitalizeFirst(fullName[i].trim()) + " "
-          }
-          setLocalName(fullNameString.trim())
-          setIsNameOK(true)
-      }
+  const validador = (email, verifyEmail) => {
+    console.log(email.trim().toLowerCase() === verifyEmail.trim().toLowerCase())
+    if(email.trim().toLowerCase() === verifyEmail.trim().toLowerCase()){
+      setIsEmailEqual(true)
+    }else{
+      setIsEmailEqual(false)
+
     }
   }
 
@@ -118,14 +99,21 @@ const Name = (props) => {
   async function  sendApiRequest(){
     if(!isLoading){
       setIsLoading(true)
-      if(isNameOK){
-          await ApiRequest.username(localUsername, setResponse)
-      }else if(!localName){
-        setIsNameOK(false)
-        setMsg(t("warnings.missing"))
+      console.log(!!localEmail && !!localVerifyEmail)
+      if(!!localEmail && !!localVerifyEmail){
+        if(isEmailEqual){
+          if(isEmailOK){
+            await ApiRequest.email(localEmail, setResponse)
+          }else{
+            setMsg(t("warnings.email.notValid"))
+            setIsLoading(false)
+          }
+        }else{
+          setMsg(t("warnings.email.notEqual"))
+          setIsLoading(false)
+        }
       }else{
-        setIsNameOK(false)
-        setMsg(t("warnings.name.fullName"))
+        setMsg(t("warnings.missing"))
         setIsLoading(false)
       }
     }
@@ -158,21 +146,21 @@ const Name = (props) => {
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
                     }}>
-                      {t("headers.name")}
+                      {t("headers.email")}
                     
                     </TextNotoSansTC700>
                   </View>
                   <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
                     <TextInputNotoSansTC300
-                      // returnKeyType={"next"}
+                      returnKeyType={"next"}
                       // onSubmitEditing={handleNextInput}
                       blurOnSubmit={false}
                       placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderName")}
-                      onChangeText={( name) => {
-                        setLocalName(name);
-                        validador(name)
-
+                      placeholder={t("signupPages.placeHolderEmail")}
+                      onChangeText={( email) => {
+                        setLocalEmail(email);
+                        setIsEmailOK(validadorEmail(email))
+                        validador(localVerifyEmail, email)
                       }} 
                       style={[styles.input]}
                     />
@@ -180,9 +168,10 @@ const Name = (props) => {
                       // ref={secondTextInput}
                       style={[styles.input, styles.marginTop]}
                       placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderUser")}
-                      onChangeText={(username) => {
-                        setLocalUsername(username)
+                      placeholder={t("signupPages.placeHolderVerifyEmail")}
+                      onChangeText={(verifyEmail) => {
+                        setLocalVerifyEmail(verifyEmail)
+                        validador(localEmail, verifyEmail)
                       }}  
                       onSubmitEditing={sendApiRequest}
                     /> 
@@ -318,9 +307,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
-    setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
+    setEmail: (email) => dispatch({ type: 'SET_EMAIL', payload: { email } }),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Name);
+export default connect(mapStateToProps, mapDispatchToProps)(Email);

@@ -4,35 +4,43 @@ import { useTranslation } from 'react-i18next';
 import { ActivityIndicator, Dimensions, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, StyleSheet, TouchableOpacity, View, Platform } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextNotoSansTC700 } from '../../components/fonts/TextFonts';
-import { TextInputNotoSansTC300 } from '../../components/fonts/TextInputFonts';
+import { TextNotoSansTC300 ,TextNotoSansTC700 } from '../../components/fonts/TextFonts';
 import { theme } from '../../global/theme';
 import ApiRequest from '../../services/Api';
-import { CapitalizeFirst } from '../../services/CapitalizeFirst'
+import DatePicker from 'react-native-datepicker';
+import moment from 'moment';
+import { RadioButton } from 'react-native-paper';
+import * as Linking from 'expo-linking';
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Name = (props) => {
+const Birthday = (props) => {
 
   const {t, i18n} = useTranslation();
 
-  const { navigation, setName, setUsername} = props;
+  const { navigation,  name,  email, password, username , birthday, setId, setToken, setName, setUsername, setPassword, setEmail, setFirstTime, setFriends, setItems, setBirthday, setUser} = props;
   const insets = useSafeAreaInsets();
 
   function handleBack() {
-      navigation.push('Choose');
+      navigation.push('Password');
   }
+
 
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
-  const [localUsername, setLocalUsername] = useState("")
-  const [isNameOK, setIsNameOK] = useState(false)
-  const [localName, setLocalName] = useState("")
+  const [localBirthday, setLocalBirthday] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [playCounter, setPlayCounter] = useState(0)
+  const [checked, setChecked] = useState(false)
 
-
+  const data = { 
+    name, 
+    email,
+    password,
+    response,
+    username,
+    birthday: localBirthday
+  }
 
   const errorPopup = () => {
       Toast.show({
@@ -57,7 +65,15 @@ const Name = (props) => {
         )
       })
       console.log(4444)
-      setMsg("")
+      setMsg()
+  }
+
+  const tof = () => {
+    Linking.openURL("https://fervent-golick-51068a.netlify.app/")
+  }
+
+  const pp = () => {
+    Linking.openURL("https://inspiring-agnesi-993825.netlify.app/")
   }
 
   useEffect(() => {
@@ -67,49 +83,22 @@ const Name = (props) => {
     }
   }, [msg])
 
-  
-  async function  saveName(){
-    if(isNameOK !== false){
-      setMsg(undefined)
-      setName(localName);
-    }else{
-      errorPopup();
-    }
-  }
-
   function handleNext() {
-    navigation.push('Email');
+    navigation.push('Choose');
   }
 
   const responseVerifier = async () => {
       if(typeof response === 'object'){
         if(response.error === true){
-          setMsg(response.msg)
+          setMsg(response.msg);
         }else{
-          setUsername(response.username)
-          saveName();
+          setBirthday(localBirthday);
           handleNext();
-
         }
       }
     setIsLoading(false)
   }
 
-  const validador = ( value ) => {
-    console.log(value)
-    if(value){
-      const fullName = value.toLowerCase().trim().split(' ')
-      let fullNameString = ""
-      if(fullName.length > 1){
-          setMsg("")
-          for(let i = 0; i < fullName.length; i++) {
-            fullNameString = fullNameString + CapitalizeFirst(fullName[i].trim()) + " "
-          }
-          setLocalName(fullNameString.trim())
-          setIsNameOK(true)
-      }
-    }
-  }
 
   useEffect(() => {
     responseVerifier();
@@ -118,24 +107,21 @@ const Name = (props) => {
   async function  sendApiRequest(){
     if(!isLoading){
       setIsLoading(true)
-      if(isNameOK){
-          await ApiRequest.username(localUsername, setResponse)
-      }else if(!localName){
-        setIsNameOK(false)
-        setMsg(t("warnings.missing"))
+      console.log(!!localBirthday)
+      if(!!localBirthday){
+        if(!!checked){
+          await ApiRequest.signup(data, setResponse)
+        }else{
+          setMsg(t("warnings.acceptTerms"))
+          setIsLoading(false)
+        }
+
       }else{
-        setIsNameOK(false)
-        setMsg(t("warnings.name.fullName"))
+        setMsg(t("warnings.missing"))
         setIsLoading(false)
       }
     }
   }
-
-  // const secondTextInput = useRef(null);
-
-  // function handleNextInput() {
-  //   secondTextInput.current.focus();
-  // }
 
   return (
     <Root>   
@@ -158,34 +144,50 @@ const Name = (props) => {
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
                     }}>
-                      {t("headers.name")}
+                      {t("headers.birthday")}
                     
                     </TextNotoSansTC700>
                   </View>
                   <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
-                    <TextInputNotoSansTC300
-                      // returnKeyType={"next"}
-                      // onSubmitEditing={handleNextInput}
+                    <DatePicker
+                      showIcon={false}
+                      mode="date"
+                      placeholder={t("signupPages.placeHolderBirthday")}
+                      format={t("signupPages.placeHolderBirthday")}
+                      maxDate={moment().subtract(13, 'years').format(t("signupPages.placeHolderBirthday"))}
                       blurOnSubmit={false}
+                      date={localBirthday}
                       placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderName")}
-                      onChangeText={( name) => {
-                        setLocalName(name);
-                        validador(name)
-
-                      }} 
+                      placeholder={t("signupPages.placeHolderBirthday")}
+                      onDateChange={(birthday) => {
+                        setLocalBirthday(birthday);
+                      }}
+                      customStyles={{
+                        dateInput: {
+                          borderWidth: 0,
+                          alignItems: "center",
+                          justifyContent: "center",
+                          textAlign: "center",
+                          fontSize: getScreenValues().width * 0.027,
+                        },
+                      }}
                       style={[styles.input]}
                     />
-                    <TextInputNotoSansTC300
-                      // ref={secondTextInput}
-                      style={[styles.input, styles.marginTop]}
-                      placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderUser")}
-                      onChangeText={(username) => {
-                        setLocalUsername(username)
-                      }}  
-                      onSubmitEditing={sendApiRequest}
-                    /> 
+                  </View>
+                  <View>
+                    <TouchableOpacity onPress={() => {if(checked){setChecked(false)}else{setChecked(false)}}} style={styles.item}>
+                        <RadioButton.Android  
+                          onPress={() => {if(checked){setChecked(false)}else{setChecked(true)}}}
+                          value={checked} 
+                          status={ checked ? 'checked' : 'unchecked' } 
+                          color="#27AE60" 
+                          uncheckedColor="#9A9A9A"
+                        />
+                        <TextNotoSansTC300>{t("common.termsAndPolicy.1")}</TextNotoSansTC300>
+                        <TouchableOpacity  onPress={tof}><TextNotoSansTC300 style={{color: "#3A1FA8"}}>{t("common.termsAndPolicy.2")}</TextNotoSansTC300></TouchableOpacity>
+                        <TextNotoSansTC300>{t("common.termsAndPolicy.3")}</TextNotoSansTC300>
+                        <TouchableOpacity onPress={pp}><TextNotoSansTC300 style={{color: "#3A1FA8"}}>{t("common.termsAndPolicy.4")}</TextNotoSansTC300></TouchableOpacity>
+                      </TouchableOpacity>
                   </View>
                   <View style={{
                     backgroundColor: '#00ffff00',
@@ -265,6 +267,12 @@ const styles = StyleSheet.create({
     height: getScreenValues().height,
     width: getScreenValues().width,
   },
+  item:{
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: getScreenValues().height * 0.03,
+  },
   inputContainer:{
     backgroundColor: '#ff00ff00',
     marginBottom: getScreenValues().height * 0.05  },
@@ -277,8 +285,6 @@ const styles = StyleSheet.create({
   input: {
     width: getScreenValues().width * 0.46,
     height: getScreenValues().height * 0.13,
-    paddingLeft: getScreenValues().width * 0.03,
-    paddingTop: getScreenValues().height * 0.0158,
     borderRadius: 1000,
     fontSize: getScreenValues().width * 0.027,
     borderColor: '#000',
@@ -313,14 +319,31 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    name : state.authReducer.name,
+    email: state.authReducer.email,
+    password: state.authReducer.password,
+    response: state.authReducer.response,
+    username : state.authReducer.username,
+    birthday : state.authReducer.birthday,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
+    setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
     setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
     setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
+    setPassword: (password) => dispatch({ type: 'SET_PASSWORD', payload: { password } }),
+    setBirthday: (email) => dispatch({ type: 'SET_EMAIL', payload: { email } }),
+    setFirstTime: (firstTime) => dispatch({ type: 'SET_FIRST_TIME', payload: { firstTime }}),
+    setFriends: (friends) => dispatch({ type: 'SET_FRIENDS', payload: { friends }}),
+    setItems: (items) => dispatch({ type: 'SET_ITEMS', payload: { items }}),
+    setBirthday: (birthday) => dispatch({ type: 'SET_BIRTHDAY', payload: { birthday } }),
+    setUser: (user) => dispatch({ type: 'SET_USER', payload: { user } }),
+    // setFoto: (foto) => dispatch({ type: 'SET_FOTO', payload: { foto } }),
+    setResponse: (response) => dispatch({ type: 'SET_RESPONSE', payload: { response } }),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Name);
+export default connect(mapStateToProps, mapDispatchToProps)(Birthday);

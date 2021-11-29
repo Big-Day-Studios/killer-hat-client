@@ -10,11 +10,18 @@
             "confirm": "Confirm",
             "title": "Killer Hat",
             "signup": "Sign up",
-            "login": "Login" 
+            "login": "Login",
+            "termsAndPolicy": {
+                "1": "I accept the",
+                "2": " Terms of Use ",
+                "3": "and",
+                "4": " Privacy Policy "
+            }
         },
         "warnings": {
             "email":{
-                "notValid": "Email is not valid!"
+                "notValid": "Email is not valid!",
+                "notEqual": "The both emails are not equal!"
             },
             "username": {
 
@@ -22,14 +29,23 @@
             "name": {
                 "fullName": "Insert your full name"
             },
+            "password": {
+                "notValid": "The password must be at least 8 digits long with 1 number and 1 letter!",
+                "notEqual": "The both passwords are not equal!"
+            },
             "login": {
 
             },
-            "missing": "Fill all missing fields"
+            "missing": "Fill all missing fields",
+            "acceptTerms": "You must accept the Terms of Use and Privacy Policies!"
         },
         "headers":{
             "name": "Tell me about you",
+            "email": "Now put your email",
+            "password": "Here you'll put your password",
+            "birthday": "And Lastly, tell us your birthday",
             "login": "Enter your login"
+
         },
         "loginPage": {
             "placeHolderUser": "email",
@@ -39,7 +55,13 @@
         },
         "signupPages": {
             "placeHolderName": "name",
-            "placeHolderUser": "username"
+            "placeHolderUser": "username",
+            "placeHolderEmail": "email",
+            "placeHolderVerifyEmail": "verify email",
+            "placeHolderPass": "password",
+            "placeHolderVerifyPass": "verify pass",
+            "placeHolderBirthday": "MM/DD/YYYY"
+
         }
 
     }

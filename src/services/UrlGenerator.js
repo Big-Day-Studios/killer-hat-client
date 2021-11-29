@@ -27,6 +27,14 @@ const UrlGenerator =  {
         console.log(url + config.email_path)
         return url + config.email_path;
     },
+    async signup(){
+        let url = "";
+        if(Platform.OS !== 'web' ){
+            url = config.protocol + "://" + config.host
+        }
+        console.log(url + config.signup_path)
+        return url + config.signup_path;
+    },
 }
 
 export default UrlGenerator;

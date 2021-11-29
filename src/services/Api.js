@@ -3,7 +3,6 @@ import UrlGenerator from './UrlGenerator';
 const publicIp = require('public-ip');
 
 const ApiRequest =  {
-
     async login(userData, setResponse){ 
         const {email, password} = userData;
 
@@ -26,8 +25,7 @@ const ApiRequest =  {
                     setResponse({error:true, msg: "Something went wrong. Please try again later."});
                 }
             });
-    },  
-    
+    },
     async username(username, setResponse){ 
 
             const IPv4 = await publicIp.v4();
@@ -48,7 +46,6 @@ const ApiRequest =  {
                 }
             });
     },
-        
     async email(email, setResponse){ 
 
         const IPv4 = await publicIp.v4();
@@ -68,7 +65,34 @@ const ApiRequest =  {
                 setResponse({error:true, msg: "Something went wrong. Please try again later."});
             }
         });
-}
+    },
+    async signup(data, setResponse){ 
+        
+        const { name, username, email, password, birthday } = data;
+        
+        const IPv4 = await publicIp.v4();
+        const uri = await UrlGenerator.signup();
+        axios.post(uri, 
+        {
+            name : name,
+            username : username,
+            email : email,
+            password : password,
+            birthday : birthday,
+            ip_address : IPv4
+        }).then((response) => {
+            console.log(response.data);  
+            setResponse(response.data)
+        }).catch(error =>{
+            if(error.response.status === 400){
+                console.log(error.response.data);  
+                setResponse(error.response.data) 
+            }else{
+                console.log({error:true, msg: "Something went wrong. Please try again later."})
+                setResponse({error:true, msg: "Something went wrong. Please try again later."});
+            }
+        });
+    }
 }
 
 export default ApiRequest;

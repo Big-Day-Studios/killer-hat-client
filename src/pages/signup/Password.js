@@ -13,26 +13,35 @@ import { CapitalizeFirst } from '../../services/CapitalizeFirst'
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Name = (props) => {
+const Password = (props) => {
 
   const {t, i18n} = useTranslation();
 
-  const { navigation, setName, setUsername} = props;
+  const { navigation, setPassword } = props;
   const insets = useSafeAreaInsets();
 
   function handleBack() {
-      navigation.push('Choose');
+      navigation.push('Email');
   }
 
   const [msg, setMsg] = useState()
-  const [response, setResponse] = useState()
-  const [localUsername, setLocalUsername] = useState("")
-  const [isNameOK, setIsNameOK] = useState(false)
-  const [localName, setLocalName] = useState("")
+  const [localVerifyPassword, setLocalVerifyPassword] = useState("")
+  const [isPasswordEqual, setIsPasswordEqual] = useState(false)
+  const [isPasswordOK, setIsPasswordOK] = useState(true)
+  const [isPasswordHide, setIsPasswordHide] = useState(true)
+  const [iconPasswordHide, setIconPasswordHide] = useState("lock")
+  const [localPassword, setLocalPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
-  const [playCounter, setPlayCounter] = useState(0)
 
-
+  const togglePassword = () => {
+    if(isPasswordHide){
+      setIsPasswordHide(false);
+      setIconPasswordHide("unlock")
+    }else{
+      setIsPasswordHide(true);
+      setIconPasswordHide("lock")
+    }
+  }
 
   const errorPopup = () => {
       Toast.show({
@@ -57,7 +66,7 @@ const Name = (props) => {
         )
       })
       console.log(4444)
-      setMsg("")
+      setMsg()
   }
 
   useEffect(() => {
@@ -67,75 +76,47 @@ const Name = (props) => {
     }
   }, [msg])
 
-  
-  async function  saveName(){
-    if(isNameOK !== false){
-      setMsg(undefined)
-      setName(localName);
-    }else{
-      errorPopup();
-    }
-  }
-
   function handleNext() {
-    navigation.push('Email');
+    navigation.push('Birthday');
   }
 
-  const responseVerifier = async () => {
-      if(typeof response === 'object'){
-        if(response.error === true){
-          setMsg(response.msg)
-        }else{
-          setUsername(response.username)
-          saveName();
-          handleNext();
-
-        }
-      }
-    setIsLoading(false)
+  const everythingIsOk = async () => {
+    setPassword(localPassword);
+    handleNext();
   }
 
-  const validador = ( value ) => {
-    console.log(value)
-    if(value){
-      const fullName = value.toLowerCase().trim().split(' ')
-      let fullNameString = ""
-      if(fullName.length > 1){
-          setMsg("")
-          for(let i = 0; i < fullName.length; i++) {
-            fullNameString = fullNameString + CapitalizeFirst(fullName[i].trim()) + " "
-          }
-          setLocalName(fullNameString.trim())
-          setIsNameOK(true)
-      }
+  const validador = (password, verifyPassword) => {
+    console.log(password.trim().toLowerCase() === verifyPassword.trim().toLowerCase())
+    if(password.trim().toLowerCase() === verifyPassword.trim().toLowerCase()){
+      setIsPasswordEqual(true)
+    }else{
+      setIsPasswordEqual(false)
+
     }
   }
-
-  useEffect(() => {
-    responseVerifier();
-  }, [response])
 
   async function  sendApiRequest(){
     if(!isLoading){
       setIsLoading(true)
-      if(isNameOK){
-          await ApiRequest.username(localUsername, setResponse)
-      }else if(!localName){
-        setIsNameOK(false)
-        setMsg(t("warnings.missing"))
+      console.log(!!localPassword && !!localVerifyPassword)
+      if(!!localPassword && !!localVerifyPassword){
+        if(isPasswordEqual){
+          if(isPasswordOK){
+            everythingIsOk()
+          }else{
+            setMsg(t("warnings.password.notValid"))
+            setIsLoading(false)
+          }
+        }else{
+          setMsg(t("warnings.password.notEqual"))
+          setIsLoading(false)
+        }
       }else{
-        setIsNameOK(false)
-        setMsg(t("warnings.name.fullName"))
+        setMsg(t("warnings.missing"))
         setIsLoading(false)
       }
     }
   }
-
-  // const secondTextInput = useRef(null);
-
-  // function handleNextInput() {
-  //   secondTextInput.current.focus();
-  // }
 
   return (
     <Root>   
@@ -158,34 +139,70 @@ const Name = (props) => {
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
                     }}>
-                      {t("headers.name")}
+                      {t("headers.password")}
                     
                     </TextNotoSansTC700>
                   </View>
                   <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
-                    <TextInputNotoSansTC300
-                      // returnKeyType={"next"}
-                      // onSubmitEditing={handleNextInput}
-                      blurOnSubmit={false}
-                      placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderName")}
-                      onChangeText={( name) => {
-                        setLocalName(name);
-                        validador(name)
+                      <View>
+                        <TextInputNotoSansTC300
+                          returnKeyType={"next"}
+                          // onSubmitEditing={handleNextInput}
+                          blurOnSubmit={false}
+                          placeholderTextColor="#9A9A9A" 
+                          placeholder={t("signupPages.placeHolderPass")}
+                          onChangeText={( password) => {
+                            setLocalPassword(password);
+                            // setIsPasswordOK(validadorPassword(password))
+                            validador(localVerifyPassword, password)
+                          }} 
+                          style={[styles.input]}
+                          secureTextEntry={isPasswordHide}
+                        /> 
+                        <TouchableOpacity onPress={togglePassword} style={{
+                          position: 'absolute',
+                          right: '5%',
+                          bottom: '25%',
+                          elevation: 100,
+                          width: '10%',
+                          marginBottom: 0
 
-                      }} 
-                      style={[styles.input]}
-                    />
-                    <TextInputNotoSansTC300
-                      // ref={secondTextInput}
-                      style={[styles.input, styles.marginTop]}
-                      placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderUser")}
-                      onChangeText={(username) => {
-                        setLocalUsername(username)
-                      }}  
-                      onSubmitEditing={sendApiRequest}
-                    /> 
+                        }}>
+                            <Icon
+                              name={iconPasswordHide}
+                              type="font-awesome"
+                              color="#9A9A9A"
+                            />
+                        </TouchableOpacity>
+                      </View>
+                     <View style={styles.marginTop}>
+                        <TextInputNotoSansTC300
+                          placeholderTextColor="#9A9A9A" 
+                          placeholder={t("signupPages.placeHolderVerifyPass")}
+                          onChangeText={(verifyPassword) => {
+                            setLocalVerifyPassword(verifyPassword)
+                            validador(localPassword, verifyPassword)
+                          }}  
+                          onSubmitEditing={sendApiRequest}
+                          secureTextEntry={isPasswordHide}
+                          style={[styles.input]}
+                        /> 
+                        <TouchableOpacity onPress={togglePassword} style={{
+                          position: 'absolute',
+                          right: '5%',
+                          bottom: '25%',
+                          elevation: 100,
+                          width: '10%',
+                          marginBottom: 0
+
+                        }}>
+                            <Icon
+                              name={iconPasswordHide}
+                              type="font-awesome"
+                              color="#9A9A9A"
+                            />
+                        </TouchableOpacity>
+                      </View>
                   </View>
                   <View style={{
                     backgroundColor: '#00ffff00',
@@ -318,9 +335,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
-    setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
+    setPassword: (password) => dispatch({ type: 'SET_PASSWORD', payload: { password } }),
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Name);
+export default connect(mapStateToProps, mapDispatchToProps)(Password);

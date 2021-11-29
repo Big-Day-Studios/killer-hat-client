@@ -10,25 +10,40 @@
             "confirm": "Confirmado",
             "title": "Killer Hat",
             "signup": "Sign up",
-            "login": "Login" 
+            "login": "Login",
+            "termsAndPolicy": {
+                "1": "Eu aceito os ",
+                "2": " Termos de Uso ",
+                "3": "e as",
+                "4": " Políticas de Privacidade "
+            }
         },
         "warnings": {
             "email":{
-                "notValid": "Email não é valido!"
+                "notValid": "Email não é valido!",
+                "notEqual": "Os emails inseridos são diferentes!"
             },
             "username": {
 
             },
             "name": {
-                "fullName": "Insira seu nome completo"
+                "fullName": "Insira seu nome completo!"
+            },
+            "password": {
+                "notValid": "A senha tem que ter no mínimo 8 digitos com 1 número e 1 letra!",
+                "notEqual": "As senhas inseridas são diferentes!"
             },
             "login": {
 
             },
-            "missing": "Prencha todos os campos"
+            "missing": "Prencha todos os campos!",
+            "acceptTerms": "Você precisa aceitar os Termos de Uso e as Politicas de Privacidade!"
         },
         "headers":{
             "name": "Me conte sobre você",
+            "email": "Prencha com seu email",
+            "password": "Aqui, você coloca a senha",
+            "birthday": "E por último, diga seu aniversário",
             "login": "Insira seu Login"
         },
         "loginPage": {
@@ -39,7 +54,13 @@
         },
         "signupPages": {
             "placeHolderName": "nome",
-            "placeHolderUser": "usuário"
+            "placeHolderUser": "usuário",
+            "placeHolderEmail": "email",
+            "placeHolderVerifyEmail": "verificar email",
+            "placeHolderPass": "senha",
+            "placeHolderVerifyPass": "verificar senha",
+            "placeHolderBirthday": "DD/MM/YYYY"
+
         }
         
     }
