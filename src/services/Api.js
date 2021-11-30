@@ -92,6 +92,26 @@ const ApiRequest =  {
                 setResponse({error:true, msg: "Something went wrong. Please try again later."});
             }
         });
+    },
+    async code(code, email, setResponse){ 
+        
+        const uri = await UrlGenerator.code();
+        axios.post(uri, 
+        {
+            email: email,
+            code: code,
+        }).then((response) => {
+            console.log(response.data.response);  
+            setResponse(response.data.response)
+        }).catch(error =>{
+            if(error.response.status === 400){
+                console.log(error.response.data.response);  
+                setResponse(error.response.data.response) 
+            }else{
+                console.log({error:true, msg: "Something went wrong. Please try again later."})
+                setResponse({error:true, msg: "Something went wrong. Please try again later."});
+            }
+        });
     }
 }
 

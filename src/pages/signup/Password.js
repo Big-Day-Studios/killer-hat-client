@@ -9,6 +9,7 @@ import { TextInputNotoSansTC300 } from '../../components/fonts/TextInputFonts';
 import { theme } from '../../global/theme';
 import ApiRequest from '../../services/Api';
 import { CapitalizeFirst } from '../../services/CapitalizeFirst'
+import colors from "../../colors.json"
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
@@ -138,6 +139,7 @@ const Password = (props) => {
                   <View style={[styles.header]}>
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
+                      color: colors.textPrimaryColor
                     }}>
                       {t("headers.password")}
                     
@@ -231,13 +233,13 @@ const Password = (props) => {
           width: '12%'
         }}>
           <View >
-            <Icon
+          <Icon
               name={"angle-left"}
               type="font-awesome"
-              color="#282828"
+              color={colors.itemsPrimaryColor}
               size={100}
               style={{ borderRadius:50,   
-              shadowColor: "#000",
+              shadowColor: colors.itemsPrimaryColor,
               shadowOpacity: 0.27,
               shadowRadius: 0,}}
             />
@@ -263,12 +265,14 @@ const  getScreenValues = () => {
     }
   }
 }
+
 const styles = StyleSheet.create({
   marginTop:{
     marginTop: 18
   },
   container: {
     flex: 1,
+    backgroundColor: colors.backgroundPrimaryColor
   },
   center: {
     flex: 1,
@@ -304,7 +308,7 @@ const styles = StyleSheet.create({
     color: '#222222',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: "#000",
+    shadowColor: colors.itemsPrimaryColor,
     shadowOpacity: 0.27,
     shadowRadius: 0.25,
     shadowOffset: {
@@ -316,12 +320,12 @@ const styles = StyleSheet.create({
   },
   txtAvancar: {
     fontSize: getScreenValues().width * 0.036,
-    color: '#ffffff' 
+    color: colors.textPrimaryColor 
   },
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#27AE60',
+    backgroundColor: colors.buttonPrimaryColor,
     borderRadius: 1000,
     height: getScreenValues().height * 0.15,
     width: getScreenValues().width * 0.2,

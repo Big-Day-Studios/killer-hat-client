@@ -11,6 +11,7 @@ import DatePicker from 'react-native-datepicker';
 import moment from 'moment';
 import { RadioButton } from 'react-native-paper';
 import * as Linking from 'expo-linking';
+import colors from "../../colors.json"
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
@@ -32,6 +33,7 @@ const Birthday = (props) => {
   const [localBirthday, setLocalBirthday] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [checked, setChecked] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const data = { 
     name, 
@@ -143,25 +145,23 @@ const Birthday = (props) => {
                   <View style={[styles.header]}>
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
+                      color: colors.textPrimaryColor
                     }}>
                       {t("headers.birthday")}
                     
                     </TextNotoSansTC700>
                   </View>
-                  <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
+                  <TouchableOpacity onPress={() => setOpen(true)} style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
                     <DatePicker
-                      showIcon={false}
+                      showIcon={false} 
+                      style={[styles.input]}
+                      date={localBirthday}
                       mode="date"
                       placeholder={t("signupPages.placeHolderBirthday")}
                       format={t("signupPages.placeHolderBirthday")}
                       maxDate={moment().subtract(13, 'years').format(t("signupPages.placeHolderBirthday"))}
-                      blurOnSubmit={false}
-                      date={localBirthday}
-                      placeholderTextColor="#9A9A9A" 
-                      placeholder={t("signupPages.placeHolderBirthday")}
-                      onDateChange={(birthday) => {
-                        setLocalBirthday(birthday);
-                      }}
+                      confirmBtnText="OK"
+                      cancelBtnText="Cancel"
                       customStyles={{
                         dateInput: {
                           borderWidth: 0,
@@ -171,9 +171,20 @@ const Birthday = (props) => {
                           fontSize: getScreenValues().width * 0.027,
                         },
                       }}
-                      style={[styles.input]}
+                      onDateChange={(birthday) => {
+                        setLocalBirthday(birthday);
+                      }}
+                      placeholderTextColor="#9A9A9A"
+
+                      onConfirm={(birthday) => {
+                        setLocalBirthday(birthday);
+                        setOpen(false)
+                      }}
+                      onCancel={() => {
+                        setOpen(false)
+                      }}
                     />
-                  </View>
+                  </TouchableOpacity>
                   <View>
                     <TouchableOpacity onPress={() => {if(checked){setChecked(false)}else{setChecked(false)}}} style={styles.item}>
                         <RadioButton.Android  
@@ -181,12 +192,12 @@ const Birthday = (props) => {
                           value={checked} 
                           status={ checked ? 'checked' : 'unchecked' } 
                           color="#27AE60" 
-                          uncheckedColor="#9A9A9A"
+                          uncheckedColor={colors.itemsPrimaryColor}
                         />
-                        <TextNotoSansTC300>{t("common.termsAndPolicy.1")}</TextNotoSansTC300>
-                        <TouchableOpacity  onPress={tof}><TextNotoSansTC300 style={{color: "#3A1FA8"}}>{t("common.termsAndPolicy.2")}</TextNotoSansTC300></TouchableOpacity>
-                        <TextNotoSansTC300>{t("common.termsAndPolicy.3")}</TextNotoSansTC300>
-                        <TouchableOpacity onPress={pp}><TextNotoSansTC300 style={{color: "#3A1FA8"}}>{t("common.termsAndPolicy.4")}</TextNotoSansTC300></TouchableOpacity>
+                        <TextNotoSansTC300 style={{color: colors.itemsPrimaryColor}}>{t("common.termsAndPolicy.1")}</TextNotoSansTC300>
+                        <TouchableOpacity  onPress={tof}><TextNotoSansTC300 style={{color: "#5029f0"}}>{t("common.termsAndPolicy.2")}</TextNotoSansTC300></TouchableOpacity>
+                        <TextNotoSansTC300 style={{color: colors.itemsPrimaryColor}}>{t("common.termsAndPolicy.3")}</TextNotoSansTC300>
+                        <TouchableOpacity onPress={pp}><TextNotoSansTC300 style={{color: "#5029f0"}}>{t("common.termsAndPolicy.4")}</TextNotoSansTC300></TouchableOpacity>
                       </TouchableOpacity>
                   </View>
                   <View style={{
@@ -219,7 +230,7 @@ const Birthday = (props) => {
             <Icon
               name={"angle-left"}
               type="font-awesome"
-              color="#282828"
+              color={colors.itemsPrimaryColor}
               size={100}
               style={{ borderRadius:50,   
               shadowColor: "#000",
@@ -254,6 +265,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: colors.backgroundPrimaryColor
   },
   center: {
     flex: 1,
@@ -293,7 +305,7 @@ const styles = StyleSheet.create({
     color: '#222222',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: "#000",
+    shadowColor: colors.itemsPrimaryColor,
     shadowOpacity: 0.27,
     shadowRadius: 0.25,
     shadowOffset: {
@@ -310,7 +322,7 @@ const styles = StyleSheet.create({
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#27AE60',
+    backgroundColor: colors.buttonPrimaryColor,
     borderRadius: 1000,
     height: getScreenValues().height * 0.15,
     width: getScreenValues().width * 0.2,

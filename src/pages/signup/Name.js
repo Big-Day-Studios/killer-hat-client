@@ -9,6 +9,7 @@ import { TextInputNotoSansTC300 } from '../../components/fonts/TextInputFonts';
 import { theme } from '../../global/theme';
 import ApiRequest from '../../services/Api';
 import { CapitalizeFirst } from '../../services/CapitalizeFirst'
+import colors from "../../colors.json"
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
@@ -17,7 +18,7 @@ const Name = (props) => {
 
   const {t, i18n} = useTranslation();
 
-  const { navigation, setName, setUsername} = props;
+  const { navigation, setName, setUsername, name, username} = props;
   const insets = useSafeAreaInsets();
 
   function handleBack() {
@@ -26,9 +27,7 @@ const Name = (props) => {
 
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
-  const [localUsername, setLocalUsername] = useState("")
   const [isNameOK, setIsNameOK] = useState(false)
-  const [localName, setLocalName] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [playCounter, setPlayCounter] = useState(0)
 
@@ -71,7 +70,7 @@ const Name = (props) => {
   async function  saveName(){
     if(isNameOK !== false){
       setMsg(undefined)
-      setName(localName);
+      setName(name);
     }else{
       errorPopup();
     }
@@ -105,11 +104,17 @@ const Name = (props) => {
           for(let i = 0; i < fullName.length; i++) {
             fullNameString = fullNameString + CapitalizeFirst(fullName[i].trim()) + " "
           }
-          setLocalName(fullNameString.trim())
+          setName(fullNameString.trim())
           setIsNameOK(true)
+      }else{
+        setIsNameOK(false)
       }
     }
   }
+
+  useEffect(() => {
+    validador(name);
+  }, [name])
 
   useEffect(() => {
     responseVerifier();
@@ -119,10 +124,11 @@ const Name = (props) => {
     if(!isLoading){
       setIsLoading(true)
       if(isNameOK){
-          await ApiRequest.username(localUsername, setResponse)
-      }else if(!localName){
+          await ApiRequest.username(username, setResponse)
+      }else if(!name){
         setIsNameOK(false)
         setMsg(t("warnings.missing"))
+        setIsLoading(false)
       }else{
         setIsNameOK(false)
         setMsg(t("warnings.name.fullName"))
@@ -157,6 +163,7 @@ const Name = (props) => {
                   <View style={[styles.header]}>
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
+                      color: colors.textPrimaryColor
                     }}>
                       {t("headers.name")}
                     
@@ -165,16 +172,14 @@ const Name = (props) => {
                   <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
                     <TextInputNotoSansTC300
                       // returnKeyType={"next"}
-                      // onSubmitEditing={handleNextInput}
                       blurOnSubmit={false}
                       placeholderTextColor="#9A9A9A" 
                       placeholder={t("signupPages.placeHolderName")}
-                      onChangeText={( name) => {
-                        setLocalName(name);
-                        validador(name)
-
+                      onChangeText={(name) => {
+                        setName(name);
                       }} 
                       style={[styles.input]}
+                      value={name}
                     />
                     <TextInputNotoSansTC300
                       // ref={secondTextInput}
@@ -182,9 +187,13 @@ const Name = (props) => {
                       placeholderTextColor="#9A9A9A" 
                       placeholder={t("signupPages.placeHolderUser")}
                       onChangeText={(username) => {
-                        setLocalUsername(username)
+                        setUsername(username)
                       }}  
-                      onSubmitEditing={sendApiRequest}
+                      value={username}
+                      onSubmitEditing={(username) => {
+                        setUsername(username)
+                        sendApiRequest()
+                      }}
                     /> 
                   </View>
                   <View style={{
@@ -217,10 +226,10 @@ const Name = (props) => {
             <Icon
               name={"angle-left"}
               type="font-awesome"
-              color="#282828"
+              color={colors.itemsPrimaryColor}
               size={100}
               style={{ borderRadius:50,   
-              shadowColor: "#000",
+              shadowColor: colors.itemsPrimaryColor,
               shadowOpacity: 0.27,
               shadowRadius: 0,}}
             />
@@ -252,6 +261,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: colors.backgroundPrimaryColor
   },
   center: {
     flex: 1,
@@ -287,7 +297,7 @@ const styles = StyleSheet.create({
     color: '#222222',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: "#000",
+    shadowColor: colors.itemsPrimaryColor,
     shadowOpacity: 0.27,
     shadowRadius: 0.25,
     shadowOffset: {
@@ -299,12 +309,12 @@ const styles = StyleSheet.create({
   },
   txtAvancar: {
     fontSize: getScreenValues().width * 0.036,
-    color: '#ffffff' 
+    color: colors.textPrimaryColor 
   },
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#27AE60',
+    backgroundColor: colors.buttonPrimaryColor,
     borderRadius: 1000,
     height: getScreenValues().height * 0.15,
     width: getScreenValues().width * 0.2,
@@ -313,6 +323,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = (state) => {
   return {
+    name: state.authReducer.name,
+    username: state.authReducer.username
   }
 }
 

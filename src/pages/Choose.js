@@ -7,6 +7,7 @@ import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react
 import { TextZillaSlabHighlight400, TextNotoSansTC700 } from '../components/fonts/TextFonts';
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
+import colors from "../colors.json"
 
 
 /* Redux and AsyncStorage */
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: colors.backgroundPrimaryColor
   },
   row: {
     flexDirection: 'row',
@@ -120,7 +122,7 @@ const styles = StyleSheet.create({
   header:{
     fontSize: getScreenValues().width * 0.09,
     marginTop: getScreenValues().height * 0.05,
-    color: "#282828"
+    color: colors.itemsPrimaryColor
   },
   full: {
     height: '100%',
@@ -149,7 +151,7 @@ const styles = StyleSheet.create({
     color: '#222222',
     marginTop: 0, 
     marginBottom: 0,
-    shadowColor: "#000",
+    shadowColor: colors.itemsPrimaryColor,
     shadowOpacity: 0.27,
     shadowRadius: 0.25,
     shadowOffset: {
@@ -160,12 +162,12 @@ const styles = StyleSheet.create({
   },
   txtAvancar: {
     fontSize:  getScreenValues().width * 0.034,
-    color: '#fff' 
+    color: colors.textPrimaryColor 
   },
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#27AE60',
+    backgroundColor: colors.buttonPrimaryColor,
     borderRadius: 100,
     height: getScreenValues().height * 0.13,
     width: getScreenValues().width * 0.17,

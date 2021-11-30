@@ -4,7 +4,7 @@
     "login_path": "/auth/login",
     "username_path": "/auth/username",
     "email_path": "/auth/email",
-    "signup_path": "/auth/register"
-
+    "signup_path": "/auth/register",
+    "verify_path": "/auth/verify"
 }
   

@@ -8,7 +8,7 @@ import { TextNotoSansTC500, TextNotoSansTC700 } from '../components/fonts/TextFo
 import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
 import { theme } from '../global/theme';
 import ApiRequest from '../services/Api';
-
+import colors from "../colors.json"
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
@@ -33,8 +33,8 @@ const Login = (props) => {
 
   const [userData, setUserData] = useState(
     {
-      email: "contato.marcoulakis@gmail.com",
-      password: "12345678",
+      email: "",
+      password: "",
     }
   )
 
@@ -83,19 +83,24 @@ const Login = (props) => {
     }
   }, [msg])
 
+  const handleVerificator = () =>{
+    navigation.push('VerifyEmail');
+  }
+
   const responseVerifier = async () => {
       if(typeof response === 'object'){
         if(response.error === true){
           setMsg(response.msg)
         }else{
+          if(response.user.first_time){
+            handleVerificator();
+          }
           setToken(response.token)
           setId(response.user._id)
-          setEmail(response.user.email)
           setFirstTime(response.user.first_time)
           setFriends(response.user.friends)
           setItems(response.user.items)
           setBirthday(response.user.birthday)
-          setPassword(response.user.password)
           setName(response.user.name)
           setUsername(response.user.username)
           setUser(response.user)
@@ -138,33 +143,35 @@ const Login = (props) => {
                     <View style={[styles.header]}>
                       <TextNotoSansTC700 style={{
                         fontSize: getScreenValues().width * 0.04,
+                        color: colors.textPrimaryColor
                       }}>
                       {t("headers.login")}
                       </TextNotoSansTC700>
                     </View>
                     <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
                       <TextInputNotoSansTC300  
-                        onSubmitEditing={() => { this.passwordInput.focus(); }}
-                        
+                        // onSubmitEditing={() => { this.passwordInput.focus(); }}
                         returnKeyType="next"
                         blurOnSubmit={false}
-                        placeholderTextColor="#9A9A9A" 
+                        placeholderTextColor={colors.textSecondaryColor} 
                         placeholder={t("loginPage.placeHolderUser")}
                         onChangeText={( email) => {
                           setUserData({ email, password: oldState.password });
                         }} 
                         style={[styles.input]}
+                        value={userData.email}
                       />
                       <View style={styles.marginTop}>
                         <TextInputNotoSansTC300
                           style={styles.input}
-                          placeholderTextColor="#9A9A9A" 
+                          placeholderTextColor={colors.textSecondaryColor} 
                           placeholder={t("loginPage.placeHolderPass")}
                           onChangeText={(password) => {
                             setUserData({email: oldState.email,password})
                           }}  
                           onSubmitEditing={sendApiRequest}
                           secureTextEntry={isPasswordHide}
+                          value={userData.password}
                         /> 
                         <TouchableOpacity onPress={togglePassword} style={{
                           position: 'absolute',
@@ -178,7 +185,7 @@ const Login = (props) => {
                             <Icon
                               name={iconPasswordHide}
                               type="font-awesome"
-                              color="#9A9A9A"
+                              color={colors.textSecondaryColor}
                             />
                         </TouchableOpacity>
                       </View>
@@ -214,10 +221,10 @@ const Login = (props) => {
             <Icon
               name={"angle-left"}
               type="font-awesome"
-              color="#282828"
+              color={colors.itemsPrimaryColor}
               size={100}
               style={{ borderRadius:50,   
-              shadowColor: "#000",
+              shadowColor: colors.itemsPrimaryColor,
               shadowOpacity: 0.27,
               shadowRadius: 0,}}
             />
@@ -249,6 +256,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    backgroundColor: colors.backgroundPrimaryColor
   },
   center: {
     flex: 1,
@@ -278,13 +286,13 @@ const styles = StyleSheet.create({
     paddingTop: getScreenValues().height * 0.0158,
     borderRadius: 1000,
     fontSize: getScreenValues().width * 0.027,
-    borderColor: '#000',
+    borderColor: "#000",
     borderWidth: 2,
     backgroundColor: theme.colors.branco,
     color: '#222222',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: "#000",
+    shadowColor: colors.itemsPrimaryColor,
     shadowOpacity: 0.27,
     shadowRadius: 0.25,
     shadowOffset: {
@@ -296,12 +304,12 @@ const styles = StyleSheet.create({
   },
   txtAvancar: {
     fontSize: getScreenValues().width * 0.036,
-    color: '#ffffff' 
+    color: colors.textPrimaryColor 
   },
   btnAvancar: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#27AE60',
+    backgroundColor: colors.buttonPrimaryColor,
     borderRadius: 1000,
     height: getScreenValues().height * 0.15,
     width: getScreenValues().width * 0.2,
