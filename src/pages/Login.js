@@ -95,6 +95,7 @@ const Login = (props) => {
           if(response.user.first_time){
             handleVerificator();
           }
+          console.log(response)
           setToken(response.token)
           setId(response.user._id)
           setFirstTime(response.user.first_time)

@@ -135,14 +135,23 @@ const VerifyEmail = (props) => {
                   flex: 1,
                   alignItems: 'center',
                 }, styles.allContainer]}>
-                  <View style={[styles.header]}>
+                  <View style={[styles.header, {    
+                    alignItems: 'center',
+                    textAlign: 'center'
+                  }]}>
                     <TextNotoSansTC700 style={{
                       fontSize: getScreenValues().width * 0.04,
-                      color: colors.textPrimaryColor
+                      color: colors.textPrimaryColor,
                     }}>
-                      {t("headers.birthday")}
-                    
+                      {t("headers.verifyEmail")}
                     </TextNotoSansTC700>
+                    <TextNotoSansTC300 style={{
+                      fontSize: getScreenValues().width * 0.022,
+                      color: colors.textPrimaryColor,
+                      marginBottom: 10
+                    }}>
+                      {t("verifyEmail.subtitle")}
+                    </TextNotoSansTC300>
                   </View>
                   <CodeField
                   ref={ref}
@@ -175,7 +184,7 @@ const VerifyEmail = (props) => {
                     <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
                       {!isLoading
                         ?
-                          <TextNotoSansTC700 style={styles.txtAvancar}>Send Code</TextNotoSansTC700>
+                          <TextNotoSansTC700 style={styles.txtAvancar}>{t("common.verifyEmailButton")}</TextNotoSansTC700>
                         :             
                           <View style={[styles.container, styles.center, styles.full]}>
                             <ActivityIndicator color={"#999999"} size="large" />
@@ -241,6 +250,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    textAlign: 'center'
   },
   header:{
     backgroundColor: '#ffff0000',

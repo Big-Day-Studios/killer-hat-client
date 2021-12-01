@@ -4,6 +4,7 @@
             "nextButton": "Next",
             "startButton": "Start",
             "getButton": "Consult",
+            "verifyEmailButton": "Send Code",
             "logoutButton": "Logout",
             "okButton": "OK",
             "goBack": "Back",
@@ -44,7 +45,9 @@
             "email": "Now put your email",
             "password": "Here you'll put your password",
             "birthday": "And Lastly, tell us your birthday",
-            "login": "Enter your login"
+            "login": "Enter your login",
+            "verifyEmail": "Email Verification",
+            "language": "Choose your language:"
 
         },
         "loginPage": {
@@ -52,6 +55,9 @@
             "placeHolderPass": "password",
             "placeHolderVerifyPass": "Rewrite Password",
             "labelEsqueciMinhaSenha": "Forgot My Password"
+        },
+        "verifyEmail": {
+            "subtitle": "Email send! Check your inbox or the spam."
         },
         "signupPages": {
             "placeHolderName": "name",

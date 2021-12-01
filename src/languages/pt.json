@@ -4,6 +4,7 @@
             "nextButton": "Avançar",
             "startButton": "Começar",
             "getButton": "Consultar",
+            "verifyEmailButton": "Enviar",
             "logoutButton": "Logout",
             "okButton": "OK",
             "goBack": "Voltar",
@@ -44,13 +45,19 @@
             "email": "Prencha com seu email",
             "password": "Aqui, você coloca a senha",
             "birthday": "E por último, diga seu aniversário",
-            "login": "Insira seu Login"
+            "login": "Insira seu Login",
+            "verifyEmail": "Verificação de Email",
+            "language": "Escolha o idioma:"
+
         },
         "loginPage": {
             "placeHolderUser": "email",
             "placeHolderPass": "senha",
             "placeHolderVerifyPass": "Rescrever",
             "labelEsqueciMinhaSenha": "Esqueci minha senha"
+        },
+        "verifyEmail": {
+            "subtitle": "Email enviado! Verifique sua caixa de entrada ou o spam."
         },
         "signupPages": {
             "placeHolderName": "nome",

@@ -10,7 +10,8 @@ const initialState = {
   password: '',
   username: '',
   foto: '',
-  response: {}
+  response: {}, 
+  language: 'en'
 }
 
 export default (state = initialState, action) => {
@@ -51,6 +52,9 @@ export default (state = initialState, action) => {
       break;
     case 'SET_RESPONSE':
       return { ...state, response: action.payload.response }
+      break;
+    case 'SET_LANGUAGE':
+      return { ...state, language: action.payload.language }
       break;
   }
 

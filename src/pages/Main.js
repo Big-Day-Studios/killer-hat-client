@@ -141,7 +141,6 @@ const Main = (props) => {
                         JSON.stringify(friends) + ', \n' +
                         JSON.stringify(items) + ', \n' +
                         JSON.stringify(name) + ', \n' +
-                        JSON.stringify(password) + ', \n' +
                         JSON.stringify(username) + ', \n'+
                         "}"  
                     }

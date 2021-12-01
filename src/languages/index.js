@@ -4,12 +4,16 @@ import { initReactI18next } from 'react-i18next';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import en from './en.json';
 import pt from './pt.json';
+let language 
+    async function get() {
+    language = await AsyncStorage.getItem("@killer:language");
 
-
-
+    }
+    get()
+console.log("LANG  "+language)
 
 i18next.use(initReactI18next).init({
-    lng: 'pt',
+    lng:  language === "en" || language === "pt" ? language : 'en',
     resources:{
         en:en,
         pt:pt
