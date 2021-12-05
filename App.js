@@ -13,8 +13,7 @@ import { View, Text,StatusBar } from 'react-native';4
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { store, persistor } from './src/reducers/Store';
-
-import i18next from './src/languages';
+import './src/config/i18n';
 
 const prefix = Linking.makeUrl("/");
 

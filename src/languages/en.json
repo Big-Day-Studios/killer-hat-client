@@ -9,6 +9,7 @@
             "okButton": "OK",
             "goBack": "Back",
             "confirm": "Confirm",
+            "play": "Play",
             "title": "Killer Hat",
             "signup": "Sign up",
             "login": "Login",
@@ -49,6 +50,12 @@
             "verifyEmail": "Email Verification",
             "language": "Choose your language:"
 
+        },
+        "lobbyPage": {
+            "lobby": "Lobby",
+            "store": "Store",
+            "themes": "Themes",
+            "items": "Items"
         },
         "loginPage": {
             "placeHolderUser": "email",

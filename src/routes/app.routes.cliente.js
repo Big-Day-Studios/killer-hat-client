@@ -6,10 +6,9 @@ import Logout from "../services/Logout";
 const stackRoutes = createNativeStackNavigator();
 
 const LoggedIn = (linking) => (
-  <stackRoutes.Navigator linking={linking}>
+  <stackRoutes.Navigator screenOptions={{ headerShown: false }} headerMode="none" linking={linking}>
     <stackRoutes.Screen name="Main" component={Main}/>
     <stackRoutes.Screen name="Logout" component={Logout}/>
-
   </stackRoutes.Navigator>
 )
 

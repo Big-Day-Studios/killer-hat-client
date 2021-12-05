@@ -3,5 +3,7 @@
     "itemsPrimaryColor": "#FFFFFF",
     "textPrimaryColor": "#FFFFFF",
     "textSecondaryColor": "#9A9A9A",
-    "buttonPrimaryColor": "#27AE60"
+    "textTertiaryColor": "#282828",
+    "buttonPrimaryColor": "#27AE60",
+    "buttonSecondaryColor": "#C6C5C5"
 }

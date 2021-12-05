@@ -6,6 +6,36 @@ import { LogBox } from 'react-native';
 LogBox.ignoreLogs(['Warning: componentWillMount']); // Ignore log notification by message
 //LogBox.ignoreAllLogs();//Ignore all log notifications
 
+class TextModeseven extends React.Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    async componentWillMount() {
+        await Font.loadAsync({
+            'Modeseven': require('../../../assets/fonts/Modeseven.otf'),
+        })
+        this.setState({ loading: false })
+    }
+
+    render() {
+        const allProps = Object.assign({}, this.props);
+        if (this.state.loading) {
+            return <ActivityIndicator/>
+        }
+        const styleProps = allProps.style;
+        delete allProps.style
+            return ( 
+                <Text style={[styles.Modeseven, styleProps]} {...allProps}>
+                    {this.props.children}
+                </Text>
+            )
+    }
+}
 
 class TextNotoSansTC900 extends React.Component {
     constructor(props) {
@@ -273,6 +303,9 @@ class TextNotoSansTCThin extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    Modeseven:{
+        fontFamily: 'Modeseven'
+    },
     ZillaSlabHighlight700:{
         fontFamily: 'ZillaSlabHighlight700'
     },
@@ -302,4 +335,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export { TextNotoSansTCThin, TextNotoSansTC100, TextNotoSansTC300, TextNotoSansTC500, TextNotoSansTC700, TextNotoSansTC900, TextZillaSlabHighlight700, TextZillaSlabHighlight400 }
+export { TextModeseven, TextNotoSansTCThin, TextNotoSansTC100, TextNotoSansTC300, TextNotoSansTC500, TextNotoSansTC700, TextNotoSansTC900, TextZillaSlabHighlight700, TextZillaSlabHighlight400 }
