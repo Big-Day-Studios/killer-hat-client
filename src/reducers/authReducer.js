@@ -11,7 +11,9 @@ const initialState = {
   username: '',
   foto: '',
   response: {}, 
-  language: 'en'
+  language: 'en',
+  playMusic: true,
+  playSound: true
 }
 
 export default (state = initialState, action) => {
@@ -56,6 +58,13 @@ export default (state = initialState, action) => {
     case 'SET_LANGUAGE':
       return { ...state, language: action.payload.language }
       break;
+    case 'SET_PLAY_MUSIC':
+      return { ...state, playMusic: action.payload.playMusic }
+      break;
+    case 'SET_PLAY_SOUND':
+      return { ...state, playSound: action.payload.playSound }
+      break;
+      
   }
 
   return state;

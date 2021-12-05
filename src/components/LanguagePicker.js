@@ -16,7 +16,7 @@ const LanguagePicker = () => {
 
   const LanguageItem = ({ name, label }) => (
     <TouchableOpacity
-      style={styles.button}
+      style={styles.buttonLanguage}
       onPress={() => {
         i18n.changeLanguage(name);
         setModalVisible(!modalVisible);
@@ -35,6 +35,7 @@ const LanguagePicker = () => {
         onRequestClose={() => {
           setModalVisible(!modalVisible);
         }}
+        supportedOrientations={['landscape']}
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
   chooseItem: {
     flex: 1,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
   },
   modalView: {
@@ -77,10 +78,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     elevation: 5,
   },
+  buttonLanguage: {
+    borderRadius: 10,
+    paddingHorizontal: 10,
+    margin: 10,
+  },
   button: {
     borderRadius: 10,
-    padding: 10,
-    margin: 10,
+    marginLeft: 20,
   },
   buttonCircle: {
     borderRadius: 30,

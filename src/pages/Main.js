@@ -12,7 +12,10 @@ import ApiRequest from '../services/Api';
 import Logout from '../services/Logout';
 import colors from "../colors.json"
 import LanguagePicker from '../components/LanguagePicker'
-import { Htp } from '../components/ConfigOptions'
+import { Htp, Credits } from '../components/ConfigOptions'
+import Music from '../components/MusicChange'
+import Sound from '../components/SoundChange'
+
 
 
 /* Redux and AsyncStorage */
@@ -35,13 +38,14 @@ const Main = (props) => {
   const [iconPasswordHide, setIconPasswordHide] = useState("lock")
   const [isLoading, setIsLoading] = useState(false)
   const [settings, setSettings] = useState(false);
-
+  
   const [userData, setUserData] = useState(
     {
       email: "contato.marcoulakis@gmail.com",
       password: "12345678",
     }
   )
+
 
   const oldState = userData;
 
@@ -276,7 +280,7 @@ const Main = (props) => {
                   name={"angle-left"}
                   type="font-awesome"
                   color={colors.itemsPrimaryColor}
-                  size={100}
+                  size={getScreenValues().height *0.25}
                   style={{ borderRadius:50,   
                   shadowColor: colors.itemsPrimaryColor,
                   shadowOpacity: 0.27,
@@ -288,8 +292,13 @@ const Main = (props) => {
               <View style={{
 
               }}>
-                <LanguagePicker style={{}}/>
-                <Htp/>
+                <View style={{marginTop: 25, marginLeft: 15}}>
+                  <Music/>
+                  <Sound/>
+                  <LanguagePicker/>
+                  <Htp/>
+                  <Credits/>
+                </View>
               </View>
           </SafeAreaProvider>
         </ScrollView>
@@ -346,7 +355,7 @@ const styles = StyleSheet.create({
     width: getScreenValues().height *0.12,
   },
   backIcon:{
-    height: getScreenValues().height *0.15,
+    height: getScreenValues().height *0.25,
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
