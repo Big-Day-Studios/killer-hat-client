@@ -1,30 +1,11 @@
-
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Modal, View, TouchableOpacity, StyleSheet } from "react-native";
 import { TextModeseven } from './fonts/TextFonts';
 
-
-const LanguagePicker = () => {
+const Htp = () => {
   const [ modalVisible, setModalVisible ] = useState(false);
   const { i18n, t } = useTranslation();
-
-  const languages = [
-    { name: "pt", label: "Português" },
-    { name: "en", label: "English" },
-  ];
-
-  const LanguageItem = ({ name, label }) => (
-    <TouchableOpacity
-      style={styles.button}
-      onPress={() => {
-        i18n.changeLanguage(name);
-        setModalVisible(!modalVisible);
-      }}
-    >
-      <TextModeseven style={styles.textStyleLanguage}>{label}</TextModeseven>
-    </TouchableOpacity>
-  );
 
   return (
     <View>
@@ -38,9 +19,14 @@ const LanguagePicker = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            {languages.map((lang) => (
-              <LanguageItem {...lang} key={lang.name} />
-            ))}
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <TextModeseven style={styles.textStyleLanguage}>OK</TextModeseven>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>
@@ -49,13 +35,13 @@ const LanguagePicker = () => {
         onPress={() => setModalVisible(true)}
       >
         <View style={styles.buttonCircle}></View>
-        <TextModeseven style={styles.textStyle} >{t("common.language")}</TextModeseven>
+        <TextModeseven style={styles.textStyle}>{t("common.htp")}</TextModeseven>
       </TouchableOpacity>
     </View>
   );
 };
 
-export default LanguagePicker;
+export { Htp };
 
 const styles = StyleSheet.create({
   centeredView: {

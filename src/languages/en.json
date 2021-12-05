@@ -11,8 +11,10 @@
             "confirm": "Confirm",
             "play": "Play",
             "title": "Killer Hat",
+            "htp": "How to play?",
             "signup": "Sign up",
             "login": "Login",
+            "language": "Choose your language",
             "termsAndPolicy": {
                 "1": "I accept the",
                 "2": " Terms of Use ",

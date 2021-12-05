@@ -7,9 +7,7 @@ import * as Linking from 'expo-linking'
 import InternetConnectionAlert from "react-native-internet-connection-alert";
 import * as ScreenOrientation from 'expo-screen-orientation';
 import { NavigationContainer } from '@react-navigation/native';
-import { View, Text,StatusBar } from 'react-native';4
-
-/* Redux and Redux Persist */
+import { View, Text, StatusBar } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
 import { store, persistor } from './src/reducers/Store';

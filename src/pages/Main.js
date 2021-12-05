@@ -12,6 +12,7 @@ import ApiRequest from '../services/Api';
 import Logout from '../services/Logout';
 import colors from "../colors.json"
 import LanguagePicker from '../components/LanguagePicker'
+import { Htp } from '../components/ConfigOptions'
 
 
 /* Redux and AsyncStorage */
@@ -44,32 +45,13 @@ const Main = (props) => {
 
   const oldState = userData;
 
-  const togglePassword = () => {
-    if(isPasswordHide){
-      setIsPasswordHide(false);
-      setIconPasswordHide("unlock")
-    }else{
-      setIsPasswordHide(true);
-      setIconPasswordHide("lock")
-    }
-  }
-
   const handleLanguagles = async () => {
     if(settings){
      setSettings(false)
     }else{
       setSettings(true)
     }
-    console.log(await AsyncStorage.getItem("@killer:language"))
   }
-  async function handlePortuguese() {
-    await storeData("@killer:language", "pt")
-  }
-
-  async function handleEnglish () {
-    await storeData("@killer:language", "en")
-  }
-
   
   const errorPopup = () => {
       Toast.show({
@@ -165,13 +147,12 @@ const Main = (props) => {
 
   return (
     <Root>
-      {/* {
-        settings ? */}
+      {
+        !settings ?
         <ImageBackground
-        style={[styles.background]}
+          style={[styles.background]}
           source={require('../assets/lobby.png')}
           resizeMode="cover"
-  
         >
         <ScrollView contentContainerStyle={{
           flexGrow: 1,
@@ -185,7 +166,6 @@ const Main = (props) => {
           }
           >
             <View>
-              <LanguagePicker/>
               <StatusBar style="auto" />
                   <View style={{
                     flex: 1,
@@ -231,7 +211,7 @@ const Main = (props) => {
                         }
                       </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.icons} onPress={console.log('settings')}>
+                    <TouchableOpacity style={styles.icons} onPress={handleLanguagles}>
                       {
                           <Image 
                             style={styles.icons}        
@@ -260,72 +240,61 @@ const Main = (props) => {
                       }
                     </TouchableOpacity>
                   </View>
-              {/* <TouchableOpacity onPress={handleLanguagles} style={{
-                elevation: 101,
-                position: 'absolute',
-                left: '0%',
-                top: '4%',
-                width: '12%'
-              }}>
-                <View>
-                  <Icon
-                    name={"cog"}
-                    type="font-awesome"
-                    color={colors.textPrimaryColor }
-                    size={40}
-                    style={{ borderRadius:50,   
-                    shadowColor: "#000",
-                    shadowOpacity: 0.27,
-                    shadowRadius: 0,}}
-                  />
-                </View>
-              </TouchableOpacity>  */}
             </SafeAreaProvider>
           </ScrollView>
         </ImageBackground>
+        :
+        <ImageBackground
+        blurRadius={30}
+        style={[styles.background]}
+        source={require('../assets/lobby.png')}
+        resizeMode="cover"
+      >
+      <ScrollView contentContainerStyle={{
+        flexGrow: 1,
+      }}>
+          <SafeAreaProvider initialMetrics={initialWindowMetrics} style={
+            styles.container, 
+            {paddingTop: insets.top,
+            paddingLeft: insets.left,
+            paddingBottom: insets.bottom,
+            paddingRight: insets.right,}
+          }
+          >
+            <View>
+              <View style={{
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'flex-start',
+                height: getScreenValues().height *0.15,
+                width: getScreenValues().width,
+                marginBottom: 10
+              }}>
+                <TouchableOpacity style={styles.backIcon} onPress={handleLanguagles}>
+                <Icon
+                  name={"angle-left"}
+                  type="font-awesome"
+                  color={colors.itemsPrimaryColor}
+                  size={100}
+                  style={{ borderRadius:50,   
+                  shadowColor: colors.itemsPrimaryColor,
+                  shadowOpacity: 0.27,
+                  shadowRadius: 0,}}
+                />
+                </TouchableOpacity>
+              </View>
+            </View>
+              <View style={{
 
-        {/*
-      //   :
-      //   <View  style={[{
-      //     flex: 1,
-      //     alignItems: 'center',
-      //   }, styles.inputContainer]}>
-      //     <View style={[styles.header]}>
-      //       <TextNotoSansTC700 style={{
-      //         fontSize: getScreenValues().width * 0.04,
-      //         color: colors.textPrimaryColor
-      //       }}>
-      //       {t("headers.language")}
-      //       </TextNotoSansTC700>
-      //     </View>
-      //   <View style={[styles.container, styles.row]}>
-
-      //     <TouchableOpacity style={styles.btnLanguage} onPress={handleEnglish}>
-      //         {!isLoading
-      //           ?
-      //             <TextNotoSansTC700 style={styles.txtAvancar}>English</TextNotoSansTC700>
-      //           :             
-      //             <View style={[styles.container, styles.center, styles.full]}>
-      //               <ActivityIndicator color={"#999999"} size="large" />
-      //             </View>
-      //         }
-      //     </TouchableOpacity>
-      //     <TouchableOpacity style={styles.btnLanguage} onPress={handlePortuguese}>
-      //       {!isLoading
-      //         ?
-      //           <TextNotoSansTC700 style={styles.txtAvancar}>Português</TextNotoSansTC700>
-      //         :             
-      //           <View style={[styles.container, styles.center, styles.full]}>
-      //             <ActivityIndicator color={"#999999"} size="large" />
-      //           </View>
-      //       }
-      //     </TouchableOpacity>
-      //   </View>
-      //   </View>
-
-      // }
-    */}
-     
+              }}>
+                <LanguagePicker style={{}}/>
+                <Htp/>
+              </View>
+          </SafeAreaProvider>
+        </ScrollView>
+      </ImageBackground>
+      } 
     </Root>
   );
 }
@@ -375,6 +344,15 @@ const styles = StyleSheet.create({
   icons:{
     height: getScreenValues().height *0.12,
     width: getScreenValues().height *0.12,
+  },
+  backIcon:{
+    height: getScreenValues().height *0.15,
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    paddingLeft: 10,
+    width: getScreenValues().width,
   },
   inputContainer:{
     backgroundColor: '#ff00ff00',
