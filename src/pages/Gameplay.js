@@ -15,13 +15,17 @@ import LanguagePicker from '../components/LanguagePicker'
 import { Htp, Credits } from '../components/ConfigOptions'
 import Music from '../components/MusicChange'
 import Sound from '../components/SoundChange'
-
-
+import Cd from '../assets/icons/cd.png'
+import Search from '../assets/icons/search.png'
+import Video from '../assets/icons/video.png'
+import Note from '../assets/icons/note.png'
+import Terminal from '../assets/icons/terminal.png'
+import Doc from '../assets/icons/doc.png'
 
 /* Redux and AsyncStorage */
 import { connect } from 'react-redux';
 
-const Main = (props) => {
+const Gameplay = (props) => {
 
   const {t, i18n} = useTranslation();
 
@@ -37,6 +41,9 @@ const Main = (props) => {
   const [isPasswordHide, setIsPasswordHide] = useState(true)
   const [iconPasswordHide, setIconPasswordHide] = useState("lock")
   const [isLoading, setIsLoading] = useState(false)
+  const [timer, setTimer] = useState(300)
+  const [visualTimer, setVisualTimer] = useState()
+  const [dateString, setDateString] = useState(false)
   const [settings, setSettings] = useState(false);
   
   const [userData, setUserData] = useState(
@@ -115,6 +122,34 @@ const Main = (props) => {
     }
   }, [msg])
 
+  setTimeout(() => {
+    const time = new Date()
+
+    const seconds = time.getSeconds().toString().length === 1 ? "0" + time.getSeconds().toString() : time.getSeconds().toString()
+    const minute = time.getMinutes().toString().length === 1 ? "0" + time.getMinutes().toString() : time.getMinutes().toString()
+    const hour = time.getHours().toString().length === 1 ? "0" + time.getHours().toString() : time.getHours().toString()
+
+    const day = time.getDate().toString().length === 1 ? "0" + time.getDate().toString() : time.getDate().toString()
+    const month = time.getMonth().toString().length === 1 ? "0" + time.getMonth().toString() : time.getMonth().toString()
+    const year = time.getFullYear().toString()
+
+    setDateString(
+      hour + ":" + minute + ":" + seconds + "\n" + day + "/" + month + "/" +year
+      )
+
+    if(timer >= 0){
+      if(timer === 0){
+        setTimer(-5)
+        handleNext()
+      }else{
+        const time = new Date(timer * 1000).toISOString().substr(14, 5)
+        setVisualTimer(time)
+        setTimer(timer - 1)
+      }
+    }
+
+  }, 1000);
+
   const responseVerifier = async () => {
       if(typeof response === 'object'){
          
@@ -147,7 +182,7 @@ const Main = (props) => {
 
 
   const handleNext = async () => {
-    navigation.push('Gameplay');
+    navigation.push('Main');
   }
 
   return (
@@ -156,7 +191,7 @@ const Main = (props) => {
         !settings ?
         <ImageBackground
           style={[styles.background]}
-          source={require('../assets/lobby.png')}
+          source={require('../assets/fundo.png')}
           resizeMode="cover"
         >
         <ScrollView contentContainerStyle={{
@@ -176,87 +211,79 @@ const Main = (props) => {
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    padding: 10,
+                    alignItems: 'flex-end',
                     width: getScreenValues().width,
+                    height: getScreenValues().height,
                   }}>
-                    <TouchableOpacity style={styles.icons} onPress={disbledItem}>
-                      {
-                          <Image 
-                            style={styles.icons}        
-                            source={require('../assets/icons/friends.png')}
-                          />
-                      }
-                    </TouchableOpacity>
                   <View style={{
                     flex: 1,
                     flexDirection: 'row',
                     justifyContent: 'center',
                     alignItems: 'flex-start',
                     width: getScreenValues().width,
+                    height: getScreenValues().height * 0.12,
+                    backgroundColor: "#848484"
                   }}>
-                      <TouchableOpacity style={styles.btnItems} onPress={console.log('lobby')}>
+                      <TouchableOpacity style={styles.btnItems}>
                         {
-                            <TextModeseven style={styles.txtItems}>{t("lobbyPage.lobby")}</TextModeseven>
+                            <Image source={Cd} style={styles.Items} />
                         }
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.btnItemsDisable} onPress={disbledItem}>
+                      <TouchableOpacity style={styles.btnItems}>
                         {
-                            <TextModeseven style={styles.txtItemsDisable}>{t("lobbyPage.store")}</TextModeseven>
+                            <Image source={Search} style={{    
+                              width: getScreenValues().width * 0.11,
+                              height: getScreenValues().width * 0.11}} />
                         }
                       </TouchableOpacity>                    
-                      <TouchableOpacity style={styles.btnItemsDisable} onPress={disbledItem}>
+                      <TouchableOpacity style={styles.btnItems}>
                         {
-                            <TextModeseven style={styles.txtItemsDisable}>{t("lobbyPage.themes")}</TextModeseven>
+                            <Image source={Video}  style={{    
+                              width: getScreenValues().width * 0.11,
+                              height: getScreenValues().width * 0.11,
+                              marginTop: getScreenValues().height * 0.04
+                            }} />
                         }
                       </TouchableOpacity>
-                      <TouchableOpacity style={styles.btnItemsDisable} onPress={disbledItem}>
+                      <TouchableOpacity style={styles.btnItems}>
                         {
-                            <TextModeseven style={styles.txtItemsDisable}>{t("lobbyPage.items")}</TextModeseven>
+                            <Image source={Note} style={{    
+                              width: getScreenValues().width * 0.10,
+                              height: getScreenValues().width * 0.10,
+                              marginBottom: getScreenValues().height * 0.03
+                            }} />
+                        }
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.btnItems}>
+                        {
+                            <Image source={Terminal} style={{    
+                              width: getScreenValues().width * 0.09,
+                              height: getScreenValues().width * 0.09,
+                            }} />
                         }
                       </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.icons} onPress={handleLanguagles}>
+                    <TouchableOpacity style={styles.icons} onPress={disbledItem}>
                       {
-                          <Image 
-                            style={styles.icons}        
-                            source={require('../assets/icons/settings.png')}
-                          />
+                        <TextNotoSansTC700 style={{textAlign: "center"}}>{dateString}</TextNotoSansTC700>
                       }
                     </TouchableOpacity>
                   </View>
-                  </View>
-                  <View style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-end',
-                    paddingBottom: 10,
-                    paddingHorizontal: 15,
-                    width: getScreenValues().width,
-                  }}>
-                    <TouchableOpacity style={styles.btnLogout} onPress={handleLogout}>
-                      {!isLoading
-                        ?
-                          <TextModeseven style={styles.txtLogout}>{t("common.logoutButton")}</TextModeseven>
-                        :             
-                          <View style={[styles.container, styles.center, styles.full]}>
-                            <ActivityIndicator color={"#999999"} size="large" />
-                          </View>
-                      }
-                    </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnAvancar} onPress={handleNext}>
-                      {!isLoading
-                        ?
-                          <TextModeseven style={styles.txtAvancar} >{t("common.play")}</TextModeseven>
-                        :             
-                          <View style={[styles.container, styles.center, styles.full]}>
-                            <ActivityIndicator color={"#999999"} size="large" />
-                          </View>
-                      }
-                    </TouchableOpacity>
                   </View>
             </SafeAreaProvider>
+            <View style={{position: "absolute", width: getScreenValues().width, height: getScreenValues().height, top: 0}}>
+              <Image source={Doc} style={{    
+                width: getScreenValues().width * 0.12,
+                height: getScreenValues().width * 0.12,
+              }}/>
+              <Image source={Doc} style={{    
+                width: getScreenValues().width * 0.12,
+                height: getScreenValues().width * 0.12,
+              }}/>
+            </View>
+            <View style={{position: "absolute", zIndex:2000, width: getScreenValues().width, height: getScreenValues().height, top: 0, left: getScreenValues().width * 0.83}}>
+              <TextNotoSansTC700 style={{color: "#db2222", fontSize: getScreenValues().width * 0.05}}>{visualTimer}</TextNotoSansTC700>
+            </View>
           </ScrollView>
         </ImageBackground>
         :
@@ -302,7 +329,7 @@ const Main = (props) => {
               </View>
             </View>
               <View style={{
-
+                
               }}>
                 <View style={{marginTop: 25, marginLeft: 15}}>
                   <Music/>
@@ -364,7 +391,12 @@ const styles = StyleSheet.create({
   },
   icons:{
     height: getScreenValues().height *0.12,
-    width: getScreenValues().height *0.12,
+    width: getScreenValues().height *0.28,
+    backgroundColor: "#848484",
+    borderLeftWidth: 2,
+    borderLeftColor: "#000000",
+    alignItems: "center",
+    justifyContent: "center",
   },
   backIcon:{
     height: getScreenValues().height *0.25,
@@ -430,21 +462,18 @@ const styles = StyleSheet.create({
     height: getScreenValues().height * 0.1,
     width: getScreenValues().width * 0.15,
   },
-  txtItems: {
-    fontSize: getScreenValues().width * 0.03,
-    color: colors.textTertiaryColor 
+  Items: {
+    width: getScreenValues().width * 0.17,
+    height: getScreenValues().width * 0.17
   },
-  txtItemsDisable: {
-    fontSize: getScreenValues().width * 0.03,
-    color: colors.textTertiaryColor + "33"
+  ItemsDisable: {
+    width: getScreenValues().width * 0.18,
+    height: getScreenValues().width * 0.18
   },
   btnItems: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.buttonSecondaryColor,
-    borderRadius: 1000,
-    marginHorizontal: 5,
-    height: getScreenValues().height * 0.09,
+    height: getScreenValues().height * 0.12,
     width: getScreenValues().width * 0.15,
   },
   btnItemsDisable: {
@@ -494,4 +523,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Gameplay);

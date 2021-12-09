@@ -26,7 +26,8 @@ const Password = (props) => {
   }
 
   const [msg, setMsg] = useState()
-  const [localVerifyPassword, setLocalVerifyPassword] = useState("")
+  const [
+    localVerifyPassword, setLocalVerifyPassword] = useState("")
   const [isPasswordEqual, setIsPasswordEqual] = useState(false)
   const [isPasswordOK, setIsPasswordOK] = useState(true)
   const [isPasswordHide, setIsPasswordHide] = useState(true)
@@ -92,7 +93,6 @@ const Password = (props) => {
       setIsPasswordEqual(true)
     }else{
       setIsPasswordEqual(false)
-
     }
   }
 
@@ -149,7 +149,7 @@ const Password = (props) => {
                       <View>
                         <TextInputNotoSansTC300
                           returnKeyType={"next"}
-                          // onSubmitEditing={handleNextInput}
+                          onSubmitEditing={Keyboard.dismiss}
                           blurOnSubmit={false}
                           placeholderTextColor="#9A9A9A" 
                           placeholder={t("signupPages.placeHolderPass")}

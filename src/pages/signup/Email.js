@@ -155,7 +155,7 @@ const Email = (props) => {
                   <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
                     <TextInputNotoSansTC300
                       returnKeyType={"next"}
-                      // onSubmitEditing={handleNextInput}
+                      onSubmitEditing={Keyboard.dismiss}
                       blurOnSubmit={false}
                       placeholderTextColor="#9A9A9A" 
                       placeholder={t("signupPages.placeHolderEmail")}

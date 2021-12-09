@@ -151,7 +151,7 @@ const Login = (props) => {
                     </View>
                     <View style={ Platform.OS === 'ios' ? [styles.inputContainer, { marginTop: getScreenValues().height * 0.055 }] : [styles.inputContainer]}>
                       <TextInputNotoSansTC300  
-                        // onSubmitEditing={() => { this.passwordInput.focus(); }}
+                        onSubmitEditing={Keyboard.dismiss}
                         returnKeyType="next"
                         blurOnSubmit={false}
                         placeholderTextColor={colors.textSecondaryColor} 
