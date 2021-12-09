@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Dimensions, Text, Animated, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, Animated, StyleSheet, View } from 'react-native';
 import { initialWindowMetrics } from 'react-native-safe-area-context';
 import BdsLogoAnimatios from '../components/BdsLogoAnimation';
 import KillerHatAnimation from '../components/KillerHatAnimation';
+import Etec from '../assets/etec.png';
+
 
 const deviceWidth = Dimensions.get("window").width;
 const deviceHeight = Dimensions.get("window").height;
@@ -46,7 +48,7 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
       console.log(2.1)
         fadeIn();
         setTurn(1);
-        final()
+        loadThirdSplash()
       }, 1000)
     }, 4500)
   }
@@ -69,7 +71,8 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
       setTimeout(() => {
       console.log(2.1)
         fadeIn();
-        setTurn(1);
+        setTurn(2);
+        final()
       }, 1000)
     }, 4500)
   }
@@ -105,7 +108,14 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
               ?
               <BdsLogoAnimatios style={styles.main}/>
               :
-              <KillerHatAnimation scale={scale} style={styles.main}/>
+              <>
+                {
+                  turn === 1 ?
+                  <KillerHatAnimation scale={scale} style={styles.main}/>
+                  :
+                  <Image style={styles.main} source={Etec}></Image>
+                }
+              </>
             }
           </Animated.View>
         </View>

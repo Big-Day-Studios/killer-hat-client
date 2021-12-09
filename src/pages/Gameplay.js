@@ -1,60 +1,117 @@
 import { StatusBar } from 'expo-status-bar';
-const { Toast, Root } = require('popup-ui');
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Image, ImageBackground, Dimensions, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Dimensions, Image, ImageBackground, ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { initialWindowMetrics, SafeAreaProvider, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { TextModeseven, TextNotoSansTC700 } from '../components/fonts/TextFonts';
-import { TextInputNotoSansTC300 } from '../components/fonts/TextInputFonts';
-import { theme } from '../global/theme';
-import ApiRequest from '../services/Api';
-import Logout from '../services/Logout';
-import colors from "../colors.json"
-import LanguagePicker from '../components/LanguagePicker'
-import { Htp, Credits } from '../components/ConfigOptions'
-import Music from '../components/MusicChange'
-import Sound from '../components/SoundChange'
-import Cd from '../assets/icons/cd.png'
-import Search from '../assets/icons/search.png'
-import Video from '../assets/icons/video.png'
-import Note from '../assets/icons/note.png'
-import Terminal from '../assets/icons/terminal.png'
-import Doc from '../assets/icons/doc.png'
-
-/* Redux and AsyncStorage */
-import { connect } from 'react-redux';
+import Cane3 from '../assets/cane/cano-3.png';
+import CaneCurvo from '../assets/cane/cano-curvo.png';
+import CaneReto from '../assets/cane/cano-reto.png';
+import Cd from '../assets/icons/cd.png';
+import Doc from '../assets/icons/doc.png';
+import Note from '../assets/icons/note.png';
+import Search from '../assets/icons/search.png';
+import Terminal from '../assets/icons/terminal.png';
+import Video from '../assets/icons/video.png';
+import Ferias from '../assets/popups/ferias.png';
+import Free from '../assets/popups/free.png';
+import Money from '../assets/popups/money.png';
+import Sexy from '../assets/popups/sexy.png';
+import colors from "../colors.json";
+import { TextNotoSansTC700 } from '../components/fonts/TextFonts';
+const { Toast, Root } = require('popup-ui');
 
 const Gameplay = (props) => {
 
-  const {t, i18n} = useTranslation();
-
-  const { navigation, token, id, birthday, email, first_time, friends, items, name, password, username, foto} = props;
-  const insets = useSafeAreaInsets();
-
-  function handleLogout() {
-      navigation.push('Logout');
-  }
-
-  const [msg, setMsg] = useState()
-  const [response, setResponse] = useState()
-  const [isPasswordHide, setIsPasswordHide] = useState(true)
-  const [iconPasswordHide, setIconPasswordHide] = useState("lock")
-  const [isLoading, setIsLoading] = useState(false)
+  const [rotateData, setRotateData] = useState({
+    a: {
+      value: 0,
+      timesClicked: -1 
+    },
+    b: {
+      value: 0,
+      timesClicked: -1 
+    },
+    c: {
+      value: 0,
+      timesClicked: -1 
+    },
+    d: {
+      value: 0,
+      timesClicked: -1     
+    },
+    e: {
+      value: 0,
+      timesClicked: -1 
+    },
+    f: {
+      value: 0,
+      timesClicked: -1     
+    },
+    g: {
+      value: 0,
+      timesClicked: -1 
+    },
+    h: {
+      value: 0,
+      timesClicked: -1     
+    },
+    i: {
+      value: 0,
+      timesClicked: -1 
+    },
+    j: {
+      value: 0,
+      timesClicked: -1     
+    },
+    k: {
+      value: 0,
+      timesClicked: -1 
+    },
+    l: {
+      value: 0,
+      timesClicked: -1     
+    },
+    m: {
+      value: 0,
+      timesClicked: -1 
+    },
+    n: {
+      value: 0,
+      timesClicked: -1 
+    },
+    o: {
+      value: 0,
+      timesClicked: -1  
+    },
+    p: {
+      value: 0,
+      timesClicked: -1 
+ , }
+})
+  const [cane, setCane] = useState(false);
+  const [showPopup, setShowPopup] = useState({showPopup: false, first: false, second: false, third: false, fourth: false, fifth: false, sixth: false});
   const [timer, setTimer] = useState(300)
   const [visualTimer, setVisualTimer] = useState()
   const [dateString, setDateString] = useState(false)
   const [settings, setSettings] = useState(false);
-  
-  const [userData, setUserData] = useState(
-    {
-      email: "contato.marcoulakis@gmail.com",
-      password: "12345678",
-    }
-  )
+    
+  const oldState = showPopup;
+
+  const {t, i18n} = useTranslation();
+
+  const Win = () =>{
 
 
-  const oldState = userData;
+    if(((rotateData.a.timesClicked === 0 || rotateData.a.timesClicked % 2 !== 0)&&((rotateData.b.timesClicked -2) % 4 === 0) &&((rotateData.f.timesClicked +1) % 4 === 0)&&((rotateData.e.timesClicked -1 ) % 4 === 0) &&(rotateData.i.timesClicked === 0 ||rotateData.i.timesClicked % 2 !== 0) &&(rotateData.m.timesClicked % 4 === 0) &&((rotateData.n.timesClicked +1 ) % 4 === 0) &&((rotateData.j.timesClicked -1 ) % 4 === 0) &&((rotateData.k.timesClicked -2) % 4 === 0) &&(rotateData.o.timesClicked % 4 === 0) &&(rotateData.p.timesClicked % 2 === 0))){
+      handleWin()
+    }  
+  }
+  const {navigation} = props;
+  const insets = useSafeAreaInsets();
+
+  function handleWin() {
+      navigation.push('Win');
+  }
 
   const handleLanguagles = async () => {
     if(settings){
@@ -63,64 +120,174 @@ const Gameplay = (props) => {
       setSettings(true)
     }
   }
-  
-  const errorPopup = () => {
-      Toast.show({
-        type: 'Danger',
-        title: 'Error',
-        text: msg,
-        timing: 2500,
-        color: '#e74c3c',
-        icon: (
-          <View style={{
-            position: 'absolute',
-            right: '0%',
-            bottom: '0%',
-          }}>
-            <Icon 
-            name="times"
-            type="font-awesome"
-            color="#FFFFFF"
-            size={45}
-            />
-          </View>
-        )
-      })
-      console.log(4444)
-      setMsg()
-  }
-
-  const WarningPopup = () => {
-    Toast.show({
-      title: 'Warning',
-      text: msg,
-      timing: 2500,
-      color: "#edda07",
-      icon: (
-        <View style={{
-          position: 'absolute',
-          right: '0%',
-          bottom: '0%',
-        }}>
-          <Icon 
-          name="exclamation-triangle"
-          type="font-awesome"
-          color="#FFFFFF"
-          size={39}
-          />
-        </View>
-      )
+  const fucnitonn =  (a) => {
+    setRotateData({
+      ...rotateData,
+      a: {
+        value: rotateData.a.value + 90,
+        timesClicked: rotateData.a.timesClicked + 1
+      }
     })
-    console.log(555)
-    setMsg()
   }
-
-  useEffect(() => {
-    if(!!msg){
-      console.log("mggg:  ", msg)
-      WarningPopup()
+  const handleClickCane = {
+    a(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        a: {
+          value: rotateData.a.value + 90,
+          timesClicked: rotateData.a.timesClicked + 1
+        }
+      })
+    },
+    b(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        b: {
+          value: rotateData.b.value + 90,
+          timesClicked: rotateData.b.timesClicked + 1
+        }
+      })
+    },
+    c(){
+      setRotateData({
+        ...rotateData,
+        c: {
+          value: rotateData.c.value + 90,
+          timesClicked: rotateData.c.timesClicked + 1
+        }
+      })
+    },
+    d(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        d: {
+          value: rotateData.d.value + 90,
+          timesClicked: rotateData.d.timesClicked + 1
+        }
+      })
+    },
+    e(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        e: {
+          value: rotateData.e.value + 90,
+          timesClicked: rotateData.e.timesClicked + 1
+        }
+      })
+    },
+    f(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        f: {
+          value: rotateData.f.value + 90,
+          timesClicked: rotateData.f.timesClicked + 1
+        }
+      })
+    },
+    g(){
+      setRotateData({
+        ...rotateData,
+        g: {
+          value: rotateData.g.value + 90,
+          timesClicked: rotateData.g.timesClicked + 1
+        }
+      })
+    },
+    h(){
+      setRotateData({
+        ...rotateData,
+        h: {
+          value: rotateData.h.value + 90,
+          timesClicked: rotateData.h.timesClicked + 1
+        }
+      })
+    },
+    i(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        i: {
+          value: rotateData.i.value + 90,
+          timesClicked: rotateData.i.timesClicked + 1
+        }
+      })
+    },
+    j(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        j: {
+          value: rotateData.j.value + 90,
+          timesClicked: rotateData.j.timesClicked + 1
+        }
+      })
+    },    
+    k(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        k: {
+          value: rotateData.k.value + 90,
+          timesClicked: rotateData.k.timesClicked + 1
+        }
+      })
+    },    
+    l(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        l: {
+          value: rotateData.l.value + 90,
+          timesClicked: rotateData.l.timesClicked + 1
+        }
+      })
+    },    
+    m(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        m: {
+          value: rotateData.m.value + 90,
+          timesClicked: rotateData.m.timesClicked + 1
+        }
+      })
+    },    
+    n(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        n: {
+          value: rotateData.n.value + 90,
+          timesClicked: rotateData.n.timesClicked + 1
+        }
+      })
+    },    
+    o(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        o: {
+          value: rotateData.o.value + 90,
+          timesClicked: rotateData.o.timesClicked + 1
+        }
+      })
+    },    
+    p(){
+      Win()
+      setRotateData({
+        ...rotateData,
+        p: {
+          value: rotateData.p.value + 90,
+          timesClicked: rotateData.p.timesClicked + 1
+        }
+      })
     }
-  }, [msg])
+  }
 
   setTimeout(() => {
     const time = new Date()
@@ -137,6 +304,21 @@ const Gameplay = (props) => {
       hour + ":" + minute + ":" + seconds + "\n" + day + "/" + month + "/" +year
       )
 
+      if(timer === 299){
+        setShowPopup({showPopup: true, first: true, second: true, third: true, fouth: true, fifth: true, sixth: true})
+      }
+      if(timer <= 298){
+        if(showPopup.showPopup){
+          console.log(!showPopup.first&&!showPopup.second&&!showPopup.third&&!showPopup.fourth&&!showPopup.fifth&&!showPopup.sixth)
+          if(!showPopup.first&&!showPopup.second&&!showPopup.third&&!showPopup.fourth&&!showPopup.fifth&&!showPopup.sixth){
+            setShowPopup({
+              ...oldState,
+              showPopup: false  
+            })
+            setCane(true);
+          }
+        }
+      }
     if(timer >= 0){
       if(timer === 0){
         setTimer(-5)
@@ -147,56 +329,62 @@ const Gameplay = (props) => {
         setTimer(timer - 1)
       }
     }
-
   }, 1000);
 
-  const responseVerifier = async () => {
-      if(typeof response === 'object'){
-         
-            console.log(
-                token, ' --- \n',
-                id, ' --- \n',
-                birthday, ' --- \n',
-                email, ' --- \n',
-                first_time, ' --- \n',
-                friends, ' --- \n',
-                items, ' --- \n',
-                name, ' --- \n',
-                password, ' --- \n',
-                username, ' --- \n',
-                foto, ' --- \n',
-                response           
-              )
-      }
-      setIsLoading(false)
-  }
-  
-
-  const disbledItem = () => {
-    setMsg("This functionality will be available soon!")
-  }
-
-  useEffect(() => {
-    responseVerifier();
-  }, [response])
-
-
   const handleNext = async () => {
-    navigation.push('Main');
+    navigation.push('Lose');
+  }
+
+  const first = () => {
+    setShowPopup({
+      ...oldState,
+      first: false
+    })
+  }
+
+  const second = () => {
+    setShowPopup({
+      ...oldState,
+      second: false
+    })
+  }
+
+  const third = () => {
+    setShowPopup({
+      ...oldState,
+      third: false
+    })
+  }
+
+  const fourth = () => {
+    setShowPopup({
+      ...oldState,
+      fourth: false
+    })
+  }
+
+  const fifth = () => {
+    setShowPopup({
+      ...oldState,
+      fifth: false
+    })
+  }
+
+  const sixth = () => {
+    setShowPopup({
+      ...oldState,
+      sixth: false
+    })
   }
 
   return (
     <Root>
-      {
-        !settings ?
         <ImageBackground
           style={[styles.background]}
           source={require('../assets/fundo.png')}
           resizeMode="cover"
         >
-        <ScrollView contentContainerStyle={{
-          flexGrow: 1,
-        }}>
+        <ScrollView >
           <SafeAreaProvider initialMetrics={initialWindowMetrics} style={
             styles.container, 
             {paddingTop: insets.top,
@@ -263,7 +451,7 @@ const Gameplay = (props) => {
                         }
                       </TouchableOpacity>
                     </View>
-                    <TouchableOpacity style={styles.icons} onPress={disbledItem}>
+                    <TouchableOpacity style={styles.icons} >
                       {
                         <TextNotoSansTC700 style={{textAlign: "center"}}>{dateString}</TextNotoSansTC700>
                       }
@@ -283,66 +471,157 @@ const Gameplay = (props) => {
             </View>
             <View style={{position: "absolute", zIndex:2000, width: getScreenValues().width, height: getScreenValues().height, top: 0, left: getScreenValues().width * 0.83}}>
               <TextNotoSansTC700 style={{color: "#db2222", fontSize: getScreenValues().width * 0.05}}>{visualTimer}</TextNotoSansTC700>
+              {        
+                showPopup.showPopup && 
+                <View>
+                  {showPopup.first && 
+                    <TouchableOpacity>
+                      <Image source={Free}/>
+                    </TouchableOpacity>    
+                  }
+                  {showPopup.second && 
+                    <TouchableOpacity>
+                      <Image source={Ferias}/>
+                    </TouchableOpacity>
+                  }
+                  {showPopup.third && 
+                    <TouchableOpacity>
+                      <Image source={Money}/>
+                    </TouchableOpacity>
+                  }
+                  {showPopup.fouth && 
+                    <TouchableOpacity>
+                      <Image source={Sexy}/>
+                    </TouchableOpacity>
+                  }
+                </View>
+              }
             </View>
+              {        
+                showPopup.showPopup && 
+                <View style={{position: "absolute", zIndex:1000, width: getScreenValues().width, height: getScreenValues().height, top: 0}}>
+                  {showPopup.first && 
+                    <View> 
+                    <TouchableOpacity 
+                    onPress={first}
+                    style={{position: "absolute",  zIndex:1001, top: getScreenValues().height *0.19, left: getScreenValues().width *0.297, width: getScreenValues().width * 0.061, height: getScreenValues().width *0.068}}>
+                    </TouchableOpacity>    
+                      <Image style={{position: "absolute", width: getScreenValues().width * 0.4, height: getScreenValues().width *0.4}} source={Free}/>
+                    </View>
+                  }
+                  {showPopup.second && 
+                    <View> 
+                    <TouchableOpacity 
+                    onPress={second}
+                    style={{position: "absolute",  zIndex:1003, top: getScreenValues().height *0.12, left: getScreenValues().width *0.505, width: getScreenValues().width * 0.058, height: getScreenValues().width *0.058}}>
+                    </TouchableOpacity>    
+                      <Image style={{position: "absolute", zIndex:1002, left: getScreenValues().width * 0.2, width: getScreenValues().width * 0.4, height: getScreenValues().width *0.4}} source={Ferias}/>
+                    </View>
+                  }
+                  {showPopup.third && 
+                    <View> 
+                    <TouchableOpacity 
+                    onPress={third}
+                     style={{position: "absolute",  zIndex:1005, top: getScreenValues().height *0.3, left: getScreenValues().width *0.297, width: getScreenValues().width * 0.065, height: getScreenValues().width *0.068}}>
+                    </TouchableOpacity>    
+                      <Image style={{position: "absolute", zIndex:1004, top: getScreenValues().height * 0.2, width: getScreenValues().width * 0.4, height: getScreenValues().width *0.4}} source={Money}/>
+                    </View>
+                  }
+                  {showPopup.fourth && 
+                    <View> 
+                    <TouchableOpacity 
+                    onPress={fourth}
+                    style={{position: "absolute",  zIndex:1007, top: getScreenValues().height *0.42, left: getScreenValues().width *0.78, width: getScreenValues().width * 0.054, height: getScreenValues().width *0.047}}>
+                    </TouchableOpacity>    
+                      <Image style={{position: "absolute", zIndex:1006, top: getScreenValues().height * 0.2, left: getScreenValues().width * 0.4, width: getScreenValues().width * 0.5, height: getScreenValues().width *0.5}} source={Sexy}/>
+                    </View>
+                  }
+                  {showPopup.fifth && 
+                    <View> 
+                    <TouchableOpacity
+                    onPress={fifth}
+                    style={{position: "absolute",  zIndex:1009, top: getScreenValues().height *0.11 , left: getScreenValues().width *0.59, width: getScreenValues().width * 0.128, height: getScreenValues().width *0.13}}>
+                    </TouchableOpacity>    
+                      <Image style={{position: "absolute", zIndex:1008, width: getScreenValues().width * 0.8, height: getScreenValues().width *0.5}} source={Free}/>
+                    </View>
+                  }
+                  {showPopup.sixth && 
+                    <View> 
+                    <TouchableOpacity 
+                    onPressIn={sixth}
+                    style={{position: "absolute",  zIndex:1011, top: getScreenValues().height *0.09, left: getScreenValues().width *0.73, width: getScreenValues().width * 0.085, height: getScreenValues().width *0.08}}>
+                    </TouchableOpacity>    
+                      <Image style={{position: "absolute", zIndex:1010,left: getScreenValues().width *0.27, width: getScreenValues().width * 0.6, height: getScreenValues().width *0.5 }} source={Ferias}/>
+                    </View>
+                  }
+                </View>
+              }
+              {
+                cane && 
+                  <View style={{position: "absolute",  zIndex:2000, top: getScreenValues().height * 0.12, left: getScreenValues().width * 0.3, width: getScreenValues().width * 0.38, height: getScreenValues().width * 0.38, backgroundColor: "#848484"}}>
+                    <View style={{display: "flex", flexDirection: "column",top: getScreenValues().height * 0.08, left: getScreenValues().width * 0.04, width: getScreenValues().width * 0.3, height: getScreenValues().width * 0.3, backgroundColor: "#00000066"}}>
+                      <View style={{display: "flex", flexDirection: "row", }}>
+                        <TouchableOpacity onPress={handleClickCane.a} >
+                          <Image source={CaneReto}  style={[styles.cane, {transform: [{ rotate: rotateData.a.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.b} >
+                          <Image source={CaneCurvo} style={[styles.cane, {transform: [{ rotate: rotateData.b.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.c} >
+                          <Image source={Cane3}  style={[styles.cane, {transform: [{ rotate: rotateData.c.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.d} >
+                          <Image source={Cane3} style={[styles.cane, {transform: [{ rotate: rotateData.d.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={{display: "flex", flexDirection: "row", }}>
+                        <TouchableOpacity onPress={handleClickCane.e} >
+                          <Image source={CaneCurvo} style={[styles.cane, {transform: [{ rotate: rotateData.e.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.f} >
+                          <Image source={CaneCurvo}  style={[styles.cane, {transform: [{ rotate: rotateData.f.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.g} >
+                          <Image source={CaneReto}  style={[styles.cane, {transform: [{ rotate: rotateData.g.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.h} >
+                         <Image source={Cane3} style={[styles.cane, {transform: [{ rotate: rotateData.h.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={{display: "flex", flexDirection: "row", }}>
+                        <TouchableOpacity onPress={handleClickCane.i} >
+                          <Image source={CaneReto} style={[styles.cane, {transform: [{ rotate: rotateData.i.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.j} >
+                          <Image source={CaneCurvo}  style={[styles.cane, {transform: [{ rotate: rotateData.j.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.k} >
+                          <Image source={CaneCurvo}  style={[styles.cane, {transform: [{ rotate: rotateData.k.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.l} >
+                          <Image source={Cane3} style={[styles.cane, {transform: [{ rotate: rotateData.l.value + "deg" }],}]}/>
+                        </TouchableOpacity>
+                      </View>
+                      <View style={{display: "flex", flexDirection: "row", }}>
+                        <TouchableOpacity onPress={handleClickCane.m} >
+                          <Image source={CaneCurvo} style={[styles.cane, {transform: [{ rotate: rotateData.m.value.toString() + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.n} >
+                          <Image source={CaneCurvo}  style={[styles.cane, {transform: [{ rotate: rotateData.n.value.toString() + "deg"}],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.o} >
+                          <Image source={CaneCurvo}  style={[styles.cane, {transform: [{ rotate: rotateData.o.value.toString() + "deg" }],}]}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleClickCane.p} >
+                          <Image source={CaneReto} style={[styles.cane, {transform: [{ rotate: rotateData.p.value.toString() + "deg" }],}]}/>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+              }
           </ScrollView>
         </ImageBackground>
-        :
-        <ImageBackground
-        blurRadius={30}
-        style={[styles.background]}
-        source={require('../assets/lobby.png')}
-        resizeMode="cover"
-      >
-      <ScrollView contentContainerStyle={{
-        flexGrow: 1,
-      }}>
-          <SafeAreaProvider initialMetrics={initialWindowMetrics} style={
-            styles.container, 
-            {paddingTop: insets.top,
-            paddingLeft: insets.left,
-            paddingBottom: insets.bottom,
-            paddingRight: insets.right,}
-          }
-          >
-            <View>
-              <View style={{
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'flex-start',
-                height: getScreenValues().height *0.15,
-                width: getScreenValues().width,
-                marginBottom: 10
-              }}>
-                <TouchableOpacity style={styles.backIcon} onPress={handleLanguagles}>
-                <Icon
-                  name={"angle-left"}
-                  type="font-awesome"
-                  color={colors.itemsPrimaryColor}
-                  size={getScreenValues().height *0.25}
-                  style={{ borderRadius:50,   
-                  shadowColor: colors.itemsPrimaryColor,
-                  shadowOpacity: 0.27,
-                  shadowRadius: 0,}}
-                />
-                </TouchableOpacity>
-              </View>
-            </View>
-              <View style={{
-                
-              }}>
-                <View style={{marginTop: 25, marginLeft: 15}}>
-                  <Music/>
-                  <Sound/>
-                  <LanguagePicker/>
-                  <Htp/>
-                  <Credits/>
-                </View>
-              </View>
-          </SafeAreaProvider>
-        </ScrollView>
-      </ImageBackground>
-      } 
+    
     </Root>
   );
 }
@@ -366,6 +645,11 @@ const  getScreenValues = () => {
 const styles = StyleSheet.create({
   marginTop:{
     marginTop: 18
+  },
+  cane: {
+    width: getScreenValues().width * 0.075, 
+    height: getScreenValues().width * 0.075, 
+    backgroundColor: "#00000066"
   },
   background:{
     height: getScreenValues().height,
@@ -488,39 +772,5 @@ const styles = StyleSheet.create({
 });
 
 
-const mapStateToProps = (state) => {
-  return {
-    token: state.authReducer.token,
-    id: state.authReducer.id,
-    birthday: state.authReducer.birthday,
-    email: state.authReducer.email,
-    first_time: state.authReducer.first_time,
-    friends: state.authReducer.friends,
-    items: state.authReducer.items,
-    name: state.authReducer.name,
-    password: state.authReducer.password,
-    username: state.authReducer.username,
-    foto: state.authReducer.foto,
-    response: state.authReducer.response
-  }
-}
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    setId: (id) => dispatch({ type: 'SET_ID', payload: { id } }),
-    setToken: (token) => dispatch({ type: 'SET_TOKEN', payload: { token } }),
-    setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
-    setUsername: (username) => dispatch({ type: 'SET_USERNAME', payload: { username } }),
-    setPassword: (password) => dispatch({ type: 'SET_PASSWORD', payload: { password } }),
-    setEmail: (email) => dispatch({ type: 'SET_EMAIL', payload: { email } }),
-    setFirstTime: (firstTime) => dispatch({ type: 'SET_FIRST_TIME', payload: { firstTime }}),
-    setFriends: (friends) => dispatch({ type: 'SET_FRIENDS', payload: { friends }}),
-    setItems: (items) => dispatch({ type: 'SET_ITEMS', payload: { items }}),
-    setBirthday: (birthday) => dispatch({ type: 'SET_BIRTHDAY', payload: { birthday } }),
-    setUser: (user) => dispatch({ type: 'SET_USER', payload: { user } }),
-    // setFoto: (foto) => dispatch({ type: 'SET_FOTO', payload: { foto } }),
-    setResponse: (response) => dispatch({ type: 'SET_RESPONSE', payload: { response } }),
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Gameplay);
+export default Gameplay;
