@@ -41,7 +41,7 @@ const Htp = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextModeseven style={styles.textStyleLanguage}>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</TextModeseven>
+            <TextModeseven style={styles.textStyleLanguage}>Utilizando a tela do celular, derrote o adversário resolvendo os mini games antes que o tempo acabe!</TextModeseven>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
