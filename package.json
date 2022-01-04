@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@babel/helper-validator-identifier": "^7.14.0",
-    "@expo/webpack-config": "~0.12.63",
+    "@expo/webpack-config": "~0.16.12",
     "@react-native-async-storage/async-storage": "~1.15.0",
     "@react-native-community/datetimepicker": "3.5.2",
     "@react-native-community/masked-view": "0.1.10",
