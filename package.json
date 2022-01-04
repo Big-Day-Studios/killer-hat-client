@@ -85,7 +85,7 @@
     "react-native-radio-buttons-group": "^2.2.5",
     "react-native-reanimated": "~2.2.0",
     "react-native-safe-area-context": "3.2.0",
-    "react-native-screens": "~3.4.0",
+    "react-native-screens": "~3.10.1",
     "react-native-svg": "12.1.1",
     "react-native-svg-uri": "^1.2.3",
     "react-native-swift": "^1.2.3",
