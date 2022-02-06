@@ -25,7 +25,8 @@
     },
     "android": {
       "package": "killer.hat",
-      "icon": "./assets/logo-killer-hat.png"
+      "icon": "./assets/logo-killer-hat.png",
+      "versionCode": 2
     },
     "web": {
       "favicon": "./assets/favicon.png"
