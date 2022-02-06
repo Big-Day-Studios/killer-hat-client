@@ -41,7 +41,7 @@ const Htp = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextModeseven style={styles.textStyleLanguage}>Utilizando a tela do celular, derrote o adversário resolvendo os mini games antes que o tempo acabe!</TextModeseven>
+            <TextModeseven style={styles.textStyleLanguage}>{t("optionsMenu.htp.caption")}</TextModeseven>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
@@ -66,6 +66,17 @@ const Htp = () => {
 
 export { Htp };
 
+const ListTextItem = (props) => {
+  console.log(props)
+  const items = props.items;
+  const listItems = items.map((items) =>
+    <TextModeseven style={styles.textStyleLanguage}>{items}</TextModeseven>
+  );
+  return (
+    <>{listItems}</>
+  );
+}
+
 const Credits = () => {
   const [ modalVisible, setModalVisible ] = useState(false);
   const { i18n, t } = useTranslation();
@@ -83,12 +94,7 @@ const Credits = () => {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <TextModeseven style={styles.textStyleLanguage}>Haru Marcoulakis • Programmer</TextModeseven>
-            <TextModeseven style={styles.textStyleLanguage}>Isabela Dias • Desinger</TextModeseven>
-            <TextModeseven style={styles.textStyleLanguage}>Arthur Monteiro • Audio and Music Engineer</TextModeseven>
-            <TextModeseven style={styles.textStyleLanguage}>Maria Julia Anacleto • Documentation</TextModeseven>
-            <TextModeseven style={styles.textStyleLanguage}>Julia Santana • Artist</TextModeseven>
-            <TextModeseven style={styles.textStyleLanguage}>João Victor • Audio Engineer</TextModeseven>
+            <ListTextItem items={t("optionsMenu.credits", { returnObjects: true })}></ListTextItem>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {

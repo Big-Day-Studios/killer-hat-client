@@ -29,9 +29,6 @@ const Name = (props) => {
   const [response, setResponse] = useState()
   const [isNameOK, setIsNameOK] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [playCounter, setPlayCounter] = useState(0)
-
-
 
   const errorPopup = () => {
       Toast.show({
@@ -278,18 +275,18 @@ const styles = StyleSheet.create({
   },
   inputContainer:{
     backgroundColor: '#ff00ff00',
-    marginBottom: getScreenValues().height * 0.05  },
-    allContainer:{
-      backgroundColor: '#ff000000',
-      height: getScreenValues().height * 0.1,
-      flexDirection: 'column',
-      justifyContent: 'center',
-    },
+    marginBottom: getScreenValues().height * 0.05  
+  },
+  allContainer:{
+    backgroundColor: '#ff000000',
+    height: getScreenValues().height * 0.1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   input: {
     width: getScreenValues().width * 0.46,
     height: getScreenValues().height * 0.13,
     paddingLeft: getScreenValues().width * 0.03,
-    paddingTop: getScreenValues().height * 0.0158,
     borderRadius: 1000,
     fontSize: getScreenValues().width * 0.027,
     borderColor: '#000',
@@ -309,6 +306,7 @@ const styles = StyleSheet.create({
 
   },
   txtAvancar: {
+    position: 'absolute',
     fontSize: getScreenValues().width * 0.036,
     color: colors.textPrimaryColor 
   },
@@ -316,7 +314,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: colors.buttonPrimaryColor,
-    borderRadius: 1000,
+    borderRadius: 100,
     height: getScreenValues().height * 0.15,
     width: getScreenValues().width * 0.2,
   },

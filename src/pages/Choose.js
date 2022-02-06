@@ -260,6 +260,7 @@ const styles = StyleSheet.create({
     elevation: 6,
   },
   txtAvancar: {
+    position: 'absolute',
     fontSize:  getScreenValues().width * 0.034,
     color: colors.textPrimaryColor 
   },

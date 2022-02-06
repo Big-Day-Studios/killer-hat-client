@@ -80,7 +80,19 @@
             "placeHolderVerifyPass": "verify pass",
             "placeHolderBirthday": "MM/DD/YYYY"
 
+        },
+        "optionsMenu": {
+            "htp": {
+                "caption": "Using the mobile screen, defeat the opponent by solving the mini games before time runs out!"
+            },
+            "credits":[
+                "Marcoulakis • Programmer and Management",
+                "Isa Dias • Designer",
+                "Jubs Santana • Artist",
+                "João Victor • Audio Engineer",
+                "Maju Anacleto • Documentation",
+                "Arthur Monteiro • Audio and Music Engineer"
+            ]
         }
-
     }
 }

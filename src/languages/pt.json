@@ -79,8 +79,20 @@
             "placeHolderPass": "senha",
             "placeHolderVerifyPass": "verificar senha",
             "placeHolderBirthday": "DD/MM/YYYY"
+        },
+        "optionsMenu": {
+            "htp": {
+                "caption": "Utilizando a tela do celular, derrote o adversário resolvendo os mini games antes que o tempo acabe!"
+            },
+            "credits":[
+                "Marcoulakis • Programação e Coordenação",
+                "Isa Dias • Designer",
+                "Jubs Santana • Artista",
+                "Maju Anacleto • Documentação",
+                "João Victor • Engenheiro de Áudio",
+                "Arthur Monteiro • Engenheiro de Áudio e Música"
 
+            ]
         }
-        
     }
 }

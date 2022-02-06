@@ -17,6 +17,7 @@ const i18n = {
                 .use(languageDetector)
                 .use(translationLoader)
                 .init({
+                    compatibilityJSON: 'v3', 
                     fallbackLng: config.fallback,
                     ns: config.namespaces,
                     defaultNS: config.defaultNamespace,

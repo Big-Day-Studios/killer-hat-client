@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
 
   },
   txtAvancar: {
+    position: 'absolute',
     fontSize: getScreenValues().width * 0.07,
     color: colors.textTertiaryColor 
   },

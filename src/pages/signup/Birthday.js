@@ -316,6 +316,7 @@ const styles = StyleSheet.create({
 
   },
   txtAvancar: {
+    position: 'absolute',
     fontSize: getScreenValues().width * 0.036,
     color: '#ffffff' 
   },
