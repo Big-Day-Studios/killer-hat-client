@@ -65,16 +65,16 @@ console.log("pixels " + deviceWidth + " x " + deviceHeight)
   }
 
   const loadThirdSplash = () =>{
-    setTimeout(() => {
-      console.log(2)
-      fadeOut();
-      setTimeout(() => {
-      console.log(2.1)
-        fadeIn();
-        setTurn(2);
+    // setTimeout(() => {
+    //   console.log(2)
+    //   fadeOut();
+      // setTimeout(() => {
+    //   console.log(2.1)
+    //     fadeIn();
+        // setTurn(2);
         final()
-      }, 1000)
-    }, 4500)
+      // }, 1000)
+    // }, 4500)
   }
 
   const fadeIn = () => {

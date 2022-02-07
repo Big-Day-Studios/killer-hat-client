@@ -15,13 +15,13 @@ const stackRoutes = createNativeStackNavigator();
 
 const BeforeLogin = () => (
     <stackRoutes.Navigator  screenOptions={{ headerShown: false }} headerMode="none">
+        <stackRoutes.Screen name="Birthday" component={Birthday}/>
         <stackRoutes.Screen name="Splash" component={Splash} />
         <stackRoutes.Screen name="Choose" component={Choose}/>    
         <stackRoutes.Screen name="Login" component={Login}/>
         <stackRoutes.Screen name="VerifyEmail" component={VerifyEmail}/>
         <stackRoutes.Screen name="Name" component={Name}/>
         <stackRoutes.Screen name="Email" component={Email}/>
-        <stackRoutes.Screen name="Birthday" component={Birthday}/>
         <stackRoutes.Screen name="Password" component={Password}/>
     </stackRoutes.Navigator>
 )

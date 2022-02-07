@@ -4,7 +4,7 @@
     "name": "Killer Hat",
     "slug": "Killer Hat",
     "displayName": "Killer Hat",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "orientation": "landscape",
     "icon": "./assets/logo-killer-hat-ios.png",    
     "splash": {
@@ -26,7 +26,7 @@
     "android": {
       "package": "killer.hat",
       "icon": "./assets/logo-killer-hat.png",
-      "versionCode": 2
+      "versionCode": 4
     },
     "web": {
       "favicon": "./assets/favicon.png"

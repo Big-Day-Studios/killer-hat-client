@@ -31,18 +31,13 @@ const Birthday = (props) => {
   const [msg, setMsg] = useState()
   const [response, setResponse] = useState()
   const [localBirthday, setLocalBirthday] = useState("")
+  const [convertedDateSelected, setConvertedDateSelected] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [checked, setChecked] = useState(false)
   const [open, setOpen] = useState(false)
 
-  const data = { 
-    name, 
-    email,
-    password,
-    response,
-    username,
-    birthday: localBirthday
-  }
+
+
 
   const errorPopup = () => {
       Toast.show({
@@ -90,15 +85,47 @@ const Birthday = (props) => {
   }
 
   const responseVerifier = async () => {
-      if(typeof response === 'object'){
-        if(response.error === true){
-          setMsg(response.msg);
-        }else{
-          setBirthday(localBirthday);
-          handleNext();
+    convertDate();
+    if(typeof response === 'object'){
+      if(response.error === true){
+        setMsg(response.msg);
+      }else{
+        setBirthday(localBirthday);
+        handleNext();
+      }
+    }
+    setIsLoading(false)
+  }
+
+  const convertDate = async () => {
+    if(!!localBirthday){
+      const d = t("signupPages.placeHolderBirthday").split('/');
+      const dateSelected = localBirthday.split('/');
+      let DD;
+      let MM;
+      let YYYY;
+    
+      for (let i = 0; i < d.length; i++) {
+        console.log(d[i] + ' ' + i);
+        if(d[i] === "DD"){
+          DD = dateSelected[i]
+        }
+         if(d[i] === "MM"){
+          MM = dateSelected[i]
+        }
+         if(d[i] === "YYYY"){
+          YYYY = dateSelected[i]
         }
       }
-    setIsLoading(false)
+
+      console.log(DD)
+      console.log(MM)
+      console.log(YYYY)
+
+      setConvertedDateSelected(YYYY + "-" + MM + "-" + DD)
+
+      console.log("item", convertedDateSelected)
+    }
   }
 
 
@@ -106,21 +133,35 @@ const Birthday = (props) => {
     responseVerifier();
   }, [response])
 
-  async function  sendApiRequest(){
-    if(!isLoading){
-      setIsLoading(true)
-      console.log(!!localBirthday)
-      if(!!localBirthday){
-        if(!!checked){
-          await ApiRequest.signup(data, setResponse)
+  useEffect(() => {
+    const data = { 
+      name, 
+      email,
+      password,
+      response,
+      username,
+      birthday: new Date(convertedDateSelected)
+    }
+    sendApiRequest(data)
+  }, [convertedDateSelected])
+  async function  sendApiRequest(data){
+    if(localBirthday){
+      if(!isLoading){
+        setIsLoading(true)
+        console.log(data)
+        console.log(localBirthday)
+        if(!!localBirthday){
+          if(!!checked){
+            await ApiRequest.signup(data, setResponse)
+          }else{
+            setMsg(t("warnings.acceptTerms"))
+            setIsLoading(false)
+          }
+  
         }else{
-          setMsg(t("warnings.acceptTerms"))
+          setMsg(t("warnings.missing"))
           setIsLoading(false)
         }
-
-      }else{
-        setMsg(t("warnings.missing"))
-        setIsLoading(false)
       }
     }
   }
@@ -173,14 +214,17 @@ const Birthday = (props) => {
                       }}
                       onDateChange={(birthday) => {
                         setLocalBirthday(birthday);
+                        convertDate()
                       }}
                       placeholderTextColor="#9A9A9A"
 
                       onConfirm={(birthday) => {
+                        responseVerifier();
                         setLocalBirthday(birthday);
                         setOpen(false)
                       }}
                       onCancel={() => {
+                        
                         setOpen(false)
                       }}
                     />
@@ -203,7 +247,7 @@ const Birthday = (props) => {
                   <View style={{
                     backgroundColor: '#00ffff00',
                   }}>
-                    <TouchableOpacity style={styles.btnAvancar} onPress={sendApiRequest}>
+                    <TouchableOpacity style={styles.btnAvancar} onPress={convertDate}>
                       {!isLoading
                         ?
                           <TextNotoSansTC700 style={styles.txtAvancar}>{t("common.nextButton")}</TextNotoSansTC700>

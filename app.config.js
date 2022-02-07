@@ -3,7 +3,7 @@ export default () => {
   return {
     name: 'Killer Hat',
     scheme: 'killer.hat',
-    version: '0.0.2',
+    version: '0.0.4',
     ios: {
       bundleIdentifier: 'killer.hat'
     },
@@ -25,7 +25,7 @@ export default () => {
     android: {
       package: 'killer.hat',
       icon: "./assets/logo-killer-hat.png",
-      versionCode: 2
+      versionCode: 4
     },
     web: {
       favicon: './assets/logo-killer-hat.png' 
