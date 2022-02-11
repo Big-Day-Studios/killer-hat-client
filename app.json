@@ -4,7 +4,7 @@
     "name": "Killer Hat",
     "slug": "Killer Hat",
     "displayName": "Killer Hat",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "orientation": "landscape",
     "icon": "./assets/logo-killer-hat-ios.png",    
     "splash": {
@@ -18,7 +18,7 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-      "ios": {
+    "ios": {
       "supportsTablet": true,
       "requireFullScreen": true,
       "bundleIdentifier": "killer.hat"
@@ -26,7 +26,7 @@
     "android": {
       "package": "killer.hat",
       "icon": "./assets/logo-killer-hat.png",
-      "versionCode": 4
+      "versionCode": 5
     },
     "web": {
       "favicon": "./assets/favicon.png"
