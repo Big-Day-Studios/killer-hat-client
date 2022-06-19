@@ -37,7 +37,7 @@
     "lottie-react-native": "5.0.1",
     "moment": "^2.29.1",
     "popup-ui": "^1.2.2",
-    "public-ip": "^4.0.4",
+    "public-ip": "^5.0.0",
     "react": "^17.0.2",
     "react-i18next": "^11.11.0",
     "react-native": "0.64.3",
